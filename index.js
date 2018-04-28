@@ -1,4 +1,14 @@
-'use strict';
+const express = require('express')
+const app = express()
+const port = process.env.PORT || 4000
+app.post('/webhook', (req, res) => res.sendStatus(200))
+app.get("/", function(req, res) {
+    res.send("home");
+});
+app.listen(port, () => {
+ console.log(`listening on ${port}`);
+});
+/*'use strict';
 
 const line = require('@line/bot-sdk');
 const express = require('express');
@@ -48,11 +58,8 @@ function handleEvent(event) {
   return client.replyMessage(event.replyToken, echo);
 }
 
-// listen on port
-// http.listen(process.env.PORT || 3000, function(){
-//   console.log('listening on', http.address().port);
-// });
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
  console.log(`listening on ${port}`);
 });
+*/
