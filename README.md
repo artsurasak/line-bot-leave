@@ -27,5 +27,5 @@ $ node .
 ## Webhook URL
 
 ```
-https://your.base.url/callback
+https://line-rich.herokuapp.com/callback
 ```

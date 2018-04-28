@@ -30,8 +30,8 @@ app.post('/callback', line.middleware(config), (req, res) => {
     });
 });
 
-app.get('/', function (req, res) {
-  	console.log('complete')
+app.get("/", function(req, res) {
+    res.send("home");
 });
 
 // event handler
