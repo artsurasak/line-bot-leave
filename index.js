@@ -15,18 +15,10 @@ app.use(bodyParser.json())
 app.set('port', (process.env.PORT || 4000))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-//console.log(app.use(line.middleware(config)))
-//app.use(line.middleware(config))
-//app.use(bodyParser.urlencoded({ extended: false }))
-//app.use(bodyParser.json())
-//app.use(middleware(config))
-//app.use(bodyParser.json())
 app.post('/webhook', (req, res) => {
-	//console.log(req.body)
-	//reply(reply_token)
-	//res.json(req.body.events)
-	res.json(req.body)
-	res.sendStatus(200)
+	let reply_token = req.body.events[0].replyToken
+    reply(reply_token)
+    res.sendStatus(200)
 })
 app.get("/", function(req, res) {
     res.send("home");
@@ -36,30 +28,31 @@ app.listen(app.get('port'), () => {
 });
 
 
-// function reply(reply_token){
-// 	let header = {
-// 		'Content-Type': 'application/json',
-//         'Authorization': 'Bearer {wNGFPyRYMYL1ZuaxZBZN+gw/1FOMR52WrEGtybbWfLlXsyIJU+2NUrUB70DQzT1ID4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbd01VYgAYZybnHi9y0Q3REK0oaVFJricEwTEehEYaOGgdB04t89/1O/w1cDnyilFU=}'
-// 	}
-// 	let body = JSON.stringify({
-//         replyToken: reply_token,
-//         messages: [{
-//             type: 'text',
-//             text: 'Hello'
-//         },
-//         {
-//             type: 'text',
-//             text: 'How are you?'
-//         }]
-//     })
-//     request.post({
-//         url: 'https://api.line.me/v2/bot/message/reply',
-//         headers: headers,
-//         body: body
-//     }, (err, res, body) => {
-//         console.log('status = ' + res.statusCode);
-//     });
-// }
+function reply(reply_token){
+	let header = {
+		'Content-Type': 'application/json',
+        'Authorization': 'Bearer {wNGFPyRYMYL1ZuaxZBZN+gw/1FOMR52WrEGtybbWfLlXsyIJU+2NUrUB70DQzT1ID4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbd01VYgAYZybnHi9y0Q3REK0oaVFJricEwTEehEYaOGgdB04t89/1O/w1cDnyilFU=}'
+	}
+	let body = JSON.stringify({
+        replyToken: reply_token,
+        messages: [{
+            type: 'text',
+            text: 'Hello'
+        },
+        {
+            type: 'text',
+            text: 'How are you?'
+        }]
+    })
+    request.post({
+        url: 'https://api.line.me/v2/bot/message/reply',
+        headers: headers,
+        body: body
+    }, (err, res, body) => {
+        console.log('status = ' + res.statusCode);
+    });
+}
+
 /*'use strict';
 
 const line = require('@line/bot-sdk');
@@ -113,5 +106,4 @@ function handleEvent(event) {
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
  console.log(`listening on ${port}`);
-});
-*/
+});*/
