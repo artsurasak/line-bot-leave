@@ -1,37 +1,44 @@
 const express = require('express')
 const line = require('@line/bot-sdk')
 const middleware = require('@line/bot-sdk').middleware
-var bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
+const bodyParser = require('body-parser')
 //const port = process.env.PORT || 4000
 const config = {
 	channelAccessToken: 'tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=',
 	channelSecret: '5cbfc7a20eba3df7981bae6d5216988f'
 }
 
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({extended: false}))
+// app.use(bodyParser.json('application/x-www-form-urlencoded'))
 
-app.set('port', (process.env.PORT || 4000))
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
-app.post('/webhook', (req, res) => {
-	let reply_token = req.body.events[0].replyToken
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+app.post('/webhook', middleware(config), (req, res) => {
+	//var text = req.body.text
+	//var body = req.body
+	//console.log(body)
+	//console.log(text)
+	
+	  let reply_token = req.body.events[0].replyToken
     reply(reply_token)
     res.sendStatus(200)
 })
 app.get("/", function(req, res) {
     res.send("home");
 });
+app.set('port', (process.env.PORT || 4000))
 app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
 });
 
-
 function reply(reply_token){
-	let header = {
+	let headers = {
 		'Content-Type': 'application/json',
-        'Authorization': 'Bearer {wNGFPyRYMYL1ZuaxZBZN+gw/1FOMR52WrEGtybbWfLlXsyIJU+2NUrUB70DQzT1ID4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbd01VYgAYZybnHi9y0Q3REK0oaVFJricEwTEehEYaOGgdB04t89/1O/w1cDnyilFU=}'
+        'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
 	}
 	let body = JSON.stringify({
         replyToken: reply_token,
