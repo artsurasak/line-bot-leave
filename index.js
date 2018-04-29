@@ -1,9 +1,10 @@
-const express = require('express')
-const line = require('@line/bot-sdk')
+const express = require('express');
+const line = require('@line/bot-sdk');
 const middleware = require('@line/bot-sdk').middleware
-const request = require('request')
-const app = express()
-const bodyParser = require('body-parser')
+const request = require('request');
+const bodyParser = require('body-parser');
+require('dotenv').config();
+const app = express();
 //const port = process.env.PORT || 4000
 const config = {
 	channelAccessToken: 'tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=',
@@ -12,24 +13,28 @@ const config = {
 
 // app.use(bodyParser.urlencoded({extended: false}))
 // app.use(bodyParser.json('application/x-www-form-urlencoded'))
-
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
-app.post('/webhook', middleware(config), (req, res) => {
+app.use('/webhook', middleware(config))
+app.use(bodyParser.json({type: function(req) {
+       return req.headers['content-type'] === '*/*; charset=UTF-8'
+}}))
+//const client = new line.Client(config);
+app.post('/webhook', (req, res) => {
+  console.log(req.body)
+  // Promise
+  //       .all(req.body.events.map(handleEvent))
+  //       .then((result) => res.json(result));
 	//var text = req.body.text
-	//var body = req.body
-	//console.log(body)
-	//console.log(text)
+	// var body = req.body
+	// console.log(body)
+	// //console.log(text)
 	
-	  let reply_token = req.body.events[0].replyToken
-    reply(reply_token)
+	//   let reply_token = req.body.events[0].replyToken
+ //    reply(reply_token)
     res.sendStatus(200)
 })
-app.get("/", function(req, res) {
-    res.send("home");
-});
+// app.get("/", function(req, res) {
+//     res.send("home");
+// });
 app.set('port', (process.env.PORT || 4000))
 app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
