@@ -37,20 +37,9 @@ function reply(reply_token,event_text) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
     }
-    let msg;
-    if(event_text === 'text'){
-        msg = {
-          type: 'txt',
-          text = 'เวีสดีครับ'
-        }
-    }else if(event_text ==='location'){
-        msg = {
-           "type": "location",
-            "title": "my location",
-            "address": "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
-            "latitude": 35.65910807942215,
-            "longitude": 139.70372892916203
-        }
+    let msg = {
+       type: 'text',
+       text: 'Hello world'
     }
     let body = JSON.stringify({
         replyToken: reply_token,
