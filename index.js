@@ -16,9 +16,9 @@ app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
     res.sendStatus(200)
 })
-// app.get("/", function(req, res) {
-//     res.send("home");
-// });
+app.get("/", function(req, res) {
+    res.send("home");
+});
 app.set('port', (process.env.PORT || 4000))
 app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
