@@ -14,9 +14,11 @@ const config = {
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
+	let reply_token = req.body.events[0].replyToken
+    reply(reply_token)
     res.sendStatus(200)
 })
-app.get("/", function(req, res) {
+app.get("/webhook", function(req, res) {
     res.send("home");
 });
 app.set('port', (process.env.PORT || 4000))
@@ -24,30 +26,30 @@ app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
 });
 
-// function reply(reply_token){
-// 	let headers = {
-// 		'Content-Type': 'application/json',
-//         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
-// 	}
-// 	let body = JSON.stringify({
-//         replyToken: reply_token,
-//         messages: [{
-//             type: 'text',
-//             text: 'Hello'
-//         },
-//         {
-//             type: 'text',
-//             text: 'How are you?'
-//         }]
-//     })
-//     request.post({
-//         url: 'https://api.line.me/v2/bot/message/reply',
-//         headers: headers,
-//         body: body
-//     }, (err, res, body) => {
-//         console.log('status = ' + res.statusCode);
-//     });
-// }
+function reply(reply_token) {
+    let headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
+    }
+    let body = JSON.stringify({
+        replyToken: reply_token,
+        messages: [{
+            type: 'text',
+            text: 'Hello'
+        },
+        {
+            type: 'text',
+            text: 'How are you?'
+        }]
+    })
+    request.post({
+        url: 'https://api.line.me/v2/bot/message/reply',
+        headers: headers,
+        body: body
+    }, (err, res, body) => {
+        console.log('status = ' + res.statusCode);
+    });
+}
 
 /*'use strict';
 
