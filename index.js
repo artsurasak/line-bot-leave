@@ -20,12 +20,13 @@ app.post('/webhook', (req, res) => {
 	     let reply_token = req.body.events[0].replyToken
        let event_text = req.body.events[0].message.text
 	     // let msg = req.body.events[0].message.text
-       reply(reply_token,event_text)
+       //reply(reply_token,event_text)
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
     res.send("home");
 });
+
 app.set('port', (process.env.PORT || 4000))
 app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
@@ -40,9 +41,15 @@ function reply(reply_token,event_text) {
     //event_text = event_text.text.toLowerCase();
     var msg 
     if (event_text === 'text'){
+      var msgtext;
+      var data = require('./connectDB.js');
+          data.executesql(function(result){
+            msgtext = result;
+          //console.log(result); 
+      });
           msg = {
                  type: 'text',
-                 text: 'Hello!!'
+                 text: msgtext
            }
     }else if (event_text === 'image'){
           msg = {
