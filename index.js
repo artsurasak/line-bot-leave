@@ -11,25 +11,9 @@ const config = {
 	channelSecret: '5cbfc7a20eba3df7981bae6d5216988f'
 }
 
-// app.use(bodyParser.urlencoded({extended: false}))
-// app.use(bodyParser.json('application/x-www-form-urlencoded'))
-app.use('/webhook', middleware(config))
-app.use(bodyParser.json({type: function(req) {
-       return req.headers['content-type'] === '*/*; charset=UTF-8'
-}}))
-//const client = new line.Client(config);
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-  console.log(req.body)
-  // Promise
-  //       .all(req.body.events.map(handleEvent))
-  //       .then((result) => res.json(result));
-	//var text = req.body.text
-	// var body = req.body
-	// console.log(body)
-	// //console.log(text)
-	
-	//   let reply_token = req.body.events[0].replyToken
- //    reply(reply_token)
     res.sendStatus(200)
 })
 // app.get("/", function(req, res) {
@@ -40,30 +24,30 @@ app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
 });
 
-function reply(reply_token){
-	let headers = {
-		'Content-Type': 'application/json',
-        'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
-	}
-	let body = JSON.stringify({
-        replyToken: reply_token,
-        messages: [{
-            type: 'text',
-            text: 'Hello'
-        },
-        {
-            type: 'text',
-            text: 'How are you?'
-        }]
-    })
-    request.post({
-        url: 'https://api.line.me/v2/bot/message/reply',
-        headers: headers,
-        body: body
-    }, (err, res, body) => {
-        console.log('status = ' + res.statusCode);
-    });
-}
+// function reply(reply_token){
+// 	let headers = {
+// 		'Content-Type': 'application/json',
+//         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
+// 	}
+// 	let body = JSON.stringify({
+//         replyToken: reply_token,
+//         messages: [{
+//             type: 'text',
+//             text: 'Hello'
+//         },
+//         {
+//             type: 'text',
+//             text: 'How are you?'
+//         }]
+//     })
+//     request.post({
+//         url: 'https://api.line.me/v2/bot/message/reply',
+//         headers: headers,
+//         body: body
+//     }, (err, res, body) => {
+//         console.log('status = ' + res.statusCode);
+//     });
+// }
 
 /*'use strict';
 
