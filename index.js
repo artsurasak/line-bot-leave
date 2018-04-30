@@ -149,13 +149,10 @@ function reply(reply_token,event_text) {
         }
     }
 
-      
+
     let body = JSON.stringify({
         replyToken: reply_token,
-        messages: [{
-            type: 'text',
-            text: msg
-        }]
+        messages: [msg]
     })
     request.post({
         url: 'https://api.line.me/v2/bot/message/reply',
