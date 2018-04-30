@@ -37,7 +37,7 @@ function reply(reply_token,event_text) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
     }
-    var event_text = event_text.text.toLowerCase();
+    event_text = event_text.text.toLowerCase();
     var msg 
     if (event_text === 'text'){
           msg = {
