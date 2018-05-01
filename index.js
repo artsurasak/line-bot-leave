@@ -10,15 +10,16 @@ const config = {
 	channelAccessToken: 'tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=',
 	channelSecret: '5cbfc7a20eba3df7981bae6d5216988f'
 }
-const client = line.client(config);
+//const client = line.client(config);
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-      //let reply_token = req.body.events[0].replyToken
-       //let event_text = req.body.events[0].message.text
-      client.replyMessage(reply_token,'Hello');
+      let reply_token = req.body.events[0].replyToken
+      let event_text = req.body.events[0].message.text
+      //client.replyMessage(reply_token,'Hello')
+	   
 	     // let msg = req.body.events[0].message.text
-       //reply(reply_token,event_text)
+       reply(reply_token,event_text)
        //reply('','')
       res.sendStatus(200)
 })
@@ -37,46 +38,27 @@ function reply(reply_token,event_text) {
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
     }
     //var event_text = event_text.text.toLowerCase();
-    var msg 
-    var data = require('./connectDB.js');
-          data.executesql(function(result){
-              msgtext = result; 
-              msg = {
+            //console.log(msgtext);
+    if (event_text === 'text'){
+          msg = {
                  type: 'text',
                  text: msgtext
-              }
-          });
-         
-            //console.log(msgtext);
-    // if (event_text === 'text'){
-    //       var msgtext
-    //       var data = require('./connectDB.js');
-    //       //var msgtext;
-    //       data.executesql(function(result){
-    //         // msgtext = result;
-    //         //res.send(result)
-    //         //console.log(result); 
-    //         msgtext = result;
-    //       });
-    //       msg = {
-    //              type: 'text',
-    //              text: msgtext
-    //        }
-    // }else if (event_text === 'image'){
-    //       msg = {
-    //               'type': 'image',
-    //               'originalContentUrl': 'https://www.thesun.co.uk/wp-content/uploads/2017/03/fifa-17-2.jpg?strip=all&w=742&quality=100',
-    //               'previewImageUrl': 'https://images.performgroup.com/di/library/GOAL/a6/bb/fifa-18-ronaldo_lx3r88bpjpk91re36ukdgomrj.jpg?t=2027563652&w=620&h=430'
-    //       }
-    // }else if (event_text === 'location'){
-    //     msg = {
-    //               "type": "location",
-    //               "title": "my location",
-    //               "address": "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
-    //               "latitude": 35.65910807942215,
-    //               "longitude": 139.70372892916203
-    //       }
-    // }
+           }
+    }else if (event_text === 'image'){
+          msg = {
+                  'type': 'image',
+                  'originalContentUrl': 'https://www.thesun.co.uk/wp-content/uploads/2017/03/fifa-17-2.jpg?strip=all&w=742&quality=100',
+                  'previewImageUrl': 'https://images.performgroup.com/di/library/GOAL/a6/bb/fifa-18-ronaldo_lx3r88bpjpk91re36ukdgomrj.jpg?t=2027563652&w=620&h=430'
+          }
+    }else if (event_text === 'location'){
+        msg = {
+                  "type": "location",
+                  "title": "my location",
+                  "address": "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
+                  "latitude": 35.65910807942215,
+                  "longitude": 139.70372892916203
+          }
+    }
     let body = JSON.stringify({
         replyToken: reply_token,
         messages: [msg]
