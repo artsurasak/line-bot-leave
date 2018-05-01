@@ -42,24 +42,14 @@ function reply(reply_token,event_text) {
     var msg 
     var data = require('./connectDB.js');
           data.executesql(function(result){
-
-            msgtext = result.DEPARTMENT_NAME;
-            console.log(result[0]);
-            var msgtext
-            var data = require('./connectDB.js');
-                //var msgtext;
-                data.executesql(function(result){
-                // msgtext = result;
-                //res.send(result)
-            //console.log(result); 
-                msgtext = result;
-          });
-          msg = {
+              msgtext = result; 
+              msg = {
                  type: 'text',
                  text: msgtext
-           }
-            //console.log(msgtext);
+              }
           });
+         
+            //console.log(msgtext);
     // if (event_text === 'text'){
     //       var msgtext
     //       var data = require('./connectDB.js');
