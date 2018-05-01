@@ -42,14 +42,10 @@ function reply(reply_token,event_text) {
     var msg 
     if (event_text === 'text'){
       var msgtext;
-      var data = require('./connectDB.js');
-          data.executesql(function(result){
-            msgtext = result;
-          //console.log(result); 
-      });
-          msg = {
-                 type: 'text',
-                 text: msgtext
+      msgtext = 'hello'
+      msg = {
+              type: 'text',
+              text: msgtext
            }
     }else if (event_text === 'image'){
           msg = {
