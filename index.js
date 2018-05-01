@@ -40,36 +40,55 @@ function reply(reply_token,event_text) {
     }
     //var event_text = event_text.text.toLowerCase();
     var msg 
-
-    if (event_text === 'text'){
-          var msgtext
-          var data = require('./connectDB.js');
-          //var msgtext;
+    var data = require('./connectDB.js');
           data.executesql(function(result){
-            // msgtext = result;
-            //res.send(result)
+
+            msgtext = result.DEPARTMENT_NAME;
+            console.log(result[0]);
+            var msgtext
+            var data = require('./connectDB.js');
+                //var msgtext;
+                data.executesql(function(result){
+                // msgtext = result;
+                //res.send(result)
             //console.log(result); 
-            msgtext = result;
+                msgtext = result;
           });
           msg = {
                  type: 'text',
                  text: msgtext
            }
-    }else if (event_text === 'image'){
-          msg = {
-                  'type': 'image',
-                  'originalContentUrl': 'https://www.thesun.co.uk/wp-content/uploads/2017/03/fifa-17-2.jpg?strip=all&w=742&quality=100',
-                  'previewImageUrl': 'https://images.performgroup.com/di/library/GOAL/a6/bb/fifa-18-ronaldo_lx3r88bpjpk91re36ukdgomrj.jpg?t=2027563652&w=620&h=430'
-          }
-    }else if (event_text === 'location'){
-        msg = {
-                  "type": "location",
-                  "title": "my location",
-                  "address": "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
-                  "latitude": 35.65910807942215,
-                  "longitude": 139.70372892916203
-          }
-    }
+            //console.log(msgtext);
+          });
+    // if (event_text === 'text'){
+    //       var msgtext
+    //       var data = require('./connectDB.js');
+    //       //var msgtext;
+    //       data.executesql(function(result){
+    //         // msgtext = result;
+    //         //res.send(result)
+    //         //console.log(result); 
+    //         msgtext = result;
+    //       });
+    //       msg = {
+    //              type: 'text',
+    //              text: msgtext
+    //        }
+    // }else if (event_text === 'image'){
+    //       msg = {
+    //               'type': 'image',
+    //               'originalContentUrl': 'https://www.thesun.co.uk/wp-content/uploads/2017/03/fifa-17-2.jpg?strip=all&w=742&quality=100',
+    //               'previewImageUrl': 'https://images.performgroup.com/di/library/GOAL/a6/bb/fifa-18-ronaldo_lx3r88bpjpk91re36ukdgomrj.jpg?t=2027563652&w=620&h=430'
+    //       }
+    // }else if (event_text === 'location'){
+    //     msg = {
+    //               "type": "location",
+    //               "title": "my location",
+    //               "address": "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
+    //               "latitude": 35.65910807942215,
+    //               "longitude": 139.70372892916203
+    //       }
+    // }
     let body = JSON.stringify({
         replyToken: reply_token,
         messages: [msg]

@@ -21,7 +21,7 @@ const executesql = function(callback){
             console.log(err);
             return;
         }
-        req.query("select * from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
+        req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
             if(err){
                 console.log(err);
             }else{
