@@ -24,12 +24,6 @@ app.post('/webhook', (req, res) => {
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
-    var data = require('./connectDB.js');
-    data.executesql(function(result){
-            msgtext = result;
-            res.send(msgtext)
-          //console.log(result); 
-    });
     res.send("home");
 });
 
