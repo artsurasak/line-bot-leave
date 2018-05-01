@@ -10,17 +10,15 @@ const config = {
 	channelAccessToken: 'tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=',
 	channelSecret: '5cbfc7a20eba3df7981bae6d5216988f'
 }
-
+const client = line.client(config);
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-      // Promise
-      //     .all(req.body.events.map(handleEvent))
-      //     .then((result) => res.json(result));
-	     let reply_token = req.body.events[0].replyToken
-       let event_text = req.body.events[0].message.text
+      //let reply_token = req.body.events[0].replyToken
+       //let event_text = req.body.events[0].message.text
+      client.replyMessage(reply_token,'Hello');
 	     // let msg = req.body.events[0].message.text
-       reply(reply_token,event_text)
+       //reply(reply_token,event_text)
        //reply('','')
       res.sendStatus(200)
 })
