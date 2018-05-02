@@ -37,7 +37,8 @@ function reply(reply_token,event_text) {
             //console.log(msgtext);
     if (event_text === 'text'){
     	//var msgText = '010000';
-    	var msgText = '010000';
+    	//var msgText = '010000';
+    	let msgText
     	data = require('./connectDB');
     	data.executesql(function(result){
     	 	msgText = result;
