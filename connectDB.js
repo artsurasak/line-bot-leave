@@ -39,9 +39,7 @@ const executesql = function(callback){
             console.log(err);
             return;
         }
-        //req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
-        //req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
-        req.query("SELECT * FROM [LEAVE].[dbo].[DEPARTMENT] ",function(err,recordset){
+        req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
             if(err){
                 callback(err)
                 //console.log(err);
