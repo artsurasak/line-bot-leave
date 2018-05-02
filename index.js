@@ -38,17 +38,16 @@ function reply(reply_token,event_text) {
     if (event_text === 'text'){
     	//var msgText = '010000';
     	//var msgText = '010000';
-    	var msgText
-    	data = require('./connectDB');
-    	data.executesql(function(result){
-    	 	 msgText =  result;
-    	 	//console.log(msgText)
-    	 // 	//console.log(result);
-    	});
-        msg = {
-                type: 'text',
-                text: "'" + msgText + "'"
-        }
+      	//var msgText
+      	data = require('./connectDB');
+      	data.executesql(function(result){
+      	 	msgText =  result;
+          msg = {
+                  type: 'text',
+                  text: "'" + msgText + "'"
+          }
+      	});
+        
     }else if (event_text === 'image'){
           msg = {
                   'type': 'image',
