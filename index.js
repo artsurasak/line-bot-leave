@@ -19,7 +19,7 @@ app.post('/webhook', (req, res) => {
       //client.replyMessage(reply_token,'Hello')
 	   
 	     // let msg = req.body.events[0].message.text
-       reply(reply_token,event_text)
+      reply(reply_token,event_text)
        //reply('','')
       res.sendStatus(200)
 })
@@ -40,10 +40,16 @@ function reply(reply_token,event_text) {
     //var event_text = event_text.text.toLowerCase();
             //console.log(msgtext);
     if (event_text === 'text'){
-          msg = {
-                 type: 'text',
-                 text: msgtext
-           }
+    	var msgText;
+    	data = require('./connectDB');
+    	data.executesql(function(result){
+    		msgText = result;
+    		//console.log(result);
+    	});
+        msg = {
+                type: 'text',
+                text: msgtext
+        }
     }else if (event_text === 'image'){
           msg = {
                   'type': 'image',
