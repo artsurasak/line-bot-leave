@@ -4,6 +4,7 @@ const middleware = require('@line/bot-sdk').middleware
 const request = require('request');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const sql = require('mssql');
 const app = express();
 //const port = process.env.PORT || 4000
 const config = {
@@ -14,9 +15,11 @@ const config = {
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
+
       let reply_token = req.body.events[0].replyToken
       let event_text = req.body.events[0].message.text
       reply(reply_token,event_text)
+      //reply('','')
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -35,19 +38,39 @@ function reply(reply_token,event_text) {
     }
     //var event_text = event_text.text.toLowerCase();
             //console.log(msgtext);
-    if (event_text === 'text'){
+            
+      var msgText;
+      var msg;
+      msgText = executesql(function(result){
+        //console.log('result ' + result);
+         msg = {
+                  type: 'text',
+                  text: "'" + result + "'"
+          }
+          let body = JSON.stringify({
+              replyToken: reply_token,
+              messages: [msg]
+          })
+          request.post({
+              url: 'https://api.line.me/v2/bot/message/reply',
+              headers: headers,
+              body: body
+          }, (err, res, body) => {
+              console.log('status = ' + res.statusCode);
+          })
+      });
+    /*if (event_text === 'text'){
+       
     	//var msgText = '010000';
     	//var msgText = '010000';
       	//var msgText
-      	data = require('./connectDB');
-      	data.executesql(function(result){
-      	 	msgText =  result;
+      	//data = require('./connectDB');
+      	//data.executesql(function(result){
+      	
           msg = {
                   type: 'text',
-                  text: "'" + msgText + "'"
+                  text: "'" + executesql() + "'"
           }
-      	});
-        
     }else if (event_text === 'image'){
           msg = {
                   'type': 'image',
@@ -73,6 +96,36 @@ function reply(reply_token,event_text) {
         body: body
     }, (err, res, body) => {
         console.log('status = ' + res.statusCode);
+    });*/
+}
+
+
+var configDB = {
+    server: 'sql.freeasphost.net\\MSSQL2016',
+    database:'surasak_SampleDB',
+    user: 'surasak_SampleDB',
+    password: 'DBSamplePW'
+}
+
+const executesql = function(callback){
+    var conn = new sql.Connection(configDB);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        //req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
+        req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
+            if(err){
+                callback(err)
+                //console.log(err);
+            }else{
+                callback(recordset[0].Department)
+                //console.log(recordset[1].Department);
+            }
+            conn.close();
+        });
     });
 }
 
