@@ -43,8 +43,8 @@ function reply(reply_token,event_text) {
     	// 	//console.log(result);
     	// });
         msg = {
-                'type': 'text',
-                'text': msgtext
+                type: 'text',
+                text: msgtext
         }
     }else if (event_text === 'image'){
           msg = {
