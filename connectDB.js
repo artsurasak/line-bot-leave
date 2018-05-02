@@ -48,8 +48,8 @@ const executesql = function(callback){
         //req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
         req.query("SELECT * FROM [RIS].[dbo].[RENT_GP] where id = '1' ",function(err,recordset){
             if(err){
-                callback(err)
-                //console.log(err);
+                //callback(err)
+                console.log(err);
             }else{
                 callback(recordset[0].ENTITY)
                 //console.log(recordset[0].ENTITY);
