@@ -36,12 +36,13 @@ function reply(reply_token,event_text) {
     //var event_text = event_text.text.toLowerCase();
             //console.log(msgtext);
     if (event_text === 'text'){
-    	var msgText = '010000';
-    	// data = require('./connectDB');
-    	// data.executesql(function(result){
-    	// 	msgText = result;
+    	//var msgText = '010000';
+    	var msgText;
+    	data = require('./connectDB');
+    	data.executesql(function(result){
+    	 	msgText = result;
     	// 	//console.log(result);
-    	// });
+    	});
         msg = {
                 type: 'text',
                 text: msgText
