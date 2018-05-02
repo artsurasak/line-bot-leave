@@ -36,6 +36,13 @@ function reply(reply_token,event_text) {
     }
     //var event_text = event_text.text.toLowerCase();
             //console.log(msgtext);
+
+        // data = require('./connectDB');
+        // data.executesql(function(result){
+        //     console.log(result);
+        // });
+
+
       if (event_text === 'text'){
         var msg;
         data = require('./connectDB');

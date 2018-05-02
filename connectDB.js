@@ -1,13 +1,13 @@
 var sql = require('mssql');
 var config = {
-        server: 'LAPTOP-9RESSIQU\\SQLEXPRESS', 
-        database:'LEAVE',
-        user: 'sa',
-        password: 'P@ssw0rd'
-    // server: 'sql.freeasphost.net\\MSSQL2016',
-    // database:'surasak_SampleDB',
-    // user: 'surasak_SampleDB',
-    // password: 'DBSamplePW'
+        // server: 'LAPTOP-9RESSIQU\\SQLEXPRESS', 
+        // database:'LEAVE',
+        // user: 'sa',
+        //password: 'P@ssw0rd'
+        server: 'sql.freeasphost.net\\MSSQL2016',
+        database:'surasak_SampleDB',
+        user: 'surasak_SampleDB',
+        password: 'DBSamplePW'
 }
 // executesql();
 // function executesql() {
@@ -47,7 +47,7 @@ const executesql = function(callback){
                 //console.log(err);
             }else{
                 //callback(recordset[0].DEPARTMENT_NAME)
-                console.log(recordset[0].DEPARTMENT_NAME);
+                console.log(recordset[0].Department);
             }
             conn.close();
         });
