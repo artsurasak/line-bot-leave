@@ -1,20 +1,9 @@
 var sql = require('mssql');
-//var sql = require("msnodesqlv8");
 var config = {
-    //driver: "msnodesqlv8",
-    // server: 'LAPTOP-9RESSIQU\\SQLEXPRESS', 
-    // database:'LEAVE',
-    // user: 'sa',
-    // password: 'P@ssw0rd',
     server: 'sql.freeasphost.net\\MSSQL2016',
     database:'surasak_SampleDB',
     user: 'surasak_SampleDB',
     password: 'DBSamplePW'
-    // options: {
-    //             trustedConnection: true,
-    //             useUTC: true
-    //           }
-    
 }
 // executesql();
 // function executesql() {
