@@ -14,8 +14,8 @@ const config = {
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-      //let reply_token = req.body.events[0].replyToken
-      //let event_text = req.body.events[0].message.text
+      let reply_token = req.body.events[0].replyToken
+      let event_text = req.body.events[0].message.text
       reply(reply_token,event_text)
       res.sendStatus(200)
 })
