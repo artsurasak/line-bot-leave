@@ -19,12 +19,12 @@ var config = {
 //             return;
 //         }
 //         //req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
-//         req.query("SELECT * FROM [LEAVE].[dbo].[DEPARTMENT] ",function(err,recordset){
+//         req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
 //             if(err){
 //                 console.log(err);
 //             }else{
 //                 //callback(recordset)
-//                 console.log(recordset[0].DEPARTMENT_NAME);
+//                 console.log(recordset[0].Department);
 //             }
 //             conn.close();
 //         });
@@ -44,8 +44,7 @@ const executesql = function(callback){
                 callback(err)
                 //console.log(err);
             }else{
-                //callback(recordset[0].DEPARTMENT_NAME)
-                console.log(recordset[0].Department);
+                callback(recordset[0].Department)
             }
             conn.close();
         });
