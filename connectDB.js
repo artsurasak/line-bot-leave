@@ -50,8 +50,8 @@ const executesql = function(callback){
             if(err){
                 console.log(err);
             }else{
-                //callback(recordset['ENTITY'])
-                console.log(recordset[0].ENTITY);
+                callback(recordset[0].ENTITY)
+                //console.log(recordset[0].ENTITY);
             }
             conn.close();
         });
