@@ -16,7 +16,7 @@ var config = {
     //           }
     
 }
-//executesql();
+// executesql();
 // function executesql() {
 //     var conn = new sql.Connection(config);
 //     var req = new sql.Request(conn);
@@ -26,12 +26,12 @@ var config = {
 //             return;
 //         }
 //         //req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
-//         req.query("SELECT ENTITY FROM [RIS].[dbo].[RENT_GP] where id = '1' ",function(err,recordset){
+//         req.query("SELECT * FROM [RIS].[dbo].[RENT_GP] where id = '1' ",function(err,recordset){
 //             if(err){
 //                 console.log(err);
 //             }else{
 //                 //callback(recordset)
-//                 console.log(recordset);
+//                 console.log(recordset[0].ENTITY);
 //             }
 //             conn.close();
 //         });
@@ -46,12 +46,12 @@ const executesql = function(callback){
             return;
         }
         //req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
-        req.query("SELECT ENTITY FROM [RIS].[dbo].[RENT_GP] where id = '1' ",function(err,recordset){
+        req.query("SELECT * FROM [RIS].[dbo].[RENT_GP] where id = '1' ",function(err,recordset){
             if(err){
                 console.log(err);
             }else{
-                callback(recordset)
-                //console.log(recordset);
+                //callback(recordset['ENTITY'])
+                console.log(recordset[0].ENTITY);
             }
             conn.close();
         });

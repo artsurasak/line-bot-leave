@@ -16,11 +16,7 @@ app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
       let reply_token = req.body.events[0].replyToken
       let event_text = req.body.events[0].message.text
-      //client.replyMessage(reply_token,'Hello')
-	   
-	     // let msg = req.body.events[0].message.text
       reply(reply_token,event_text)
-       //reply('','')
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
