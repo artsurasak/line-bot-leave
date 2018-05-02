@@ -44,7 +44,7 @@ function reply(reply_token,event_text) {
     	// });
         msg = {
                 type: 'text',
-                text: msgtext
+                text: 'Hello world'
         }
     }else if (event_text === 'image'){
           msg = {
