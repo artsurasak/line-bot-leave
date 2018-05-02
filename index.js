@@ -38,12 +38,12 @@ function reply(reply_token,event_text) {
     if (event_text === 'text'){
     	//var msgText = '010000';
     	//var msgText = '010000';
-    	var msgText = 'Hello world'
+    	var msgText
     	data = require('./connectDB');
     	data.executesql(function(result){
-    	 	msgText =  result;
+    	 	 msgText =  result;
     	 	//console.log(msgText)
-    	// 	//console.log(result);
+    	 // 	//console.log(result);
     	});
         msg = {
                 type: 'text',
