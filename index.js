@@ -17,7 +17,8 @@ app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
       let reply_token = req.body.events[0].replyToken
       let event_text = req.body.events[0].message.text
-      reply(reply_token,event_text)
+      let userID = req.body.events[0].source.userId
+      reply(reply_token,event_text,userID)
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -29,7 +30,7 @@ app.listen(app.get('port'), () => {
 });
 
 
-function reply(reply_token,event_text) {
+function reply(reply_token,event_text,userID) {
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
@@ -63,6 +64,17 @@ function reply(reply_token,event_text) {
                   console.log('status = ' + res.statusCode);
               })
           });
+      }else if(event_text === 'profile'){
+        client.getProfile(userId)
+          .then((profile) => {
+            console.log(profile.displayName);
+             console.log(profile.userId);
+            console.log(profile.pictureUrl);
+            console.log(profile.statusMessage);
+        })
+        .catch((err) => {
+    // error handling
+        });
       }
      
     /*if (event_text === 'text'){
