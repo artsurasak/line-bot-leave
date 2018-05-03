@@ -4,10 +4,10 @@ var config = {
         // database:'LEAVE',
         // user: 'sa',
         //password: 'P@ssw0rd'
-        server: 'sql.freeasphost.net\\MSSQL2016',
-        database:'surasak_SampleDB',
-        user: 'surasak_SampleDB',
-        password: 'DBSamplePW'
+        server: 'mssql.smartmedia.co.th',
+        database:'smartmedia_leave',
+        user: 'smartmedia_sp',
+        password: 'P@ssw0rd'
 }
 // executesql();
 // function executesql() {
@@ -18,13 +18,13 @@ var config = {
 //             console.log(err);
 //             return;
 //         }
-//         //req.query("select DEPARTMENT_NAME from [LEAVE].[dbo].[DEPARTMENT] where DEPARTMENT_ID = 1 ",function(err,recordset){
-//         req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
+//         req.query("SELECT * FROM [smartmedia_leave].[smartmedia_sp].[DEPARTMENT] ",function(err,recordset){
+//         //req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
 //             if(err){
 //                 console.log(err);
 //             }else{
 //                 //callback(recordset)
-//                 console.log(recordset[0].Department);
+//                 console.log(recordset[0].DEPARTMENT_NAME);
 //             }
 //             conn.close();
 //         });
@@ -39,12 +39,12 @@ const executesql = function(callback){
             console.log(err);
             return;
         }
-        req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
+        req.query("SELECT * FROM [smartmedia_leave].[smartmedia_sp].[DEPARTMENT] ",function(err,recordset){
             if(err){
                 callback(err)
                 //console.log(err);
             }else{
-                callback(recordset[0].Department)
+                callback(recordset[0].DEPARTMENT_NAME)
             }
             conn.close();
         });
