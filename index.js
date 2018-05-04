@@ -41,68 +41,83 @@ function reply(reply_token,event_text,userID) {
     //console.log(line);
     //console.log(client);
     //console.log(client.getProfile('U0d589cbccf8f08124f85a5e2e86b8ce4'));
-	   
-     if (event_text === 'text'){
-        var msg;
-        data = require('./connectDB');
-        data.executesql(function(result){
-            msg = {
-                    type: 'text',
-                    text: result
-            }
-            let body = JSON.stringify({
-                  replyToken: reply_token,
-                  messages: [msg]
-              })
-              request.post({
-                  url: 'https://api.line.me/v2/bot/message/reply',
-                  headers: headers,
-                  body: body
-              }, (err, res, body) => {
-                  console.log('status = ' + res.statusCode);
-              })
-          });
-      }else if(event_text === 'profile'){
-        client.getProfile(userID)
-          .then((profile) => {
-          	//console.log(profile.displayName);
-            //console.log(profile.userId);
-            //console.log(profile.pictureUrl);
-            //console.log(profile.statusMessage);
-          	msg = {
-                    type: 'text',
-                    text: profile.userId
-           	 	},
-            	{
-            		type: 'text',
-                    text: profile.displayName
-            	},
-            	{
-            		type: 'text',
-                    text: profile.pictureUrl
-            	},
-            	{
-            		type: 'text',
-                    text: profile.statusMessage
-            	}
-            let body = JSON.stringify({
-                  replyToken: reply_token,
-                  messages: [msg]
-              })
-              request.post({
-                  url: 'https://api.line.me/v2/bot/message/reply',
-                  headers: headers,
-                  body: body
-              }, (err, res, body) => {
-                  console.log('status = ' + res.statusCode);
-              })
-        })
-        .catch((err) => {
-        	console.log('error')
-        	console.log(err);
-    // error handling
-        });
-      }
+	   client.createRichMenu({
+	   			size: { width: 2500, height: 1686 }, // Define size of rich menu
+  				selected: true, // Always display
+  				name: 'CryptoCurrency Page 2', // rich menu name
+  				chatBarText: 'CryptoCurrency', // show to user
+  				areas: [ // Area and action of each boundary
+    				{
+      				bounds: {
+        					x: 0,
+        					y: 0,
+        					width: 833,
+        					height: 843
+      						},
+      			action: {
+        			type: 'message',
+        			text: 'OMG'
+      			}
+    	}
+    ... // And other boundary
+  		]
+	})
+     // if (event_text === 'text'){
+     //    var msg;
+     //    data = require('./connectDB');
+     //    data.executesql(function(result){
+     //        msg = {
+     //                type: 'text',
+     //                text: result
+     //        }
+     //        let body = JSON.stringify({
+     //              replyToken: reply_token,
+     //              messages: [msg]
+     //          })
+     //          request.post({
+     //              url: 'https://api.line.me/v2/bot/message/reply',
+     //              headers: headers,
+     //              body: body
+     //          }, (err, res, body) => {
+     //              console.log('status = ' + res.statusCode);
+     //          })
+     //      });
+     //  }else if(event_text === 'profile'){
+     //    client.getProfile(userID)
+     //      .then((profile) => {
+     //      	msg = {
+     //                type: 'text',
+     //                text: profile.userId
+     //       	 	},
+     //        	{
+     //        		type: 'text',
+     //                text: profile.displayName
+     //        	},
+     //        	{
+     //        		type: 'text',
+     //                text: profile.pictureUrl
+     //        	},
+     //        	{
+     //        		type: 'text',
+     //                text: profile.statusMessage
+     //        	}
+     //        let body = JSON.stringify({
+     //              replyToken: reply_token,
+     //              messages: [msg]
+     //          })
+     //          request.post({
+     //              url: 'https://api.line.me/v2/bot/message/reply',
+     //              headers: headers,
+     //              body: body
+     //          }, (err, res, body) => {
+     //              console.log('status = ' + res.statusCode);
+     //          })
+     //    })
+     //    .catch((err) => {
+     //    	console.log('error')
+     //    	console.log(err);
+     //    });
+     //  }
      
     /*if (event_text === 'text'){
        
@@ -143,58 +158,3 @@ function reply(reply_token,event_text,userID) {
         console.log('status = ' + res.statusCode);
     });*/
 }
-
-/*'use strict';
-
-const line = require('@line/bot-sdk');
-const express = require('express');
-const http = require('http');
-
-// create LINE SDK config from env variables
-const config = {
-  channelAccessToken: 'wNGFPyRYMYL1ZuaxZBZN+gw/1FOMR52WrEGtybbWfLlXsyIJU+2NUrUB70DQzT1ID4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbd01VYgAYZybnHi9y0Q3REK0oaVFJricEwTEehEYaOGgdB04t89/1O/w1cDnyilFU=',
-  channelSecret: '553bc1a177fb9b042fa30b3544357169',
-};
-
-// create LINE SDK client
-const client = new line.Client(config);
-
-// create Express app
-// about Express itself: https://expressjs.com/
-const app = express();
-
-// register a webhook handler with middleware
-// about the middleware, please refer to doc
-app.post('/callback', line.middleware(config), (req, res) => {
-	//console.log('tesst');
-  Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).end();
-    });
-});
-
-app.get("/", function(req, res) {
-    res.send("home");
-});
-
-// event handler
-function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    // ignore non-text-message event
-    return Promise.resolve(null);
-  }
-
-  // create a echoing text message
-  const echo = { type: 'text', text: event.message.text };
-
-  // use reply API
-  return client.replyMessage(event.replyToken, echo);
-}
-
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
- console.log(`listening on ${port}`);
-});*/
