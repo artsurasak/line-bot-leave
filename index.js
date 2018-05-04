@@ -17,11 +17,11 @@ const client = new line.Client(config);
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-      let reply_token = req.body.events[0].replyToken
-      let event_text = req.body.events[0].message.text
-      let userID = req.body.events[0].source.userId
-      reply(reply_token,event_text,userID)
-      //reply('','','')
+      //let reply_token = req.body.events[0].replyToken
+      //let event_text = req.body.events[0].message.text
+      //let userID = req.body.events[0].source.userId
+      //reply(reply_token,event_text,userID)
+      reply('','','')
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -38,29 +38,101 @@ function reply(reply_token,event_text,userID) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
     }
-    //console.log(line);
-    //console.log(client);
-    //console.log(client.getProfile('U0d589cbccf8f08124f85a5e2e86b8ce4'));
-	   client.createRichMenu({
-	   			size: { width: 2500, height: 1686 }, // Define size of rich menu
-  				selected: true, // Always display
-  				name: 'CryptoCurrency Page 2', // rich menu name
-  				chatBarText: 'CryptoCurrency', // show to user
-  				areas: [ // Area and action of each boundary
-    				{
-      				bounds: {
-        					x: 0,
-        					y: 0,
-        					width: 833,
-        					height: 843
-      						},
-      			action: {
-        			type: 'message',
-        			text: 'OMG'
-      			}
-    	}
-  		]
+    let housekeeping = Promise.resolve()
+	    housekeeping.then(() => {
+	    return client.createRichMenu({
+	        size: {
+	          width: 2500,
+	          height: 1686
+	        },
+	        selected: true,
+	        name: 'CryptoCurrency Page 2',
+	        chatBarText: 'CryptoCurrency',
+	        areas: [
+	          {
+	            bounds: {
+	              x: 0,
+	              y: 0,
+	              width: 833,
+	              height: 843
+	            },
+	            action: {
+	              type: 'message',
+	              text: 'OMG'
+	            }
+	          },
+	          {
+	            bounds: {
+	              x: 834,
+	              y: 0,
+	              width: 833,
+	              height: 843
+	            },
+	            action: {
+	              type: 'message',
+	              text: 'DAS'
+	            }
+	          },
+	          {
+	            bounds: {
+	              x: 1667,
+	              y: 0,
+	              width: 833,
+	              height: 843
+	            },
+	            action: {
+	              type: 'message',
+	              text: 'PREVIOUS'
+	            }
+	          },
+	          {
+	            bounds: {
+	              x: 0,
+	              y: 843,
+	              width: 833,
+	              height: 843
+	            },
+	            action: {
+	              type: 'message',
+	              text: 'GOLD'
+	            }
+	          },
+	          {
+	            bounds: {
+	              x: 834,
+	              y: 843,
+	              width: 833,
+	              height: 843
+	            },
+	            action: {
+	              type: 'message',
+	              text: 'LTC'
+	            }
+	          },
+	          {
+	            bounds: {
+	              x: 1667,
+	              y: 843,
+	              width: 833,
+	              height: 843
+	            },
+	            action: {
+	              type: "datetimepicker",
+	              label: "Subscribe",
+	              data: "subscribe",
+	              mode: "time",
+	              text: "Subscribe",
+	              initial: "08:00"
+	            }
+	          }
+	        ]
+	      })
 	})
+	.then((richMenuId) => {
+	    console.log("richMenuId: " + richMenuId)
+	})
+	//.catch((error) => console.log(error.originalError.response.data, error))
+}
      // if (event_text === 'text'){
      //    var msg;
      //    data = require('./connectDB');
@@ -156,4 +228,3 @@ function reply(reply_token,event_text,userID) {
     }, (err, res, body) => {
         console.log('status = ' + res.statusCode);
     });*/
-}
