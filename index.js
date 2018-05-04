@@ -69,13 +69,15 @@ function reply(reply_token,event_text,userID) {
             //console.log(profile.userId);
             //console.log(profile.pictureUrl);
             //console.log(profile.statusMessage);
-          	msg = {
+            let body = JSON.stringify({
+                  replyToken: reply_token,
+                  messages: [{
                     type: 'text',
-                    text: profile.displayName
+                    text: profile.userId
            	 	},
             	{
             		type: 'text',
-                    text: profile.userId
+                    text: profile.displayName
             	},
             	{
             		type: 'text',
@@ -84,10 +86,7 @@ function reply(reply_token,event_text,userID) {
             	{
             		type: 'text',
                     text: profile.statusMessage
-            	}
-            let body = JSON.stringify({
-                  replyToken: reply_token,
-                  messages: [msg]
+            	}]
               })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',
