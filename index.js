@@ -65,10 +65,37 @@ function reply(reply_token,event_text,userID) {
       }else if(event_text === 'profile'){
         client.getProfile(userID)
           .then((profile) => {
-            console.log(profile.displayName);
-             console.log(profile.userId);
-            console.log(profile.pictureUrl);
-            console.log(profile.statusMessage);
+          	//console.log(profile.displayName);
+            //console.log(profile.userId);
+            //console.log(profile.pictureUrl);
+            //console.log(profile.statusMessage);
+          	msg = {
+                    type: 'text',
+                    text: profile.displayName
+           	 	},
+            	{
+            		type: 'text',
+                    text: profile.userId
+            	},
+            	{
+            		type: 'text',
+                    text: profile.pictureUrl
+            	},
+            	{
+            		type: 'text',
+                    text: profile.statusMessage
+            	}
+            let body = JSON.stringify({
+                  replyToken: reply_token,
+                  messages: [msg]
+              })
+              request.post({
+                  url: 'https://api.line.me/v2/bot/message/reply',
+                  headers: headers,
+                  body: body
+              }, (err, res, body) => {
+                  console.log('status = ' + res.statusCode);
+              })
         })
         .catch((err) => {
         	console.log('error')
