@@ -42,7 +42,7 @@ function reply(reply_token,event_text,userID) {
     //console.log(client);
     //console.log(client.getProfile('U0d589cbccf8f08124f85a5e2e86b8ce4'));
 	   
-    //   if (event_text === 'text'){
+     if (event_text === 'text'){
         var msg;
         data = require('./connectDB');
         data.executesql(function(result){
