@@ -3,6 +3,7 @@ const line = require('@line/bot-sdk');
 //const client = line.Client;
 //const middleware = require('@line/bot-sdk').middleware
 const request = require('request');
+const fs = require('fs')
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const sql = require('mssql');
@@ -130,8 +131,9 @@ function reply(reply_token,event_text,userID) {
 	})
 	.then((richMenuId) => {
 	    console.log("richMenuId: " + richMenuId)
+      client.setRichMenuImage(richMenuId, fs.createReadStream('./rich-menu/menu-page-2.jpg'))
 	})
-	//.catch((error) => console.log(error.originalError.response.data, error))
+	.catch((error) => console.log(error.originalError.response.data, error))
 }
      // if (event_text === 'text'){
      //    var msg;
