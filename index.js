@@ -59,7 +59,6 @@ function reply(reply_token,event_text,userID) {
         			text: 'OMG'
       			}
     	}
-    ... // And other boundary
   		]
 	})
      // if (event_text === 'text'){
