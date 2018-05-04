@@ -17,11 +17,11 @@ const client = new line.Client(config);
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-      //let reply_token = req.body.events[0].replyToken
-      //let event_text = req.body.events[0].message.text
-      //let userID = req.body.events[0].source.userId
-      //reply(reply_token,event_text,userID)
-      reply('','','')
+      let reply_token = req.body.events[0].replyToken
+      let event_text = req.body.events[0].message.text
+      let userID = req.body.events[0].source.userId
+      reply(reply_token,event_text,userID)
+      //reply('','','')
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
