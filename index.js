@@ -1,6 +1,7 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
-const middleware = require('@line/bot-sdk').middleware
+//const client = line.Client;
+//const middleware = require('@line/bot-sdk').middleware
 const request = require('request');
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -11,7 +12,8 @@ const config = {
 	channelAccessToken: 'tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=',
 	channelSecret: '5cbfc7a20eba3df7981bae6d5216988f'
 }
-//const client = line.client(config);
+const client = new line.Client(config);
+//client = new client(config);
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
@@ -19,6 +21,7 @@ app.post('/webhook', (req, res) => {
       let event_text = req.body.events[0].message.text
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID)
+      //reply('','','')
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -35,16 +38,11 @@ function reply(reply_token,event_text,userID) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
     }
-    //var event_text = event_text.text.toLowerCase();
-            //console.log(msgtext);
-
-        // data = require('./connectDB');
-        // data.executesql(function(result){
-        //     console.log(result);
-        // });
-
-
-      if (event_text === 'text'){
+    //console.log(line);
+    //console.log(client);
+    //console.log(client.getProfile('U0d589cbccf8f08124f85a5e2e86b8ce4'));
+	   
+    //   if (event_text === 'text'){
         var msg;
         data = require('./connectDB');
         data.executesql(function(result){
@@ -65,7 +63,7 @@ function reply(reply_token,event_text,userID) {
               })
           });
       }else if(event_text === 'profile'){
-        client.getProfile(userId)
+        client.getProfile(userID)
           .then((profile) => {
             console.log(profile.displayName);
              console.log(profile.userId);
@@ -73,6 +71,8 @@ function reply(reply_token,event_text,userID) {
             console.log(profile.statusMessage);
         })
         .catch((err) => {
+        	console.log('error')
+        	console.log(err);
     // error handling
         });
       }
