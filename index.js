@@ -3,7 +3,6 @@ const line = require('@line/bot-sdk');
 //const client = line.Client;
 //const middleware = require('@line/bot-sdk').middleware
 const request = require('request');
-const fs = require('fs')
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const sql = require('mssql');
@@ -39,158 +38,64 @@ function reply(reply_token,event_text,userID) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
     }
-    let housekeeping = Promise.resolve()
-	    housekeeping.then(() => {
-	    return client.createRichMenu({
-	        size: {
-	          width: 2500,
-	          height: 1686
-	        },
-	        selected: true,
-	        name: 'CryptoCurrency Page 2',
-	        chatBarText: 'CryptoCurrency',
-	        areas: [
-	          {
-	            bounds: {
-	              x: 0,
-	              y: 0,
-	              width: 833,
-	              height: 843
-	            },
-	            action: {
-	              type: 'message',
-	              text: 'OMG'
-	            }
-	          },
-	          {
-	            bounds: {
-	              x: 834,
-	              y: 0,
-	              width: 833,
-	              height: 843
-	            },
-	            action: {
-	              type: 'message',
-	              text: 'DAS'
-	            }
-	          },
-	          {
-	            bounds: {
-	              x: 1667,
-	              y: 0,
-	              width: 833,
-	              height: 843
-	            },
-	            action: {
-	              type: 'message',
-	              text: 'PREVIOUS'
-	            }
-	          },
-	          {
-	            bounds: {
-	              x: 0,
-	              y: 843,
-	              width: 833,
-	              height: 843
-	            },
-	            action: {
-	              type: 'message',
-	              text: 'GOLD'
-	            }
-	          },
-	          {
-	            bounds: {
-	              x: 834,
-	              y: 843,
-	              width: 833,
-	              height: 843
-	            },
-	            action: {
-	              type: 'message',
-	              text: 'LTC'
-	            }
-	          },
-	          {
-	            bounds: {
-	              x: 1667,
-	              y: 843,
-	              width: 833,
-	              height: 843
-	            },
-	            action: {
-	              type: "datetimepicker",
-	              label: "Subscribe",
-	              data: "subscribe",
-	              mode: "time",
-	              text: "Subscribe",
-	              initial: "08:00"
-	            }
-	          }
-	        ]
-	      })
-	})
-	.then((richMenuId) => {
-	    console.log("richMenuId: " + richMenuId)
-      client.setRichMenuImage(richMenuId, fs.createReadStream('./rich-menu/menu-page-2.jpg'))
-	})
-	.catch((error) => console.log(error.originalError.response.data, error))
-}
-     // if (event_text === 'text'){
-     //    var msg;
-     //    data = require('./connectDB');
-     //    data.executesql(function(result){
-     //        msg = {
-     //                type: 'text',
-     //                text: result
-     //        }
-     //        let body = JSON.stringify({
-     //              replyToken: reply_token,
-     //              messages: [msg]
-     //          })
-     //          request.post({
-     //              url: 'https://api.line.me/v2/bot/message/reply',
-     //              headers: headers,
-     //              body: body
-     //          }, (err, res, body) => {
-     //              console.log('status = ' + res.statusCode);
-     //          })
-     //      });
-     //  }else if(event_text === 'profile'){
-     //    client.getProfile(userID)
-     //      .then((profile) => {
-     //      	msg = {
-     //                type: 'text',
-     //                text: profile.userId
-     //       	 	},
-     //        	{
-     //        		type: 'text',
-     //                text: profile.displayName
-     //        	},
-     //        	{
-     //        		type: 'text',
-     //                text: profile.pictureUrl
-     //        	},
-     //        	{
-     //        		type: 'text',
-     //                text: profile.statusMessage
-     //        	}
-     //        let body = JSON.stringify({
-     //              replyToken: reply_token,
-     //              messages: [msg]
-     //          })
-     //          request.post({
-     //              url: 'https://api.line.me/v2/bot/message/reply',
-     //              headers: headers,
-     //              body: body
-     //          }, (err, res, body) => {
-     //              console.log('status = ' + res.statusCode);
-     //          })
-     //    })
-     //    .catch((err) => {
-     //    	console.log('error')
-     //    	console.log(err);
-     //    });
-     //  }
+    
+
+     if (event_text === 'text'){
+        var msg;
+        data = require('./connectDB');
+        data.executesql(function(result){
+            msg = {
+                    type: 'text',
+                    text: result
+            }
+            let body = JSON.stringify({
+                  replyToken: reply_token,
+                  messages: [msg]
+              })
+              request.post({
+                  url: 'https://api.line.me/v2/bot/message/reply',
+                  headers: headers,
+                  body: body
+              }, (err, res, body) => {
+                  console.log('status = ' + res.statusCode);
+              })
+          });
+      }else if(event_text === 'profile'){
+        client.getProfile(userID)
+          .then((profile) => {
+          	msg = {
+                    type: 'text',
+                    text: profile.userId
+           	 	},
+            	{
+            		type: 'text',
+                    text: profile.displayName
+            	},
+            	{
+            		type: 'text',
+                    text: profile.pictureUrl
+            	},
+            	{
+            		type: 'text',
+                    text: profile.statusMessage
+            	}
+            let body = JSON.stringify({
+                  replyToken: reply_token,
+                  messages: [msg]
+              })
+              request.post({
+                  url: 'https://api.line.me/v2/bot/message/reply',
+                  headers: headers,
+                  body: body
+              }, (err, res, body) => {
+                  console.log('status = ' + res.statusCode);
+              })
+        })
+        .catch((err) => {
+        	console.log('error')
+        	console.log(err);
+        });
+      }
      
     /*if (event_text === 'text'){
        
@@ -230,3 +135,4 @@ function reply(reply_token,event_text,userID) {
     }, (err, res, body) => {
         console.log('status = ' + res.statusCode);
     });*/
+}

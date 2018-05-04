@@ -2,6 +2,7 @@
 const config = require('./config.js');
 const line = require('@line/bot-sdk');
 const client = new line.Client(config);
+const fs = require('fs')
 
 client.createRichMenu({
         size: {
