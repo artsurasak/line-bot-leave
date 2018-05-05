@@ -73,33 +73,42 @@ function reply(reply_token,event_text,userID) {
             data = require('./connectDB');
             data.executesql(displayName,function(result){
              //msg = 
-                     //{
-            //         type: 'text',
-            //         text: "วัน" + result[0].TYPE + " คงเหลือ " + result[0].remain + " วัน"
-            //       }
-            //       ,
-            //       {
-            //         type: 'text',
-            //         text: "วัน" + result[1].TYPE + " คงเหลือ " + result[1].remain + " วัน"
-            //       },
-            //       {
-            //         type: 'text',
-            //         text: "วัน" + result[2].TYPE + " คงเหลือ " + result[2].remain + " วัน"
-            //       },
-            //       {
-            //         type: 'text',
-            //         text: "วัน" + result[3].TYPE + " คงเหลือ " + result[3].remain + " วัน"
-            //       }
+                  //    {
+                  //   type: 'text',
+                  //   text: "วัน" + result[0].TYPE + " คงเหลือ " + result[0].remain + " วัน"
+                  // }
+                  // ,
+                  // {
+                  //   type: 'text',
+                  //   text: "วัน" + result[1].TYPE + " คงเหลือ " + result[1].remain + " วัน"
+                  // },
+                  // {
+                  //   type: 'text',
+                  //   text: "วัน" + result[2].TYPE + " คงเหลือ " + result[2].remain + " วัน"
+                  // },
+                  // {
+                  //   type: 'text',
+                  //   text: "วัน" + result[3].TYPE + " คงเหลือ " + result[3].remain + " วัน"
+                  // }
             let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
                                 type: 'text',
-                                text: 'Hello'
-                            },
-                            {
+                                text: "วัน" + result[0].TYPE + " คงเหลือ " + result[0].remain + " วัน"
+                              }
+                              ,
+                              {
                                 type: 'text',
-                                text: 'How are you?'
-                            }]
+                                text: "วัน" + result[1].TYPE + " คงเหลือ " + result[1].remain + " วัน"
+                              },
+                              {
+                                type: 'text',
+                                text: "วัน" + result[2].TYPE + " คงเหลือ " + result[2].remain + " วัน"
+                              },
+                              {
+                                type: 'text',
+                                text: "วัน" + result[3].TYPE + " คงเหลือ " + result[3].remain + " วัน"
+                              }]
                   })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',
