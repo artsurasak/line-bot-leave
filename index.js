@@ -72,14 +72,7 @@ function reply(reply_token,event_text,userID) {
             var displayName = profile.displayName
             data = require('./connectDB');
             data.executesql(displayName,function(result){
-             msg = {
-                        type: 'text',
-                        text: 'Hello'
-                    },
-                    {
-                        type: 'text',
-                        text: 'How are you?'
-                    }
+             //msg = 
                      //{
             //         type: 'text',
             //         text: "วัน" + result[0].TYPE + " คงเหลือ " + result[0].remain + " วัน"
@@ -99,8 +92,15 @@ function reply(reply_token,event_text,userID) {
             //       }
             let body = JSON.stringify({
                   replyToken: reply_token,
-                  messages: [msg]
-              })
+                  messages: [{
+                                type: 'text',
+                                text: 'Hello'
+                            },
+                            {
+                                type: 'text',
+                                text: 'How are you?'
+                            }]
+                  })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',
                   headers: headers,
