@@ -83,7 +83,7 @@ function reply(reply_token,event_text,userID,messageID) {
         client.getProfile(userID)
           .then((profile) => {
               var displayName = profile.displayName
-              
+              var test = event_text
         })
         .catch((err) => {
           console.log('error')
@@ -93,6 +93,9 @@ function reply(reply_token,event_text,userID,messageID) {
         client.getProfile(userID)
           .then((profile) => {
             var displayName = profile.displayName
+            var userID = profile.userId
+            var picture = profile.pictureUrl
+            var statusMessage = profile.statusMessage
           	// msg = {
            //          type: 'text',
            //          text: messageID
@@ -101,12 +104,21 @@ function reply(reply_token,event_text,userID,messageID) {
                   replyToken: reply_token,
                   messages: [{
                     type: 'text',
-                    text: messageID
+                    text: displayName
                   },
                   {
                     type: 'text',
-                    text: mess
-                  }]
+                    text: userID
+                  },
+                  {
+                    type: 'text',
+                    text: picture
+                  },
+                  {
+                    type: 'text',
+                    text: statusMessage
+                  },
+                  ]
               })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',
@@ -120,16 +132,16 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log('error')
         	console.log(err);
         });
-      }else{
-        let body = JSON.stringify({
+      }else if (event_text === 'ลาป่วย'){
+          x = event_text;
+      }else if (event_text === 'ลาคลอด'){
+          y = event_text
+      }else if (event_text === 'ยืนยัน'){
+          let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
                     type: 'text',
-                    text: messageID
-                  },
-                  {
-                    type: 'text',
-                    text: event_text
+                    text: x + " " + y
                   }]
               })
               request.post({
@@ -139,6 +151,25 @@ function reply(reply_token,event_text,userID,messageID) {
               }, (err, res, body) => {
                   console.log('status = ' + res.statusCode);
               })
+      }else{
+          let body = JSON.stringify({
+                    replyToken: reply_token,
+                    messages: [{
+                      type: 'text',
+                      text: messageID
+                    },
+                    {
+                      type: 'text',
+                      text: event_text
+                    }]
+                })
+                request.post({
+                    url: 'https://api.line.me/v2/bot/message/reply',
+                    headers: headers,
+                    body: body
+                }, (err, res, body) => {
+                    console.log('status = ' + res.statusCode);
+                })
       }
      
     /*if (event_text === 'text'){
