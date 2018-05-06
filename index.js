@@ -153,7 +153,7 @@ function reply(reply_token,event_text,userID,messageID) {
                   replyToken: reply_token,
                   messages: [{
                     type: 'text',
-                    text: leaveType + " " + fdate + " " + ftime + " " ldate + " " + ltime
+                    text: leaveType + " " + fdate + " " + ftime + " " + ldate + " " + ltime
                   }]
               })
               request.post({
