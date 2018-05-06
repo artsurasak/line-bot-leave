@@ -80,28 +80,14 @@ function reply(reply_token,event_text,userID,messageID) {
           console.log('error')
           console.log(err);
         });
-      }else if(event_text === 'profile'){
+      }else if(event_text === 'userid'){
         client.getProfile(userID)
           .then((profile) => {
-            let body = JSON.stringify({
-                  replyToken: reply_token,
-                  messages: [{
-                                type: 'text',
-                                text: profile.displayName
-                              }
-                              ,
-                              {
-                                type: 'text',
-                                text: profile.userId
-                              }]
-              })
-              request.post({
-                  url: 'https://api.line.me/v2/bot/message/reply',
-                  headers: headers,
-                  body: body
-              }, (err, res, body) => {
-                  console.log('status = ' + res.statusCode);
-              })
+            msg = {
+                    type: 'text',
+                    text: profile.userId
+                  }
+            client.replyMessage(reply_token,msg)
         })
         .catch((err) => {
         	console.log('error')
@@ -191,24 +177,11 @@ function reply(reply_token,event_text,userID,messageID) {
               client.replyMessage(reply_token,msg)
           });
       }else{
-          let body = JSON.stringify({
-                    replyToken: reply_token,
-                    messages: [{
-                      type: 'text',
-                      text: messageID
-                    },
-                    {
-                      type: 'text',
-                      text: event_text
-                    }]
-                })
-                request.post({
-                    url: 'https://api.line.me/v2/bot/message/reply',
-                    headers: headers,
-                    body: body
-                }, (err, res, body) => {
-                    console.log('status = ' + res.statusCode);
-                })
+        msg = {
+                  type: 'text',
+                  text: 'ข้อมูลไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง'
+                }
+        client.replyMessage(reply_token,msg)
       }
      
     /*if (event_text === 'text'){
