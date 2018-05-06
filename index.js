@@ -92,10 +92,10 @@ function reply(reply_token,event_text,userID,messageID) {
       }else if(event_text === 'profile'){
         client.getProfile(userID)
           .then((profile) => {
-            var displayName = profile.displayName
-            var userID = profile.userId
-            var picture = profile.pictureUrl
-            var statusMessage = profile.statusMessage
+            //var displayName = profile.displayName
+            //var userID = profile.userId
+            //var picture = profile.pictureUrl
+            //var statusMessage = profile.statusMessage
           	// msg = {
            //          type: 'text',
            //          text: messageID
@@ -104,19 +104,19 @@ function reply(reply_token,event_text,userID,messageID) {
                   replyToken: reply_token,
                   messages: [{
                     type: 'text',
-                    text: displayName
+                    text: profile.displayName
                   },
                   {
                     type: 'text',
-                    text: userID
+                    text: profile.userId
                   },
                   {
                     type: 'text',
-                    text: picture
+                    text: profile.pictureUrl
                   },
                   {
                     type: 'text',
-                    text: statusMessage
+                    text: profile.statusMessage
                   }
                   ]
               })
