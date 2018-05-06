@@ -148,6 +148,39 @@ function reply(reply_token,event_text,userID,messageID) {
                   text: "กรุณาระบุสาเหตุการลา"
                 }
           client.replyMessage(reply_token,msg)
+      }else if (msg.text === 'กรุณาระบุสาเหตุการลา'){
+          if (event_text === 'Next'){
+            Note = ''
+          }else{
+            Note = event_text
+          }
+          msg = {
+                  type: 'text',
+                  text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา"
+                }
+          client.replyMessage(reply_token,msg)
+      }else if (msg.text === 'กรุณาระบุชื่อผู้ติดต่อระหว่างลา'){
+          if (event_text === 'Next'){
+            contactName = ''
+          }else{
+            contactName = event_text
+          }
+          msg = {
+                  type: 'text',
+                  text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา"
+                }
+          client.replyMessage(reply_token,msg)
+      }else if (msg.text === 'เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา'){
+          if (event_text === 'Next'){
+            contactTel = ''
+          }else{
+            contactTel = event_text
+          }
+          msg = {
+                  type: 'text',
+                  text: leaveType + " " + fdate + " " + ftime + " " + ldate + " " + ltime + " " + Note + " " + contactName + " " + contactTel
+                }
+          client.replyMessage(reply_token,msg)
       }else if (event_text === 'ยืนยัน'){
           let body = JSON.stringify({
                   replyToken: reply_token,
