@@ -106,6 +106,11 @@ function reply(reply_token,event_text,userID,messageID) {
                                 type: 'text',
                                 text: profile.displayName
                               }
+                              ,
+                              {
+                                type: 'text',
+                                text: profile.userId
+                              }
                               // ,
                               // {
                               //   type: 'text',
