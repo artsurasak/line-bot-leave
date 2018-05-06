@@ -80,12 +80,6 @@ function reply(reply_token,event_text,userID,messageID) {
           console.log('error')
           console.log(err);
         });
-      }else if(event_text === 'สร้างคำร้องการลา'){
-        msg = {
-                type: 'text',
-                text: "ใส่ประเภทการลา"
-              }
-              client.replyMessage(reply_token, msg);
       }else if(event_text === 'profile'){
         client.getProfile(userID)
           .then((profile) => {
@@ -113,29 +107,14 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log('error')
         	console.log(err);
         });
-      }else if (event_text === 'ลาป่วย'){
+      }else if(event_text === 'สร้างคำร้องการลา'){
+        msg = {
+                type: 'text',
+                text: "ใส่ประเภทการลา"
+              }
+              client.replyMessage(reply_token, msg);
+      }else if (msg.text === 'ใส่ประเภทการลา'){
           leaveType = event_text;
-          msg = {
-                type: 'text',
-                text: "กรุณาระบุวันที่เริ่มลา"
-              }
-              client.replyMessage(reply_token, msg);
-      }else if (event_text === 'ลาคลอด'){
-          leaveType = event_text
-          msg = {
-                type: 'text',
-                text: "กรุณาระบุวันที่เริ่มลา"
-              }
-              client.replyMessage(reply_token, msg);
-      }else if (event_text === 'ลาพักผ่อน'){
-          leaveType = event_text
-          msg = {
-                type: 'text',
-                text: "กรุณาระบุวันที่เริ่มลา"
-              }
-              client.replyMessage(reply_token, msg);
-      }else if (event_text === 'ลากิจ'){
-          leaveType = event_text
           msg = {
                 type: 'text',
                 text: "กรุณาระบุวันที่เริ่มลา"
@@ -148,13 +127,33 @@ function reply(reply_token,event_text,userID,messageID) {
                   text: "กรุณาระบุเวลาเริ่มต้นลา"
                 }
           client.replyMessage(reply_token,msg)
-      }
-      else if (event_text === 'ยืนยัน'){
+      }else if (msg.text === 'กรุณาระบุเวลาเริ่มต้นลา'){
+          ftime = event_text
+          msg = {
+                  type: 'text',
+                  text: "กรุณาระบุวันที่สิ้นสุดการลา"
+                }
+          client.replyMessage(reply_token,msg)
+      }else if (msg.text === 'กรุณาระบุวันที่สิ้นสุดการลา'){
+          ldate = event_text
+          msg = {
+                  type: 'text',
+                  text: "กรุณาระบุเวลาสิ้นสุดการลา"
+                }
+          client.replyMessage(reply_token,msg)
+      }else if (msg.text === 'กรุณาระบุเวลาสิ้นสุดการลา'){
+          ltime = event_text
+          msg = {
+                  type: 'text',
+                  text: "กรุณาระบุสาเหตุการลา"
+                }
+          client.replyMessage(reply_token,msg)
+      }else if (event_text === 'ยืนยัน'){
           let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
                     type: 'text',
-                    text: leaveType + " " + fdate
+                    text: leaveType + " " + fdate + " " + ftime + " " ldate + " " + ltime
                   }]
               })
               request.post({
