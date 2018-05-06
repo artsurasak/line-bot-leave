@@ -106,19 +106,20 @@ function reply(reply_token,event_text,userID,messageID) {
                                 type: 'text',
                                 text: profile.displayName
                               }
-                              ,
-                              {
-                                type: 'text',
-                                text: profile.userId
-                              },
-                              {
-                                type: 'text',
-                                text: profile.pictureUrl
-                              },
-                              {
-                                type: 'text',
-                                text: profile.statusMessage
-                              }]
+                              // ,
+                              // {
+                              //   type: 'text',
+                              //   text: profile.userId
+                              // },
+                              // {
+                              //   type: 'text',
+                              //   text: profile.pictureUrl
+                              // },
+                              // {
+                              //   type: 'text',
+                              //   text: profile.statusMessage
+                              // }
+                              ]
               })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',
@@ -140,13 +141,15 @@ function reply(reply_token,event_text,userID,messageID) {
           leaveType = event_text
       }else if (event_text === 'ลากิจ'){
           leaveType = event_text
+      }else if (event_text === 'วันที่'){
+          fdate = event_text
       }
       else if (event_text === 'ยืนยัน'){
           let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
                     type: 'text',
-                    text: x + " " + y
+                    text: leaveType + " " + fdate
                   }]
               })
               request.post({
