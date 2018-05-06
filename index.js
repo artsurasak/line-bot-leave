@@ -103,22 +103,22 @@ function reply(reply_token,event_text,userID,messageID) {
             let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
-                    type: 'text',
-                    text: profile.displayName
-                  },
-                  {
-                    type: 'text',
-                    text: profile.userId
-                  },
-                  {
-                    type: 'text',
-                    text: profile.pictureUrl
-                  },
-                  {
-                    type: 'text',
-                    text: profile.statusMessage
-                  }
-                  ]
+                                type: 'text',
+                                text: profile.displayName
+                              }
+                              ,
+                              {
+                                type: 'text',
+                                text: profile.userId
+                              },
+                              {
+                                type: 'text',
+                                text: profile.pictureUrl
+                              },
+                              {
+                                type: 'text',
+                                text: profile.statusMessage
+                              }]
               })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',
