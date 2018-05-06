@@ -155,6 +155,6 @@ const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactNa
 }
 
 module.exports = {
-    executesql 
-    , insertReqLeave
+    //executesql , 
+    insertReqLeave
 }
