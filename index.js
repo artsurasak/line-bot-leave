@@ -135,14 +135,14 @@ function reply(reply_token,event_text,userID,messageID) {
                 }
           client.replyMessage(reply_token,msg)
       }else if (msg.text === 'กรุณาระบุวันที่สิ้นสุดการลา'){
-          ldate = event_text
+          tdate = event_text
           msg = {
                   type: 'text',
                   text: "กรุณาระบุเวลาสิ้นสุดการลา"
                 }
           client.replyMessage(reply_token,msg)
       }else if (msg.text === 'กรุณาระบุเวลาสิ้นสุดการลา'){
-          ltime = event_text
+          ttime = event_text
           msg = {
                   type: 'text',
                   text: "กรุณาระบุสาเหตุการลา"
@@ -178,24 +178,18 @@ function reply(reply_token,event_text,userID,messageID) {
           }
           msg = {
                   type: 'text',
-                  text: leaveType + " " + fdate + " " + ftime + " " + ldate + " " + ltime + " " + Note + " " + contactName + " " + contactTel
+                  text: leaveType + " " + fdate + " " + ftime + " " + tdate + " " + ttime + " " + Note + " " + contactName + " " + contactTel
                 }
           client.replyMessage(reply_token,msg)
       }else if (event_text === 'ยืนยัน'){
-          let body = JSON.stringify({
-                  replyToken: reply_token,
-                  messages: [{
-                    type: 'text',
-                    text: leaveType + " " + fdate + " " + ftime + " " + ldate + " " + ltime
-                  }]
-              })
-              request.post({
-                  url: 'https://api.line.me/v2/bot/message/reply',
-                  headers: headers,
-                  body: body
-              }, (err, res, body) => {
-                  console.log('status = ' + res.statusCode);
-              })
+          data = require('./connectDB');
+            data.insertReqLeave(leaveType,fdate,ftime,tdate,ttime,Note,contactName,contactTel,function(result){
+              msg = {
+                  type: 'text',
+                  text: result
+                }
+              client.replyMessage(reply_token,msg)
+          });
       }else{
           let body = JSON.stringify({
                     replyToken: reply_token,

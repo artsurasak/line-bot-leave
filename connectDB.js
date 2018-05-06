@@ -69,6 +69,43 @@ const executesql = function(LineUserID,callback){
     });
 }
 
+const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactName,ContactTel,callback){
+    var conn = new sql.Connection(config);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME, "
+            query += "NOTE,CONTACT,CONTACT_TEL,STATUS,CREATE_DATE,CREATE_BY,UPDATE_DATE,UPDATE_BY) "
+            query += "VALUES ( ";
+            query += "'" + LeaveType + "',"
+            query += "'" + FDate + "',"
+            query += "'" + FTime + "',"
+            query += "'" + TDate + "',"
+            query += "'" + TTime + "',"
+            query += "'" + Note  + "',"
+            query += "'" + ContactName + "',"
+            query += "'" + ContactTel + "',"
+            query += "'I',"
+            query += "sysdatetime(),"
+            query += "'580009'"
+            query += "sysdatetime(),"
+            query += "'580009'"
+            query += ")"
+        req.query(query,function(err,recordset){
+            if(err){
+                callback(err)
+                //console.log(err);
+            }else{
+                callback("บันทึกข้อมูลเรยบร้อย")
+            }
+            conn.close();
+        });
+    });
+}
+
 module.exports = {
-    executesql
+    executesql , insertReqLeave
 }
