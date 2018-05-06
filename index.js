@@ -42,9 +42,10 @@ function reply(reply_token,event_text,userID,messageID) {
      if (event_text === 'สถิติการลา'){
         client.getProfile(userID)
           .then((profile) => {
-            var displayName = profile.displayName
+            //var displayName = profile.displayName
+            var userId = profile.userId
             data = require('./connectDB');
-            data.executesql(displayName,function(result){
+            data.executesql(userId,function(result){
             let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
@@ -80,26 +81,21 @@ function reply(reply_token,event_text,userID,messageID) {
           console.log(err);
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
-        client.getProfile(userID)
-          .then((profile) => {
-              var displayName = profile.displayName
-              var test = event_text
-        })
-        .catch((err) => {
-          console.log('error')
-          console.log(err);
-        });
+        //client.getProfile(userID)
+        //  .then((profile) => {
+              msg = {
+                  type: 'text',
+                  text: "ใส่ประเภทการลา"
+              }
+              client.replyMessage(reply_token, msg);
+        //})
+        //.catch((err) => {
+        //  console.log('error')
+        //  console.log(err);
+        //});
       }else if(event_text === 'profile'){
         client.getProfile(userID)
           .then((profile) => {
-            //var displayName = profile.displayName
-            //var userID = profile.userId
-            //var picture = profile.pictureUrl
-            //var statusMessage = profile.statusMessage
-          	// msg = {
-           //          type: 'text',
-           //          text: messageID
-           // 	 	}
             let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
@@ -110,21 +106,7 @@ function reply(reply_token,event_text,userID,messageID) {
                               {
                                 type: 'text',
                                 text: profile.userId
-                              }
-                              // ,
-                              // {
-                              //   type: 'text',
-                              //   text: profile.userId
-                              // },
-                              // {
-                              //   type: 'text',
-                              //   text: profile.pictureUrl
-                              // },
-                              // {
-                              //   type: 'text',
-                              //   text: profile.statusMessage
-                              // }
-                              ]
+                              }]
               })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',

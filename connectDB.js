@@ -31,7 +31,7 @@ var config = {
 //     });
 // }
 
-const executesql = function(LineName,callback){
+const executesql = function(LineUserID,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
     conn.connect(function (err){
@@ -45,12 +45,12 @@ const executesql = function(LineName,callback){
             query += "right join [LEAVE_TYPE] leave ";
             query += "on noLeave.LEAVE_TYPE = leave.ID ";
             query += "where usr.ROLE_ID = noLeave.ROLE_ID ";
-            query += "and usr.LINE_ID = '" + LineName + "' ";
+            query += "and usr.LINE_ID = '" + LineUserID + "' ";
             query += ")as t1 ";
             query += "left join ";
             query += "(select LEAVETYPE_ID , SUM(NO_LEAVE) as NoLeave ";
             query += "from REQUEST_LEAVE  req , [USER] usr "; 
-            query += "where usr.LINE_ID = '" + LineName + "' ";
+            query += "where usr.LINE_ID = '" + LineUserID + "' ";
             query += "and REQ_CONFIRM = 'true' ";
             query += "and req.CREATE_BY = usr.EMP_CODE "
             query += "group by LEAVETYPE_ID ";
