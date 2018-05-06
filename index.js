@@ -21,7 +21,7 @@ app.post('/webhook', (req, res) => {
       let event_text = req.body.events[0].message.text
       let messageID = req.body.events[0].message.id
       let userID = req.body.events[0].source.userId
-      reply(reply_token,event_text,userID)
+      reply(reply_token,event_text,userID,messageID)
       //reply('','','')
       res.sendStatus(200)
 })
