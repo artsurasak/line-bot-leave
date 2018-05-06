@@ -117,7 +117,7 @@ const executesql = function(LineUserID,callback){
     });
 }
 
-const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactName,ContactTel,callback){
+const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,ContactName,ContactTel,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
     conn.connect(function (err){
@@ -126,7 +126,7 @@ const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactNa
             return;
         }
         var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME, "
-            query += "NOTE,CONTACT,CONTACT_TEL,STATUS,CREATE_DATE,CREATE_BY,UPDATE_DATE,UPDATE_BY) "
+            query += "NOTE,CONTACT,CONTACT_TEL,STATUS,APPROVE_BY,REQ_CONFIRM,CONFIRM_BY,CREATE_DATE,CREATE_BY,UPDATE_DATE,UPDATE_BY) "
             query += "VALUES ( ";
             query += "'" + LeaveType + "',"
             query += "'" + FDate + "',"
@@ -137,6 +137,13 @@ const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactNa
             query += "'" + ContactName + "',"
             query += "'" + ContactTel + "',"
             query += "'I',"
+            query += "'" + ApprConfirm('3',DepID) + ","
+            if(LeaveType === '3'){
+                query += "'FALSE',"
+            }else{
+                query += "'TRUE',"
+            }
+            query += "'" + ApprConfirm('4',DepID) + ","
             query += "sysdatetime(),"
             query += "'580009',"
             query += "sysdatetime(),"
@@ -148,6 +155,57 @@ const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactNa
                 //console.log(err);
             }else{
                 callback("บันทึกข้อมูลเรียบร้อย")
+            }
+            conn.close();
+        });
+    });
+}
+
+const DepartmentID = function(LineUserID,callback){
+    var conn = new sql.Connection(config);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var query = "select DeptID "
+            query += "from [USER] usr "
+            query += "where usr.LINE_ID = '" + LineUserID + "'"
+        req.query(query,function(err,recordset){
+            if(err){
+                return err
+                //callback(err)
+                //console.log(err);
+            }else{
+                return recordset[0].DeptID
+                
+            }
+            conn.close();
+        });
+    });
+}
+
+const ApprConfirm = function(TypeGroupAppr,DepartmentID,callback){
+     var conn = new sql.Connection(config);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var query = "select EMP_CODE "
+            query += "from [USER] usr "
+            query += "where usr.DeptID = '" + DepartmentID + "'"
+            query += "and usr.USER_GROUP = '" + TypeGroupAppr + "'"
+        req.query(query,function(err,recordset){
+            if(err){
+                return err 
+                //callback(err)
+                //console.log(err);
+            }else{
+                return recordset[0].EMP_CODE
+                //callback(recordset[0].EMP_CODE)
             }
             conn.close();
         });

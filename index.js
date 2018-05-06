@@ -168,14 +168,24 @@ function reply(reply_token,event_text,userID,messageID) {
                 }
           client.replyMessage(reply_token,msg)
       }else if (event_text === 'ยืนยัน'){
-          data = require('./connectDB');
-            data.insertReqLeave(leaveType,fdate,ftime,tdate,ttime,Note,contactName,contactTel,function(result){
-              msg = {
-                  type: 'text',
-                  text: result
-                }
-              client.replyMessage(reply_token,msg)
-          });
+            client.getProfile(userID)
+                .then((profile) => {
+                    var lineUserID = profile.userId
+                    data = require('./connectDB');
+                    data.DepartmentID(lineUserID,function(depID){
+                        data.insertReqLeave(leaveType,depID,fdate,ftime,tdate,ttime,Note,contactName,contactTel,function(result){
+                        msg = {
+                            type: 'text',
+                            text: result
+                        }
+                        client.replyMessage(reply_token,msg)
+                        });
+                    })
+                  })
+                  .catch((err) => {
+                          console.log('error')
+                          console.log(err);
+                  });
       }else{
         msg = {
                   type: 'text',
