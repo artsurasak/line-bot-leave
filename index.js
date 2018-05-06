@@ -129,7 +129,7 @@ function reply(reply_token,event_text,userID,messageID) {
                   },
                   {
                     type: 'text',
-                    text: mess
+                    text: event_text
                   }]
               })
               request.post({
