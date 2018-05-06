@@ -19,6 +19,7 @@ app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
       let reply_token = req.body.events[0].replyToken
       let event_text = req.body.events[0].message.text
+      let messageID = req.body.events[0].message.id
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID)
       //reply('','','')
@@ -33,63 +34,17 @@ app.listen(app.get('port'), () => {
 });
 
 
-function reply(reply_token,event_text,userID) {
+function reply(reply_token,event_text,userID,messageID) {
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {tBhTD7sK0F9OGHySgdufkJcV8o2cDLywJHJljJ6M2mfZkL19E6aJdVVlkaf0YkWcD4Jhwh34P4mc3fFdIEI7rtjUToiUzOlxjmtEfS/mekbMCeuWwTzvDWdcy7BvnBfsfEUKairLG/zQ39bPVfFDFwdB04t89/1O/w1cDnyilFU=}'
     }
-  
-     // data = require('./connectDB');
-     //    var displayName = 'SP'
-     //    data.executesql(displayName,function(result){
-     //        console.log("วัน : " + result[0].TYPE + " คงเหลือ : " + result[0].remain) 
-     //        console.log("วัน : " + result[1].TYPE + " คงเหลือ : " + result[1].remain) 
-     //        console.log("วัน : " + result[2].TYPE + " คงเหลือ : " + result[2].remain) 
-     //        console.log("วัน : " + result[3].TYPE + " คงเหลือ : " + result[3].remain) 
-            //console.log("คงเหลือ : " + result[0].remain) ;
-
-
-            /*msg = {
-                    type: 'text',
-                    text: result
-            }
-            let body = JSON.stringify({
-                  replyToken: reply_token,
-                  messages: [msg]
-              })
-              request.post({
-                  url: 'https://api.line.me/v2/bot/message/reply',
-                  headers: headers,
-                  body: body
-              }, (err, res, body) => {
-                  console.log('status = ' + res.statusCode);
-              })*/
-          //});  
-
      if (event_text === 'สถิติการลา'){
         client.getProfile(userID)
           .then((profile) => {
             var displayName = profile.displayName
             data = require('./connectDB');
             data.executesql(displayName,function(result){
-             //msg = 
-                  //    {
-                  //   type: 'text',
-                  //   text: "วัน" + result[0].TYPE + " คงเหลือ " + result[0].remain + " วัน"
-                  // }
-                  // ,
-                  // {
-                  //   type: 'text',
-                  //   text: "วัน" + result[1].TYPE + " คงเหลือ " + result[1].remain + " วัน"
-                  // },
-                  // {
-                  //   type: 'text',
-                  //   text: "วัน" + result[2].TYPE + " คงเหลือ " + result[2].remain + " วัน"
-                  // },
-                  // {
-                  //   type: 'text',
-                  //   text: "วัน" + result[3].TYPE + " คงเหลือ " + result[3].remain + " วัน"
-                  // }
             let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
@@ -124,29 +79,34 @@ function reply(reply_token,event_text,userID) {
           console.log('error')
           console.log(err);
         });
+      }else if(event_text === 'สร้างคำร้องการลา'){
+        client.getProfile(userID)
+          .then((profile) => {
+              var displayName = profile.displayName
+              
+        })
+        .catch((err) => {
+          console.log('error')
+          console.log(err);
+        });
       }else if(event_text === 'profile'){
         client.getProfile(userID)
           .then((profile) => {
             var displayName = profile.displayName
-          	msg = {
-                    type: 'text',
-                    text: profile.displayName
-           	 	}
-            	// {
-            	// 	type: 'text',
-             //        text: profile.displayName
-            	// },
-            	// {
-            	// 	type: 'text',
-             //        text: profile.pictureUrl
-            	// },
-            	// {
-            	// 	type: 'text',
-             //        text: profile.statusMessage
-            	// }
+          	// msg = {
+           //          type: 'text',
+           //          text: messageID
+           // 	 	}
             let body = JSON.stringify({
                   replyToken: reply_token,
-                  messages: [msg]
+                  messages: [{
+                    type: 'text',
+                    text: messageID
+                  },
+                  {
+                    type: 'text',
+                    text: mess
+                  }]
               })
               request.post({
                   url: 'https://api.line.me/v2/bot/message/reply',
@@ -160,6 +120,25 @@ function reply(reply_token,event_text,userID) {
         	console.log('error')
         	console.log(err);
         });
+      }else{
+        let body = JSON.stringify({
+                  replyToken: reply_token,
+                  messages: [{
+                    type: 'text',
+                    text: messageID
+                  },
+                  {
+                    type: 'text',
+                    text: mess
+                  }]
+              })
+              request.post({
+                  url: 'https://api.line.me/v2/bot/message/reply',
+                  headers: headers,
+                  body: body
+              }, (err, res, body) => {
+                  console.log('status = ' + res.statusCode);
+              })
       }
      
     /*if (event_text === 'text'){
