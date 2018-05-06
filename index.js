@@ -81,18 +81,11 @@ function reply(reply_token,event_text,userID,messageID) {
           console.log(err);
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
-        //client.getProfile(userID)
-        //  .then((profile) => {
-              msg = {
-                  type: 'text',
-                  text: "ใส่ประเภทการลา"
+        msg = {
+                type: 'text',
+                text: "ใส่ประเภทการลา"
               }
               client.replyMessage(reply_token, msg);
-        //})
-        //.catch((err) => {
-        //  console.log('error')
-        //  console.log(err);
-        //});
       }else if(event_text === 'profile'){
         client.getProfile(userID)
           .then((profile) => {
@@ -122,12 +115,32 @@ function reply(reply_token,event_text,userID,messageID) {
         });
       }else if (event_text === 'ลาป่วย'){
           leaveType = event_text;
+          msg = {
+                type: 'text',
+                text: "กรุณาระบุวันที่เริ่มลา"
+              }
+              client.replyMessage(reply_token, msg);
       }else if (event_text === 'ลาคลอด'){
           leaveType = event_text
+          msg = {
+                type: 'text',
+                text: "กรุณาระบุวันที่เริ่มลา"
+              }
+              client.replyMessage(reply_token, msg);
       }else if (event_text === 'ลาพักผ่อน'){
           leaveType = event_text
+          msg = {
+                type: 'text',
+                text: "กรุณาระบุวันที่เริ่มลา"
+              }
+              client.replyMessage(reply_token, msg);
       }else if (event_text === 'ลากิจ'){
           leaveType = event_text
+          msg = {
+                type: 'text',
+                text: "กรุณาระบุวันที่เริ่มลา"
+              }
+              client.replyMessage(reply_token, msg);
       }else if (event_text === 'วันที่'){
           fdate = event_text
       }
