@@ -141,8 +141,13 @@ function reply(reply_token,event_text,userID,messageID) {
                 text: "กรุณาระบุวันที่เริ่มลา"
               }
               client.replyMessage(reply_token, msg);
-      }else if (event_text === 'วันที่'){
+      }else if (msg.text === 'กรุณาระบุวันที่เริ่มลา'){
           fdate = event_text
+          msg = {
+                  type: 'text',
+                  text: "กรุณาระบุเวลาเริ่มต้นลา"
+                }
+          client.replyMessage(reply_token,msg)
       }
       else if (event_text === 'ยืนยัน'){
           let body = JSON.stringify({
