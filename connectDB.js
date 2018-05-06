@@ -147,7 +147,7 @@ const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactNa
                 callback(err)
                 //console.log(err);
             }else{
-                callback("บันทึกข้อมูลเรยบร้อย")
+                callback("บันทึกข้อมูลเรียบร้อย")
             }
             conn.close();
         });
@@ -155,6 +155,5 @@ const insertReqLeave = function(LeaveType,FDate,FTime,TDate,TTime,Note,ContactNa
 }
 
 module.exports = {
-    //executesql , 
-    insertReqLeave
+    executesql , insertReqLeave
 }
