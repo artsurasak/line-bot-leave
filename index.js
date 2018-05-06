@@ -133,10 +133,15 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log(err);
         });
       }else if (event_text === 'ลาป่วย'){
-          x = event_text;
+          leaveType = event_text;
       }else if (event_text === 'ลาคลอด'){
-          y = event_text
-      }else if (event_text === 'ยืนยัน'){
+          leaveType = event_text
+      }else if (event_text === 'ลาพักผ่อน'){
+          leaveType = event_text
+      }else if (event_text === 'ลากิจ'){
+          leaveType = event_text
+      }
+      else if (event_text === 'ยืนยัน'){
           let body = JSON.stringify({
                   replyToken: reply_token,
                   messages: [{
