@@ -162,7 +162,7 @@ const insertReqLeave = function(LeaveType,DepID,EmpID,FDate,FTime,TDate,TTime,No
         }
          ApprConfirm('3',DepID,function(confirm1){
             ApprConfirm('4',DepID,function(confirm2){
-                    var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME,NO_LEAVE,NO_LEAVE_HOUR "
+                    var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME,NO_LEAVE,NO_LEAVE_HOUR, "
                         query += "NOTE,CONTACT,CONTACT_TEL,STATUS,APPROVE_BY,REQ_CONFIRM,CONFIRM_BY,CREATE_DATE,CREATE_BY,UPDATE_DATE,UPDATE_BY) "
                         query += "VALUES ( ";
                         query += "'" + LeaveType + "',"
@@ -188,16 +188,16 @@ const insertReqLeave = function(LeaveType,DepID,EmpID,FDate,FTime,TDate,TTime,No
                         query += "sysdatetime(),"
                         query += "'" + EmpID + "'"
                         query += ")"
-                        callback(query)
-                        // req.query(query,function(err,recordset){
-                        // if(err){
-                        //     callback(err)
-                        //     //console.log(err);
-                        // }else{
-                        //     callback("บันทึกข้อมูลเรียบร้อย")
-                        // }
-                        //     conn.close();
-                        // });
+                        //callback(query)
+                        req.query(query,function(err,recordset){
+                        if(err){
+                            callback(err)
+                            //console.log(err);
+                        }else{
+                            callback("บันทึกข้อมูลเรียบร้อย")
+                        }
+                            conn.close();
+                        });
             })
         })
     });
