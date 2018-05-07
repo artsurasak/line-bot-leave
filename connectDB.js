@@ -186,16 +186,16 @@ const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,Con
                         query += "sysdatetime(),"
                         query += "'580009'"
                         query += ")"
-                        callback(query)
-                        // req.query(query,function(err,recordset){
-                        // if(err){
-                        //     callback(err)
-                        //     //console.log(err);
-                        // }else{
-                        //     callback("บันทึกข้อมูลเรียบร้อย")
-                        // }
-                        //     conn.close();
-                        // });
+                        //callback(query)
+                        req.query(query,function(err,recordset){
+                        if(err){
+                            callback(err)
+                            //console.log(err);
+                        }else{
+                            callback("บันทึกข้อมูลเรียบร้อย")
+                        }
+                            conn.close();
+                        });
             })
         })
     });
