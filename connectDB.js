@@ -213,11 +213,11 @@ const DepartmentID = function(LineUserID,callback){
             query += "where usr.LINE_ID = '" + LineUserID + "'"
         req.query(query,function(err,recordset){
             if(err){
-                return err
+                callback(err)
                 //callback(err)
                 //console.log(err);
             }else{
-                return recordset[0].DeptID
+                callback(recordset[0].DeptID)
                 
             }
             conn.close();
