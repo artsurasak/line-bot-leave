@@ -173,13 +173,18 @@ function reply(reply_token,event_text,userID,messageID) {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
                     data.DepartmentID(lineUserID,function(depID){
-                        data.insertReqLeave(leaveType,depID,fdate,ftime,tdate,ttime,Note,contactName,contactTel,function(result){
                         msg = {
-                            type: 'text',
-                            text: result
+                          type : 'text',
+                          text : depID
                         }
                         client.replyMessage(reply_token,msg)
-                        });
+                        // data.insertReqLeave(leaveType,depID,fdate,ftime,tdate,ttime,Note,contactName,contactTel,function(result){
+                        // msg = {
+                        //     type: 'text',
+                        //     text: result
+                        // }
+                        //   client.replyMessage(reply_token,msg)
+                        // });
                     })
                   })
                   .catch((err) => {
