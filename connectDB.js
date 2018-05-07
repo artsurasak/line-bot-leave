@@ -54,65 +54,65 @@ const ApprConfirm = function(TypeGroupAppr,DepartmentID,callback){
     });
 }
 
-insertReqLeave();
-function insertReqLeave() {
-    var conn = new sql.Connection(config);
-    var req = new sql.Request(conn);
-    conn.connect(function (err){
-        if(err){
-            console.log(err);
-            return;
-        }
-        var DepID = '1'
-        ApprConfirm('3',DepID,function(confirm1){
-            ApprConfirm('4',DepID,function(confirm2){
-                var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME, "
-                    query += "NOTE,CONTACT,CONTACT_TEL,STATUS,APPROVE_BY,REQ_CONFIRM,CONFIRM_BY,CREATE_DATE,CREATE_BY,UPDATE_DATE,UPDATE_BY) "
-                    query += "VALUES ( ";
-                    query += "'1',"
-                    query += "'2018-05-01',"
-                    query += "'08:00',"
-                    query += "'2018-05-02',"
-                    query += "'16:30',"
-                    query += "'ปวดหัว',"
-                    query += "'',"
-                    query += "'',"
-                    // query += "'" + LeaveType + "',"
-                    // query += "'" + FDate + "',"
-                    // query += "'" + FTime + "',"
-                    // query += "'" + TDate + "',"
-                    // query += "'" + TTime + "',"
-                    // query += "'" + Note  + "',"
-                    // query += "'" + ContactName + "',"
-                    // query += "'" + ContactTel + "',"
-                    query += "'I',"
-                    query += "'" + confirm1 + "',"
-                    //if(LeaveType === '3'){
-                    query += "'FALSE',"
-                    //}else{
-                    //    query += "'TRUE',"
-                    //}
-                    query += "'" + confirm2 + "',"
-                    //query += "'" + ApprConfirm('4',DepID) + "',"
-                    query += "sysdatetime(),"
-                    query += "'580009',"
-                    query += "sysdatetime(),"
-                    query += "'580009'"
-                    query += ")"
-                    //console.log(query);
-                    req.query(query,function(err,recordset){
-                    if(err){
-                        console.log(err)
-                        //callback(err)
-                    }else{
-                        console.log("บันทึกข้อมูลเรยบร้อย")
-                    }
-                        conn.close();
-                    })
-            })     
-        }) 
-    })
-}
+// insertReqLeave();
+// function insertReqLeave() {
+//     var conn = new sql.Connection(config);
+//     var req = new sql.Request(conn);
+//     conn.connect(function (err){
+//         if(err){
+//             console.log(err);
+//             return;
+//         }
+//         var DepID = '1'
+//         ApprConfirm('3',DepID,function(confirm1){
+//             ApprConfirm('4',DepID,function(confirm2){
+//                 var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME, "
+//                     query += "NOTE,CONTACT,CONTACT_TEL,STATUS,APPROVE_BY,REQ_CONFIRM,CONFIRM_BY,CREATE_DATE,CREATE_BY,UPDATE_DATE,UPDATE_BY) "
+//                     query += "VALUES ( ";
+//                     query += "'1',"
+//                     query += "'2018-05-01',"
+//                     query += "'08:00',"
+//                     query += "'2018-05-02',"
+//                     query += "'16:30',"
+//                     query += "'ปวดหัว',"
+//                     query += "'',"
+//                     query += "'',"
+//                     // query += "'" + LeaveType + "',"
+//                     // query += "'" + FDate + "',"
+//                     // query += "'" + FTime + "',"
+//                     // query += "'" + TDate + "',"
+//                     // query += "'" + TTime + "',"
+//                     // query += "'" + Note  + "',"
+//                     // query += "'" + ContactName + "',"
+//                     // query += "'" + ContactTel + "',"
+//                     query += "'I',"
+//                     query += "'" + confirm1 + "',"
+//                     //if(LeaveType === '3'){
+//                     query += "'FALSE',"
+//                     //}else{
+//                     //    query += "'TRUE',"
+//                     //}
+//                     query += "'" + confirm2 + "',"
+//                     //query += "'" + ApprConfirm('4',DepID) + "',"
+//                     query += "sysdatetime(),"
+//                     query += "'580009',"
+//                     query += "sysdatetime(),"
+//                     query += "'580009'"
+//                     query += ")"
+//                     //console.log(query);
+//                     req.query(query,function(err,recordset){
+//                     if(err){
+//                         console.log(err)
+//                         //callback(err)
+//                     }else{
+//                         console.log("บันทึกข้อมูลเรยบร้อย")
+//                     }
+//                         conn.close();
+//                     })
+//             })     
+//         }) 
+//     })
+// }
 
 const executesql = function(LineUserID,callback){
     var conn = new sql.Connection(config);
@@ -199,6 +199,33 @@ const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,Con
         })
     });
 }
+// DepartmentID();
+// function DepartmentID(){
+//     var LineUserID = 'U0d589cbccf8f08124f85a5e2e86b8ce4'
+//     var conn = new sql.Connection(config);
+//         var req = new sql.Request(conn);
+//         conn.connect(function (err){
+//             if(err){
+//                 console.log(err);
+//                 return;
+//             }
+//             var query = "select DeptID "
+//                 query += "from [USER] usr "
+//                 query += "where usr.LINE_ID = '" + LineUserID + "'"
+//                 console.log(query)
+//                 req.query(query,function(err,recordset){
+//                 if(err){
+//                     //callback(err)
+//                     //callback(err)
+//                     console.log(err);
+//                 }else{
+//                     console.log(recordset[0].DeptID)
+//                     //callback(recordset[0].DeptID)
+//                 }
+//                 conn.close();
+//             });
+//         });
+// }
 
 const DepartmentID = function(LineUserID,callback){
     var conn = new sql.Connection(config);
@@ -211,7 +238,7 @@ const DepartmentID = function(LineUserID,callback){
         var query = "select DeptID "
             query += "from [USER] usr "
             query += "where usr.LINE_ID = '" + LineUserID + "'"
-        req.query(query,function(err,recordset){
+            req.query(query,function(err,recordset){
             if(err){
                 callback(err)
                 //callback(err)
