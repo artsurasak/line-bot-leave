@@ -152,7 +152,7 @@ const executesql = function(LineUserID,callback){
     });
 }
 
-const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,ContactName,ContactTel,callback){
+const insertReqLeave = function(LeaveType,DepID,EmpID,FDate,FTime,TDate,TTime,NoLeave,NoHours,Note,ContactName,ContactTel,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
     conn.connect(function (err){
@@ -162,7 +162,7 @@ const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,Con
         }
          ApprConfirm('3',DepID,function(confirm1){
             ApprConfirm('4',DepID,function(confirm2){
-                    var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME, "
+                    var query = "insert into [REQUEST_LEAVE] (LEAVETYPE_ID,FROM_LEAVE_DATE,FROM_LEAVE_TIME,TO_LEAVE_DATE,TO_LEAVE_TIME,NO_LEAVE,NO_LEAVE_HOUR "
                         query += "NOTE,CONTACT,CONTACT_TEL,STATUS,APPROVE_BY,REQ_CONFIRM,CONFIRM_BY,CREATE_DATE,CREATE_BY,UPDATE_DATE,UPDATE_BY) "
                         query += "VALUES ( ";
                         query += "'" + LeaveType + "',"
@@ -170,6 +170,8 @@ const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,Con
                         query += "'" + FTime + "',"
                         query += "'" + TDate + "',"
                         query += "'" + TTime + "',"
+                        query += "'" + NoLeave + "',"
+                        query += "'" + NoHours + "',"
                         query += "'" + Note  + "',"
                         query += "'" + ContactName + "',"
                         query += "'" + ContactTel + "',"
@@ -182,9 +184,9 @@ const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,Con
                         }
                         query += "'" + confirm2 + "',"
                         query += "sysdatetime(),"
-                        query += "'580009',"
+                        query += "'" + EmpID + "',"
                         query += "sysdatetime(),"
-                        query += "'580009'"
+                        query += "'" + EmpID + "'"
                         query += ")"
                         //callback(query)
                         req.query(query,function(err,recordset){
@@ -200,35 +202,8 @@ const insertReqLeave = function(LeaveType,DepID,FDate,FTime,TDate,TTime,Note,Con
         })
     });
 }
-// DepartmentID();
-// function DepartmentID(){
-//     var LineUserID = 'U0d589cbccf8f08124f85a5e2e86b8ce4'
-//     var conn = new sql.Connection(config);
-//         var req = new sql.Request(conn);
-//         conn.connect(function (err){
-//             if(err){
-//                 console.log(err);
-//                 return;
-//             }
-//             var query = "select DeptID "
-//                 query += "from [USER] usr "
-//                 query += "where usr.LINE_ID = '" + LineUserID + "'"
-//                 console.log(query)
-//                 req.query(query,function(err,recordset){
-//                 if(err){
-//                     //callback(err)
-//                     //callback(err)
-//                     console.log(err);
-//                 }else{
-//                     console.log(recordset[0].DeptID)
-//                     //callback(recordset[0].DeptID)
-//                 }
-//                 conn.close();
-//             });
-//         });
-// }
 
-const DepartmentID = function(LineUserID,callback){
+const userDTL = function(LineUserID,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
     conn.connect(function (err){
@@ -236,7 +211,7 @@ const DepartmentID = function(LineUserID,callback){
             console.log(err);
             return;
         }
-        var query = "select DeptID "
+        var query = "select DeptID , EMP_CODE "
             query += "from [USER] usr "
             query += "where usr.LINE_ID = '" + LineUserID + "'"
             req.query(query,function(err,recordset){
@@ -245,8 +220,7 @@ const DepartmentID = function(LineUserID,callback){
                 //callback(err)
                 //console.log(err);
             }else{
-                callback(recordset[0].DeptID)
-                
+                callback(recordset)
             }
             conn.close();
         });
@@ -256,5 +230,5 @@ const DepartmentID = function(LineUserID,callback){
 
 
 module.exports = {
-    executesql , insertReqLeave , DepartmentID
+    executesql , insertReqLeave , userDTL
 }

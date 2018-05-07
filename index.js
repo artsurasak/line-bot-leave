@@ -22,7 +22,7 @@ app.post('/webhook', (req, res) => {
       let messageID = req.body.events[0].message.id
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID,messageID)
-      //reply('','','')
+      //test()
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -33,6 +33,21 @@ app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
 });
 
+// function calculateDay(FromDate,Todate){
+//     date1 = new Date(FromDate)
+//     date2 = new Date(Todate)
+//     var seconds = Math.floor((date2 - (date1))/1000);
+//     var minutes = Math.floor(seconds/60);
+//     var hours = Math.floor(minutes/60);
+//     var days = Math.floor(hours/24);
+//     hours = hours-(days*24);
+//     minutes = minutes-(days*24*60)-(hours*60);
+//     seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+//     console.log(days)
+//     console.log(hours)
+//     console.log(minutes)
+//     console.log(seconds)
+// }
 
 function reply(reply_token,event_text,userID,messageID) {
     let headers = {
@@ -172,8 +187,9 @@ function reply(reply_token,event_text,userID,messageID) {
                 .then((profile) => {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
-                    data.DepartmentID(lineUserID,function(depID){
-                        data.insertReqLeave(leaveType,depID,fdate,ftime,tdate,ttime,Note,contactName,contactTel,function(result){
+                    data.userDTL(lineUserID,function(userDTL){
+                        //var hours = calculateDay(fdate + ' ' + ftime,tdate + ' ' + ttime)
+                        data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,fdate,ftime,tdate,ttime,'1','0',Note,contactName,contactTel,function(result){
                         msg = {
                             type: 'text',
                             text: result
