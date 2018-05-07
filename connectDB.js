@@ -188,16 +188,16 @@ const insertReqLeave = function(LeaveType,DepID,EmpID,FDate,FTime,TDate,TTime,No
                         query += "sysdatetime(),"
                         query += "'" + EmpID + "'"
                         query += ")"
-                        //callback(query)
-                        req.query(query,function(err,recordset){
-                        if(err){
-                            callback(err)
-                            //console.log(err);
-                        }else{
-                            callback("บันทึกข้อมูลเรียบร้อย")
-                        }
-                            conn.close();
-                        });
+                        callback(query)
+                        // req.query(query,function(err,recordset){
+                        // if(err){
+                        //     callback(err)
+                        //     //console.log(err);
+                        // }else{
+                        //     callback("บันทึกข้อมูลเรียบร้อย")
+                        // }
+                        //     conn.close();
+                        // });
             })
         })
     });

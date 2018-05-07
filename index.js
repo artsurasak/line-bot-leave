@@ -188,6 +188,11 @@ function reply(reply_token,event_text,userID,messageID) {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
                     data.userDTL(lineUserID,function(userDTL){
+                        msg = {
+                                type: 'text',
+                                text: userDTL[0].DeptID + " " + userDTL[0].EMP_CODE
+                              }
+                        client.replyMessage(reply_token,msg)
                         //var hours = calculateDay(fdate + ' ' + ftime,tdate + ' ' + ttime)
                         data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,fdate,ftime,tdate,ttime,'1','0',Note,contactName,contactTel,function(result){
                         msg = {
