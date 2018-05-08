@@ -164,13 +164,14 @@ function reply(reply_token,event_text,userID,messageID) {
           if(isValidTime(event_text)){
              ftime = event_text
              msg = {
-                  type: 'text',
-                  text: "กรุณาระบุวันที่สิ้นสุดการลา"
-                }
+                      type: 'text',
+                      text: "กรุณาระบุวันที่สิ้นสุดการลา"
+                    }
           }else {
              msg = {
-                  type: 'text',
-                  text: "ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+                      type: 'text',
+                      text: "ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+                    }
           }
           client.replyMessage(reply_token,msg)
       }else if ((msg.text === 'กรุณาระบุวันที่สิ้นสุดการลา') || (msg.text === 'ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
@@ -195,19 +196,15 @@ function reply(reply_token,event_text,userID,messageID) {
         if(isValidTime(event_text)){
              ttime = event_text
              msg = {
-                  type: 'text',
-                  text: "กรุณาระบุสาเหตุการลา"
-                }
+                      type: 'text',
+                      text: "กรุณาระบุสาเหตุการลา"
+                    }
           }else {
              msg = {
-                  type: 'text',
-                  text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+                      type: 'text',
+                      text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+                    }
           }
-          // ttime = event_text
-          // msg = {
-          //         type: 'text',
-          //         text: "กรุณาระบุสาเหตุการลา"
-          //       }
           client.replyMessage(reply_token,msg)
       }else if (msg.text === 'กรุณาระบุสาเหตุการลา'){
           if (event_text === 'Next'){
