@@ -23,6 +23,7 @@ app.post('/webhook', (req, res) => {
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID,messageID)
       //test()
+      //isValidTime()
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -32,6 +33,19 @@ app.set('port', (process.env.PORT || 4000))
 app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
 });
+
+function isValidDate(s) {
+  var bits = s.split('-');
+  var d = new Date(bits[0], bits[1] - 1, bits[2]);
+  return d && (d.getMonth() + 1) == bits[1];
+}
+
+function isValidTime(t){
+  re=/^0[0-9]|1[0-9]|2[0-3]:[0-5][0-9]$/;
+  return re.test(t);
+  //console.log(re.test('13:00'));
+  //console.log(re.test('24:00'));
+}
 
 // function calculateDay(FromDate,Todate){
 //     date1 = new Date(FromDate)
@@ -121,33 +135,71 @@ function reply(reply_token,event_text,userID,messageID) {
                 text: "กรุณาระบุวันที่เริ่มลา"
               }
               client.replyMessage(reply_token, msg);
-      }else if (msg.text === 'กรุณาระบุวันที่เริ่มลา'){
-          fdate = event_text
-          msg = {
-                  type: 'text',
-                  text: "กรุณาระบุเวลาเริ่มต้นลา"
+      }else if ((msg.text === 'กรุณาระบุวันที่เริ่มลา') || (msg.text === 'ข้อมูลวันที่เริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')) {
+            [event_text].forEach(function(s) {
+              if(isValidDate(s)){
+                fdate = event_text
+                msg = {
+                    type: 'text',
+                    text: "กรุณาระบุเวลาเริ่มต้นลา"
                 }
-          client.replyMessage(reply_token,msg)
-      }else if (msg.text === 'กรุณาระบุเวลาเริ่มต้นลา'){
-          ftime = event_text
-          msg = {
+              }else{
+                //fdate = event_text
+                msg = {
+                    type: 'text',
+                    text: "ข้อมูลวันที่เริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+                }
+              }
+            })
+            client.replyMessage(reply_token,msg)
+      }else if ((msg.text === 'กรุณาระบุเวลาเริ่มต้นลา') || (msg.text === 'ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
+          if(isValidTime(event_text){
+             ftime = event_text
+             msg = {
                   type: 'text',
                   text: "กรุณาระบุวันที่สิ้นสุดการลา"
                 }
-          client.replyMessage(reply_token,msg)
-      }else if (msg.text === 'กรุณาระบุวันที่สิ้นสุดการลา'){
-          tdate = event_text
-          msg = {
+          })else {
+             msg = {
                   type: 'text',
-                  text: "กรุณาระบุเวลาสิ้นสุดการลา"
-                }
+                  text: "ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+          }
           client.replyMessage(reply_token,msg)
-      }else if (msg.text === 'กรุณาระบุเวลาสิ้นสุดการลา'){
-          ttime = event_text
-          msg = {
+      }else if ((msg.text === 'กรุณาระบุวันที่สิ้นสุดการลา') || (msg.text === 'ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
+          //tdate = event_text
+          [event_text].forEach(function(s) {
+              if(isValidDate(s)){
+                tdate = event_text
+                msg = {
+                    type: 'text',
+                    text: "กรุณาระบุเวลาสิ้นสุดการลา"
+                }
+              }else{
+                //fdate = event_text
+                msg = {
+                    type: 'text',
+                    text: "ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+                }
+              }
+            })
+          client.replyMessage(reply_token,msg)
+      }else if ((msg.text === 'กรุณาระบุเวลาสิ้นสุดการลา') || (msg.text === 'ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
+        if(isValidTime(event_text){
+             ttime = event_text
+             msg = {
                   type: 'text',
                   text: "กรุณาระบุสาเหตุการลา"
                 }
+          })else {
+             msg = {
+                  type: 'text',
+                  text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+          }
+          // ttime = event_text
+          // msg = {
+          //         type: 'text',
+          //         text: "กรุณาระบุสาเหตุการลา"
+          //       }
           client.replyMessage(reply_token,msg)
       }else if (msg.text === 'กรุณาระบุสาเหตุการลา'){
           if (event_text === 'Next'){
