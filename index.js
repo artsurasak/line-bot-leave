@@ -22,7 +22,7 @@ app.post('/webhook', (req, res) => {
       let messageID = req.body.events[0].message.id
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID,messageID)
-      //test()
+      //test('1','2')
       //isValidTime()
       res.sendStatus(200)
 })
@@ -46,6 +46,14 @@ function isValidTime(t){
   //console.log(re.test('13:00'));
   //console.log(re.test('24:00'));
 }
+
+// function test(s1,s2){
+//   if((s1 === '1') && (s2 === '2')){
+//     console.log('complete');
+//   }else{
+//     console.log('not')
+//   }
+// }
 
 // function calculateDay(FromDate,Todate){
 //     date1 = new Date(FromDate)
@@ -153,13 +161,13 @@ function reply(reply_token,event_text,userID,messageID) {
             })
             client.replyMessage(reply_token,msg)
       }else if ((msg.text === 'กรุณาระบุเวลาเริ่มต้นลา') || (msg.text === 'ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
-          if(isValidTime(event_text){
+          if(isValidTime(event_text)){
              ftime = event_text
              msg = {
                   type: 'text',
                   text: "กรุณาระบุวันที่สิ้นสุดการลา"
                 }
-          })else {
+          }else {
              msg = {
                   type: 'text',
                   text: "ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
@@ -184,13 +192,13 @@ function reply(reply_token,event_text,userID,messageID) {
             })
           client.replyMessage(reply_token,msg)
       }else if ((msg.text === 'กรุณาระบุเวลาสิ้นสุดการลา') || (msg.text === 'ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
-        if(isValidTime(event_text){
+        if(isValidTime(event_text)){
              ttime = event_text
              msg = {
                   type: 'text',
                   text: "กรุณาระบุสาเหตุการลา"
                 }
-          })else {
+          }else {
              msg = {
                   type: 'text',
                   text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
