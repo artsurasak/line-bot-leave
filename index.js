@@ -22,7 +22,6 @@ app.post('/webhook', (req, res) => {
       let messageID = req.body.events[0].message.id
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID,messageID)
-      //test('1','2')
       //isValidTime()
       res.sendStatus(200)
 })
@@ -41,19 +40,9 @@ function isValidDate(s) {
 }
 
 function isValidTime(t){
-  re=/^0[0-9]|1[0-9]|2[0-3]:[0-5][0-9]$/;
+  re=/^([0-2][0-3]):[0-5][0-9]$/;
   return re.test(t);
-  //console.log(re.test('13:00'));
-  //console.log(re.test('24:00'));
 }
-
-// function test(s1,s2){
-//   if((s1 === '1') && (s2 === '2')){
-//     console.log('complete');
-//   }else{
-//     console.log('not')
-//   }
-// }
 
 // function calculateDay(FromDate,Todate){
 //     date1 = new Date(FromDate)
