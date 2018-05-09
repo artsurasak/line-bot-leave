@@ -18,14 +18,15 @@ const client = new line.Client(config);
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-      //let reply_token = req.body.events[0].replyToken
-      //let event_text = req.body.events[0].message.text
-      //let messageID = req.body.events[0].message.id
-      //let userID = req.body.events[0].source.userId
-      //reply(reply_token,event_text,userID,messageID)
+      let reply_token = req.body.events[0].replyToken
+      let event_text = req.body.events[0].message.text
+      let messageID = req.body.events[0].message.id
+      let userID = req.body.events[0].source.userId
+      reply(reply_token,event_text,userID,messageID)
       //isValidTime()
       //compareDate()
-      calculateNoLeave()
+      //calculateNoLeave()
+      //calculateHourLeave()
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -57,43 +58,24 @@ function isValidTime(t){
   return re.test(t);
 }
 
-// function calculateDay(FromDate,Todate){
-//     date1 = new Date(FromDate)
-//     date2 = new Date(Todate)
-//     var seconds = Math.floor((date2 - (date1))/1000);
-//     var minutes = Math.floor(seconds/60);
-//     var hours = Math.floor(minutes/60);
-//     var days = Math.floor(hours/24);
-//     hours = hours-(days*24);
-//     minutes = minutes-(days*24*60)-(hours*60);
-//     seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
-//     console.log(days)
-//     console.log(hours)
-//     console.log(minutes)
-//     console.log(seconds)
-// }
-
-function calculateNoLeave(fDate,fTime,tDate,tTime){
+function calculateNoLeave(fDate,tDate){
 	fDate = '2018-05-01';
-	fTime = '08:00';
 	tDate = '2018-05-02';
-	tTime = '16:30';
-	var startDate = moment('2018-05-01 08:00','YYYY-MM-DD HH:mm')
-	var EndDate = moment('2018-05-02 16:30','YYYY-MM-DD HH:mm')
-	var startHour = moment('08:00','HH:mm')
-	var EndHour = moment('16:30','HH:mm')
-	//var startDate = moment([2007, 0, 28])
-	//var EndDate = moment([2007, 0, 29])
-	//a.diff(b, 'days') 
-	//var secondsDiff = moment.duration(EndDate.diff(startDate)).asDays();
-	var secondsDiff = EndDate.diff(startDate,'days')
-	var hoursDiff = EndHour.diff(startHour,'hours',true)
-	var minuteDiff = EndHour.diff(startHour,'minutes',true)
-	console.log(secondsDiff)
-	console.log(hoursDiff)
-	console.log(minuteDiff)
-	//console.log(startDate);
-	//console.log(EndDate);
+	var startDate = moment(fDate,'YYYY-MM-DD')
+	var EndDate = moment(tDate,'YYYY-MM-DD')
+	var daysDiff = EndDate.diff(startDate,'days')
+	//console.log(daysDiff)
+	return daysDiff
+ }
+
+ function calculateHourLeave(fTime,tTime){
+ 	var fTime = '08:00'
+ 	var tTime = '16:30'
+ 	var startHour = moment(fTime,'HH:mm')
+	var EndHour = moment(tTime,'HH:mm')
+ 	var hoursDiff = EndHour.diff(startHour,'hours',true)
+ 	//console.log(hoursDiff);
+ 	return hoursDiff
  }
 
 function reply(reply_token,event_text,userID,messageID) {
