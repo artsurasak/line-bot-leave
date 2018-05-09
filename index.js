@@ -321,18 +321,13 @@ function reply(reply_token,event_text,userID,messageID) {
                         calculateNoLeave(fdate,tdate,ftime,ttime,function(noLeave){
                           var days = noLeave.Days
                           var hours = noLeave.Hours
-                          msg = {
-                              type: 'text',
-                              text: days + " " + hours
-                            }
-                            client.replyMessage(reply_token,msg)
-                            // data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,fdate,ftime,tdate,ttime,days,hours,Note,contactName,contactTel,function(result){
-                            //   msg = {
-                            //     type: 'text',
-                            //     text: result
-                            //   }
-                            //   client.replyMessage(reply_token,msg)
-                            // });
+                            data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,fdate,ftime,tdate,ttime,days,hours,Note,contactName,contactTel,function(result){
+                              msg = {
+                                type: 'text',
+                                text: result
+                              }
+                              client.replyMessage(reply_token,msg)
+                            });
                         })
                     })
                   })
