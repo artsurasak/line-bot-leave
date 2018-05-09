@@ -1,5 +1,6 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
+const moment = require('moment');
 //const client = line.Client;
 //const middleware = require('@line/bot-sdk').middleware
 const request = require('request');
@@ -17,12 +18,14 @@ const client = new line.Client(config);
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json(''))
 app.post('/webhook', (req, res) => {
-      let reply_token = req.body.events[0].replyToken
-      let event_text = req.body.events[0].message.text
-      let messageID = req.body.events[0].message.id
-      let userID = req.body.events[0].source.userId
-      reply(reply_token,event_text,userID,messageID)
+      //let reply_token = req.body.events[0].replyToken
+      //let event_text = req.body.events[0].message.text
+      //let messageID = req.body.events[0].message.id
+      //let userID = req.body.events[0].source.userId
+      //reply(reply_token,event_text,userID,messageID)
       //isValidTime()
+      //compareDate()
+      calculateNoLeave()
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -32,6 +35,16 @@ app.set('port', (process.env.PORT || 4000))
 app.listen(app.get('port'), () => {
  console.log(`listening on `,app.get('port'));
 });
+
+function strDateMoreEndDate(StartDate,EndDate){
+	var _strDate = new Date(StartDate);
+	var _endDate = new Date(EndDate);
+	if (_strDate <= _endDate){
+		return false;
+	}else{
+		return true;	
+	} 
+}
 
 function isValidDate(s) {
   var bits = s.split('-');
@@ -59,6 +72,29 @@ function isValidTime(t){
 //     console.log(minutes)
 //     console.log(seconds)
 // }
+
+function calculateNoLeave(fDate,fTime,tDate,tTime){
+	fDate = '2018-05-01';
+	fTime = '08:00';
+	tDate = '2018-05-02';
+	tTime = '16:30';
+	var startDate = moment('2018-05-01 08:00','YYYY-MM-DD HH:mm')
+	var EndDate = moment('2018-05-02 16:30','YYYY-MM-DD HH:mm')
+	var startHour = moment('08:00','HH:mm')
+	var EndHour = moment('16:30','HH:mm')
+	//var startDate = moment([2007, 0, 28])
+	//var EndDate = moment([2007, 0, 29])
+	//a.diff(b, 'days') 
+	//var secondsDiff = moment.duration(EndDate.diff(startDate)).asDays();
+	var secondsDiff = EndDate.diff(startDate,'days')
+	var hoursDiff = EndHour.diff(startHour,'hours',true)
+	var minuteDiff = EndHour.diff(startHour,'minutes',true)
+	console.log(secondsDiff)
+	console.log(hoursDiff)
+	console.log(minuteDiff)
+	//console.log(startDate);
+	//console.log(EndDate);
+ }
 
 function reply(reply_token,event_text,userID,messageID) {
     let headers = {
@@ -163,15 +199,22 @@ function reply(reply_token,event_text,userID,messageID) {
                     }
           }
           client.replyMessage(reply_token,msg)
-      }else if ((msg.text === 'กรุณาระบุวันที่สิ้นสุดการลา') || (msg.text === 'ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
+      }else if ((msg.text === 'กรุณาระบุวันที่สิ้นสุดการลา') || (msg.text === 'ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง') || (msg.text === 'ข้อมูลวันสื้นสุดการลา น้อยกกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง')){
           //tdate = event_text
           [event_text].forEach(function(s) {
               if(isValidDate(s)){
-                tdate = event_text
-                msg = {
-                    type: 'text',
-                    text: "กรุณาระบุเวลาสิ้นสุดการลา"
-                }
+                if(strDateMoreEndDate(fdate,event_text)){
+          				msg = {
+		                    type: 'text',
+		                    text: "ข้อมูลวันสื้นสุดการลา น้อยกกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง"
+                		}
+		          }else{
+						tdate = event_text
+		                msg = {
+		                    type: 'text',
+		                    text: "กรุณาระบุเวลาสิ้นสุดการลา"
+                		}
+		          }
               }else{
                 //fdate = event_text
                 msg = {
@@ -233,6 +276,7 @@ function reply(reply_token,event_text,userID,messageID) {
                 .then((profile) => {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
+                    noLeave = calculateNoLeave(fdate,ftime,tdate,ttime)
                     data.userDTL(lineUserID,function(userDTL){
                         data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,fdate,ftime,tdate,ttime,'1','0',Note,contactName,contactTel,function(result){
                         msg = {
