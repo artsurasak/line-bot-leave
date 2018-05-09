@@ -81,9 +81,10 @@ function noWeekend(fDate,diffDay){
     //resultDate = moment(resultDate).format('YYYY-MM-DD')
 }
  
-function calculateNoLeave(fDate,tDate,fTime,tTime,callbackDays,callbackHour){
+function calculateNoLeave(fDate,tDate,fTime,tTime,callback){
 	//fDate = '2018-04-12';
 	//tDate = '2018-04-16';
+  var callbackString = {};
   var resultDateWeekend
   var noDateWeekend
 	var startDate = moment(fDate,'YYYY-MM-DD')
@@ -110,8 +111,9 @@ function calculateNoLeave(fDate,tDate,fTime,tTime,callbackDays,callbackHour){
         }
         //console.log(daysDiff)
         //console.log(hoursDiff)
-        callbackDays(daysDiff)
-        callbackHour(hoursDiff)
+        callbackString.Days = daysDiff
+        callbackString.Hours = hoursDiff
+        callback(callbackString)
         //return [daysDiff,hoursDiff]
     })
  }
@@ -316,9 +318,9 @@ function reply(reply_token,event_text,userID,messageID) {
                     data = require('./connectDB');
                     data.userDTL(lineUserID,function(userDTL){
                         //var noLeave = calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave,noLeaveHour))
-                        calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave),function(noLeaveHour){
-                          var days = noLeave
-                          var hours = noLeaveHour
+                        calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave){
+                          var days = noLeave.Days
+                          var hours = noLeave.Hours
                           msg = {
                               type: 'text',
                               text: days + " " + hours
