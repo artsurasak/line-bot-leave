@@ -318,7 +318,7 @@ function reply(reply_token,event_text,userID,messageID) {
                     data = require('./connectDB');
                     data.userDTL(lineUserID,function(userDTL){
                         //var noLeave = calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave,noLeaveHour))
-                        calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave){
+                        calculateNoLeave(fdate,tdate,ftime,ttime,function(noLeave){
                           var days = noLeave.Days
                           var hours = noLeave.Hours
                           msg = {
