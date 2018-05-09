@@ -114,6 +114,29 @@ const ApprConfirm = function(TypeGroupAppr,DepartmentID,callback){
 //     })
 // }
 
+const dateHoliday = function(fDate,tDate,callback){
+    var conn = new sql.Connection(config);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var query = "SELECT count(DATE_HOLIDAY) as cHoliday "
+            query += "FROM [HOLIDAY] "
+            query += "where DATE_HOLIDAY between '" + fDate + "' and '" + tDate + "' "
+            req.query(query,function(err,recordset){
+                if(err){
+                    callback(err)
+                    //console.log(err);
+                }else{
+                    callback(recordset[0].cHoliday)
+                }
+                conn.close();
+            });
+    });
+}
+
 const executesql = function(LineUserID,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
@@ -230,5 +253,5 @@ const userDTL = function(LineUserID,callback){
 
 
 module.exports = {
-    executesql , insertReqLeave , userDTL
+    executesql , insertReqLeave , userDTL , dateHoliday
 }

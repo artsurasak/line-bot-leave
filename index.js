@@ -27,6 +27,7 @@ app.post('/webhook', (req, res) => {
       //compareDate()
       //calculateNoLeave()
       //calculateHourLeave()
+      //test();
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -58,25 +59,80 @@ function isValidTime(t){
   return re.test(t);
 }
 
-function calculateNoLeave(fDate,tDate){
-	fDate = '2018-05-01';
-	tDate = '2018-05-02';
+function addDays(date, days) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+function noWeekend(fDate,diffDay){
+    var resultDate
+    var Weekend = 0
+    for(var i = 0;i<=diffDay;i++){
+        resultDate = addDays(fDate,i)
+        //console.log(resultDate);
+        var day = resultDate.getDay();
+        //console.log(day)
+        if((day == 6) || (day == 0)){
+          Weekend += 1
+        }
+    }
+    return Weekend;
+    //resultDate = moment(resultDate).format('YYYY-MM-DD')
+}
+ 
+function calculateNoLeave(fDate,tDate,fTime,tTime,callbackDays,callbackHour){
+	//fDate = '2018-04-12';
+	//tDate = '2018-04-16';
+  var resultDateWeekend
+  var noDateWeekend
 	var startDate = moment(fDate,'YYYY-MM-DD')
 	var EndDate = moment(tDate,'YYYY-MM-DD')
 	var daysDiff = EndDate.diff(startDate,'days')
-	//console.log(daysDiff)
-	return daysDiff
+  data = require('./connectDB');
+    data.dateHoliday(fDate,tDate,function(Holiday){
+        resultDateWeekend = noWeekend(fDate,daysDiff)
+        //console.log(resultDateWeekend);
+        HolidayDate = Holiday
+        //console.log(HolidayDate)
+        if(resultDateWeekend > HolidayDate){
+          noDateWeekend = resultDateWeekend
+        }else{noDateWeekend = HolidayDate}
+        daysDiff = daysDiff - noDateWeekend
+        //var fTime = '09:00'
+        //var tTime = '18:00'
+        var startHour = moment(fTime,'HH:mm')
+        var EndHour = moment(tTime,'HH:mm')
+        var hoursDiff = EndHour.diff(startHour,'hours',true)
+        if((fTime = '09:00') && (tTime == '18:00')){
+          hoursDiff = '0' 
+          daysDiff = daysDiff + 1
+        }
+        //console.log(daysDiff)
+        //console.log(hoursDiff)
+        callbackDays(daysDiff)
+        callbackHour(hoursDiff)
+        //return [daysDiff,hoursDiff]
+    })
  }
 
- function calculateHourLeave(fTime,tTime){
- 	var fTime = '08:00'
- 	var tTime = '16:30'
- 	var startHour = moment(fTime,'HH:mm')
-	var EndHour = moment(tTime,'HH:mm')
- 	var hoursDiff = EndHour.diff(startHour,'hours',true)
- 	//console.log(hoursDiff);
- 	return hoursDiff
- }
+ // function test(){
+ //  var test = calculateNoLeave('2018-05-01','2018-05-02','09:00','18:00');
+ //  var days = test[0];
+ //  var hours = test[1];
+ //  console.log(days);
+ //  console.log(hours);
+ // }
+
+ // function calculateHourLeave(fTime,tTime){
+ // 	var fTime = '08:00'
+ // 	var tTime = '16:30'
+ // 	var startHour = moment(fTime,'HH:mm')
+	// var EndHour = moment(tTime,'HH:mm')
+ // 	var hoursDiff = EndHour.diff(startHour,'hours',true)
+ // 	//console.log(hoursDiff);
+ // 	return hoursDiff
+ // }
 
 function reply(reply_token,event_text,userID,messageID) {
     let headers = {
@@ -258,15 +314,24 @@ function reply(reply_token,event_text,userID,messageID) {
                 .then((profile) => {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
-                    noLeave = calculateNoLeave(fdate,ftime,tdate,ttime)
                     data.userDTL(lineUserID,function(userDTL){
-                        data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,fdate,ftime,tdate,ttime,'1','0',Note,contactName,contactTel,function(result){
-                        msg = {
-                            type: 'text',
-                            text: result
-                        }
-                          client.replyMessage(reply_token,msg)
-                        });
+                        //var noLeave = calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave,noLeaveHour))
+                        calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave),function(noLeaveHour){
+                          var days = noLeave
+                          var hours = noLeaveHour
+                          msg = {
+                              type: 'text',
+                              text: days + " " + hours
+                            }
+                            client.replyMessage(reply_token,msg)
+                            // data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,fdate,ftime,tdate,ttime,days,hours,Note,contactName,contactTel,function(result){
+                            //   msg = {
+                            //     type: 'text',
+                            //     text: result
+                            //   }
+                            //   client.replyMessage(reply_token,msg)
+                            // });
+                        })
                     })
                   })
                   .catch((err) => {
