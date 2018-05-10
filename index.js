@@ -192,16 +192,25 @@ function reply(reply_token,event_text,userID,messageID) {
           msg = [{
                 type: 'text',
                 text: "กรุณาระบุวันที่เริ่มลา"
-              }]
+              },
+              {
+              	type: 'text',
+              	text: "Format YYYY-MM-DD => 2018-05-01"
+              }
+              ]
               client.replyMessage(reply_token, msg);
       }else if ((msg[0].text === 'กรุณาระบุวันที่เริ่มลา') || (msg[0].text === 'ข้อมูลวันที่เริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')) {
             [event_text].forEach(function(s) {
               if(isValidDate(s)){
                 fdate = event_text
                 msg = [{
-                    type: 'text',
-                    text: "กรุณาระบุเวลาเริ่มต้นลา"
-                }]
+		                    type: 'text',
+		                    text: "กรุณาระบุเวลาเริ่มต้นลา"
+		                },
+		                {
+		                	type: 'text',
+		                	text: "Format HH:MM => 09:00"
+		                }]
               }else{
                 //fdate = event_text
                 msg = [{
@@ -215,8 +224,12 @@ function reply(reply_token,event_text,userID,messageID) {
           if(isValidTime(event_text)){
              ftime = event_text
              msg = [{
-                      type: 'text',
-                      text: "กรุณาระบุวันที่สิ้นสุดการลา"
+                      	type: 'text',
+                      	text: "กรุณาระบุวันที่สิ้นสุดการลา"
+                    },
+                    {
+                    	type: 'text',
+                      	text: "Format YYYY-MM-DD => 2018-05-31"
                     }]
           }else {
              msg = [{
@@ -239,7 +252,11 @@ function reply(reply_token,event_text,userID,messageID) {
 		                msg = [{
 		                    type: 'text',
 		                    text: "กรุณาระบุเวลาสิ้นสุดการลา"
-                		}]
+                		},
+		                {
+		                	type: 'text',
+		                	text: "Format HH:MM => 18:00"
+		                }]
 		          }
               }else{
                 //fdate = event_text
