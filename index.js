@@ -119,8 +119,20 @@ function calculateNoLeave(fDate,tDate,fTime,tTime,callback){
  }
 
  // function test(){
- // 	var text = 'บรรทัด 1\nบรรทัด 2'
- // 	console.log(text)
+ // 	var msg;
+	// 	msg = [{
+ //                type: 'text',
+ //                text: "ใส่ประเภทการลา"
+ //              },
+ //              {
+ //              	type: 'text',
+ //              	text: "1 => ลาป่วย\n2 => ลากิจ\n3=> ลาพักร้อน\n4=> ลาคลอด"
+ //              }]
+ //        console.log(msg)
+ //        console.log(msg[0].text)
+ //        console.log(msg[1].text)
+ // 	//var text = 'บรรทัด 1\nบรรทัด 2'
+ // 	//console.log(text)
  // }
 
 function reply(reply_token,event_text,userID,messageID) {
@@ -183,14 +195,14 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log(err);
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
-        msg = {
+        msg = [{
                 type: 'text',
                 text: "ใส่ประเภทการลา"
               },
               {
               	type: 'text',
               	text: "1 => ลาป่วย\n2 => ลากิจ\n3=> ลาพักร้อน\n4=> ลาคลอด"
-              }
+              }]
               client.replyMessage(reply_token, msg);
       }else if (msg[0].text === 'ใส่ประเภทการลา'){
           leaveType = event_text;
