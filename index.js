@@ -205,7 +205,7 @@ function reply(reply_token,event_text,userID,messageID) {
               // 	text: "1 => ลาป่วย\n2 => ลากิจ\n3=> ลาพักร้อน\n4=> ลาคลอด"
               // }
               client.replyMessage(reply_token, msg);
-      }else if (msg[0].text === 'ใส่ประเภทการลา'){
+      }else if (msg.text === 'ใส่ประเภทการลา'){
           leaveType = event_text;
           msg = {
                 type: 'text',
