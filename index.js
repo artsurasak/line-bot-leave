@@ -27,7 +27,6 @@ app.post('/webhook', (req, res) => {
       //compareDate()
       //calculateNoLeave()
       //calculateHourLeave()
-      //test();
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -118,23 +117,6 @@ function calculateNoLeave(fDate,tDate,fTime,tTime,callback){
     })
  }
 
- // function test(){
- // 	var msg;
-	// 	msg = [{
- //                type: 'text',
- //                text: "ใส่ประเภทการลา"
- //              },
- //              {
- //              	type: 'text',
- //              	text: "1 => ลาป่วย\n2 => ลากิจ\n3=> ลาพักร้อน\n4=> ลาคลอด"
- //              }]
- //        console.log(msg)
- //        console.log(msg[0].text)
- //        console.log(msg[1].text)
- // 	//var text = 'บรรทัด 1\nบรรทัด 2'
- // 	//console.log(text)
- // }
-
 function reply(reply_token,event_text,userID,messageID) {
     let headers = {
         'Content-Type': 'application/json',
@@ -195,17 +177,17 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log(err);
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
-        msg = {
+        msgLeave = [{
                 type: 'text',
                 text: "ใส่ประเภทการลา"
               }
-              // ,
-              // {
-              // 	type: 'text',
-              // 	text: "1 => ลาป่วย\n2 => ลากิจ\n3=> ลาพักร้อน\n4=> ลาคลอด"
-              // }
-              client.replyMessage(reply_token, msg);
-      }else if (msg.text === 'ใส่ประเภทการลา'){
+               ,
+               {
+               	type: 'text',
+               	text: "1 => ลาป่วย\n2 => ลากิจ\n3=> ลาพักร้อน\n4=> ลาคลอด"
+               }]
+              client.replyMessage(reply_token, msgLeave);
+      }else if (msgLeave[0].text === 'ใส่ประเภทการลา'){
           leaveType = event_text;
           msg = {
                 type: 'text',
