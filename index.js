@@ -320,39 +320,40 @@ function reply(reply_token,event_text,userID,messageID) {
       }else if (msg[0].text === 'กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
           if (event_text === 'Next'){
             contactTel = ''
-            data = require('./connectDB');
-        	data.LeaveType(leaveType,function(result){
-        		msg = [{
-		                    type: 'text',
-		                  	text: "ประเภทการลา => " + result
-                		},
-		                {
-		                	type: 'text',
-		                	text: "วันที่ลา " + fdate + " ถึง " + tDate
-		                },
-		                // {
-		                // 	type: 'text',
-		                // 	text: "เวลาที่ลา " + fTime + " ถึง " + tTime
-		                // }, 
-		                {
-		                	type: 'text',
-		                	text: "สาเหตุการลา => " + Note
-		                },
-		                {
-		                	type: 'text',
-		                	text: "ชื่อผู้ติดต่อระหว่างลา => " + contactName
-		                },
-		                {
-		                	type: 'text',
-		                	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
-		                },
-		                {
-		                	type: 'text',
-		                	text: "กรุณายืนยันข้อมูล"
-		                }
-		                ]
-		            client.replyMessage(reply_token,msg)
-        	})
+            //data = require('./connectDB');
+        	// data.LeaveType(leaveType,function(result){
+        	// 	msg = [{
+		       //              type: 'text',
+		       //            	text: "ประเภทการลา => " + result
+         //        		},
+		       //          {
+		       //          	type: 'text',
+		       //          	text: "วันที่ลา " + fdate + " ถึง " + tDate
+		       //          },
+		       //          // {
+		       //          // 	type: 'text',
+		       //          // 	text: "เวลาที่ลา " + fTime + " ถึง " + tTime
+		       //          // }, 
+		       //          {
+		       //          	type: 'text',
+		       //          	text: "สาเหตุการลา => " + Note
+		       //          },
+		       //          {
+		       //          	type: 'text',
+		       //          	text: "ชื่อผู้ติดต่อระหว่างลา => " + contactName
+		       //          },
+		       //          {
+		       //          	type: 'text',
+		       //          	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
+		       //          },
+		       //          {
+		       //          	type: 'text',
+		       //          	text: "กรุณายืนยันข้อมูล"
+		       //          }
+		       //          ]
+		             client.replyMessage(reply_token,fdate)
+		            //client.replyMessage(reply_token,msg)
+        	//})
           }else{
             contactTel = event_text
             data = require('./connectDB');
@@ -383,7 +384,7 @@ function reply(reply_token,event_text,userID,messageID) {
 		                	text: "กรุณายืนยันข้อมูล"
 		                }
 		                ]
-		            client.replyMessage(reply_token,msg)
+		            client.replyMessage(reply_token,fdate)
         	})
           }
           	
