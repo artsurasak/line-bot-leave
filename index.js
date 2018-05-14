@@ -326,14 +326,14 @@ function reply(reply_token,event_text,userID,messageID) {
 		                    type: 'text',
 		                  	text: "ประเภทการลา " + result
                 		},
-		                {
-		                	type: 'text',
-		                	text: "วันที่ลา " + fdate + " ถึง " + tDate
-		                },
-		                {
-		                	type: 'text',
-		                	text: "เวลาที่ลา " + fTime + " ถึง " + tTime
-		                }, 
+		                // {
+		                // 	type: 'text',
+		                // 	text: "วันที่ลา " + fdate + " ถึง " + tDate
+		                // },
+		                // {
+		                // 	type: 'text',
+		                // 	text: "เวลาที่ลา " + fTime + " ถึง " + tTime
+		                // }, 
 		                {
 		                	type: 'text',
 		                	text: "สาเหตุการลา " + Note
