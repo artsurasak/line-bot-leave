@@ -351,8 +351,9 @@ function reply(reply_token,event_text,userID,messageID) {
 		                	text: "กรุณายืนยันข้อมูล"
 		                }
 		                ]
+		            client.replyMessage(reply_token,msg)
         	})
-        	client.replyMessage(reply_token,msg)
+        	
       }else if (msg[5].text === 'กรุณายืนยันข้อมูล'){
       		if(event_text === 'ยืนยัน'){
       			client.getProfile(userID)
