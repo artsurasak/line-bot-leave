@@ -351,7 +351,23 @@ function reply(reply_token,event_text,userID,messageID) {
 		       //          	text: "กรุณายืนยันข้อมูล"
 		       //          }
 		       //          ]
-		             client.replyMessage(reply_token,fdate)
+		       msg [{
+		       			type: 'text',
+		       			text: "'" + fDate + "'"	
+		       },
+		       {
+		       		type: 'text',
+		       			text: "'" + tDate + "'"	
+		       },
+		       {
+		       		type: 'text',
+		       			text: "'" + fTime + "'"	
+		       },{
+		       		type: 'text',
+		       			text: "'" + tTime + "'"	
+		       }
+		       ]
+		             client.replyMessage(reply_token,msg)
 		            //client.replyMessage(reply_token,msg)
         	//})
           }else{
