@@ -330,10 +330,10 @@ function reply(reply_token,event_text,userID,messageID) {
 		                    type: 'text',
 		                  	text: "ประเภทการลา => " + result
                 		},
-		                {
-		                	type: 'text',
-		                	text: "วันเวลาที่ลา " + strDate +  " " + strTime + " ถึง " + endDate + " " + endTime
-		                },
+		                // {
+		                // 	type: 'text',
+		                // 	text: "วันเวลาที่ลา " + strDate +  " " + strTime + " ถึง " + endDate + " " + endTime
+		                // },
 		                {
 		                	type: 'text',
 		                	text: "สาเหตุการลา => " + Note
