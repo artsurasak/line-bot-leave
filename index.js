@@ -184,22 +184,31 @@ function reply(reply_token,event_text,userID,messageID) {
       }else if(event_text === 'สร้างคำร้องการลา'){
       	data = require('./connectDB');
         data.LeaveType('1',function(LeaveType1){
+        	msg = [{
+				    type: 'text',
+				    text: "ใส่ประเภทการลา"
+				   }
+				   ,
+				   {
+				   	type: 'text',
+				    text: "1 => " + LeaveType1
+				   }]
         	//client.replyMessage(reply_token, result[0].TYPE);
-        	data.LeaveType('2',function(LeaveType2){
-        		data.LeaveType('3',function(LeaveType3){
-        			data.LeaveType('4',function(LeaveType4){
-        				 msg = [{
-				                type: 'text',
-				                text: "ใส่ประเภทการลา"
-				              }
-				               ,
-				               {
-				               	type: 'text',
-				               	text: "1 => " + LeaveType1 + "\n2 => " + LeaveType2 + "\n3=> " + LeaveType3 + "\n4=> " + LeaveType4
-				               }]
-        			})
-        		})
-        	})
+        	// data.LeaveType('2',function(LeaveType2){
+        	// 	data.LeaveType('3',function(LeaveType3){
+        	// 		data.LeaveType('4',function(LeaveType4){
+        	// 			 msg = [{
+				     //            type: 'text',
+				     //            text: "ใส่ประเภทการลา"
+				     //          }
+				     //           ,
+				     //           {
+				     //           	type: 'text',
+				     //           	text: "1 => " + LeaveType1 + "\n2 => " + LeaveType2 + "\n3=> " + LeaveType3 + "\n4=> " + LeaveType4
+				     //           }]
+        	// 		})
+        	// 	})
+        	// })
         })
         client.replyMessage(reply_token, msg);
       }else if (msg[0].text === 'ใส่ประเภทการลา'){
