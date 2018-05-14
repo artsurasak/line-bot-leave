@@ -286,7 +286,7 @@ function reply(reply_token,event_text,userID,messageID) {
              ttime = event_text
              msg = [{
                       type: 'text',
-                      text: "กรุณาระบุสาเหตุการลา (ถ้ามี)"
+                      text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
                     }]
           }else {
              msg = [{
@@ -295,7 +295,7 @@ function reply(reply_token,event_text,userID,messageID) {
                     }]
           }
           client.replyMessage(reply_token,msg)
-      }else if (msg[0].text === 'กรุณาระบุสาเหตุการลา (ถ้ามี)'){
+      }else if (msg[0].text === 'กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
           if (event_text === 'Next'){
             Note = ''
           }else{
@@ -303,10 +303,10 @@ function reply(reply_token,event_text,userID,messageID) {
           }
           msg = [{
                   type: 'text',
-                  text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)"
+                  text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
                 }]
           client.replyMessage(reply_token,msg)
-      }else if (msg[0].text === 'กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)'){
+      }else if (msg[0].text === 'กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
           if (event_text === 'Next'){
             contactName = ''
           }else{
@@ -314,37 +314,37 @@ function reply(reply_token,event_text,userID,messageID) {
           }
           msg = [{
                   type: 'text',
-                  text: "กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)"
+                  text: "กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
                 }]
           client.replyMessage(reply_token,msg)
-      }else if (msg[0].text === 'กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)'){
+      }else if (msg[0].text === 'กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
           if (event_text === 'Next'){
             contactTel = ''
             data = require('./connectDB');
         	data.LeaveType(leaveType,function(result){
         		msg = [{
 		                    type: 'text',
-		                  	text: "ประเภทการลา " + result
+		                  	text: "ประเภทการลา => " + result
                 		},
-		                // {
-		                // 	type: 'text',
-		                // 	text: "วันที่ลา " + fdate + " ถึง " + tDate
-		                // },
+		                {
+		                	type: 'text',
+		                	text: "วันที่ลา " + fdate + " ถึง " + tDate
+		                },
 		                // {
 		                // 	type: 'text',
 		                // 	text: "เวลาที่ลา " + fTime + " ถึง " + tTime
 		                // }, 
 		                {
 		                	type: 'text',
-		                	text: "สาเหตุการลา " + Note
+		                	text: "สาเหตุการลา => " + Note
 		                },
 		                {
 		                	type: 'text',
-		                	text: "ชื่อผู้ติดต่อระหว่างลา " + contactName
+		                	text: "ชื่อผู้ติดต่อระหว่างลา => " + contactName
 		                },
 		                {
 		                	type: 'text',
-		                	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา " + contactTel
+		                	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
 		                },
 		                {
 		                	type: 'text',
