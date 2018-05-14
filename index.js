@@ -332,7 +332,7 @@ function reply(reply_token,event_text,userID,messageID) {
                 		},
 		                {
 		                	type: 'text',
-		                	text: strDate + " " strTime + " " endDate + " " + endTime
+		                	text: strDate + " " + strTime + " " endDate + " " + endTime
 		                },
 		                {
 		                	type: 'text',
