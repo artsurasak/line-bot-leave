@@ -182,11 +182,11 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log(err);
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
-      	data = require('./connectDB');
-        data.LeaveType('1',function(result1){
-        	data.LeaveType('2',function(result2){
-        		data.LeaveType('3',function(result3){
-        			data.LeaveType('4',function(result4){
+      	// data = require('./connectDB');
+       //  data.LeaveType('1',function(result1){
+       //  	data.LeaveType('2',function(result2){
+       //  		data.LeaveType('3',function(result3){
+       //  			data.LeaveType('4',function(result4){
         				 msg = [{
 				                type: 'text',
 				                text: "ใส่ประเภทการลา"
@@ -194,13 +194,13 @@ function reply(reply_token,event_text,userID,messageID) {
 				               ,
 				               {
 				               	type: 'text',
-				               	text: "1 => " + result1 + "\n2 => " + result2 + "\n3=> " + result3 + "\n4=> " + result4
+				               	text: "1 => ลาป่วย\n 2 => ลากิจ\n 3 => ลาพักผ่อน\n 4 => ลาคลอด "
 				               }]
 				        client.replyMessage(reply_token, msg);
-        			})
-        		})
-        	})
-        })
+        // 			})
+        // 		})
+        // 	})
+        // })
       }else if (msg[0].text === 'ใส่ประเภทการลา'){
           leaveType = event_text;
           msg = [{
