@@ -186,7 +186,7 @@ function reply(reply_token,event_text,userID,messageID) {
         //data.LeaveTypeName('1',function(result){
         	msg = [{
         				type: 'text',
-        				text: ใส่ประเภทการลา
+        				text: "ใส่ประเภทการลา"
         			}]
        //  	msg = [{
 				   //  type: 'text',
