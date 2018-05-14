@@ -216,7 +216,7 @@ function reply(reply_token,event_text,userID,messageID) {
       }else if ((msg[0].text === 'กรุณาระบุวันที่เริ่มลา') || (msg[0].text === 'ข้อมูลวันที่เริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')) {
             [event_text].forEach(function(s) {
               if(isValidDate(s)){
-                fdate = event_text
+                strDate = event_text
                 msg = [{
 		                    type: 'text',
 		                    text: "กรุณาระบุเวลาเริ่มต้นลา"
@@ -236,7 +236,7 @@ function reply(reply_token,event_text,userID,messageID) {
             client.replyMessage(reply_token,msg)
       }else if ((msg[0].text === 'กรุณาระบุเวลาเริ่มต้นลา') || (msg[0].text === 'ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
           if(isValidTime(event_text)){
-             ftime = event_text
+             strTime = event_text
              msg = [{
                       	type: 'text',
                       	text: "กรุณาระบุวันที่สิ้นสุดการลา"
@@ -256,13 +256,13 @@ function reply(reply_token,event_text,userID,messageID) {
           //tdate = event_text
           [event_text].forEach(function(s) {
               if(isValidDate(s)){
-                if(strDateMoreEndDate(fdate,event_text)){
+                if(strDateMoreEndDate(strDate,event_text)){
           				msg = [{
 		                    type: 'text',
 		                    text: "ข้อมูลวันสื้นสุดการลา น้อยกกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง"
                 		}]
 		          }else{
-						tdate = event_text
+						endDate = event_text
 		                msg = [{
 		                    type: 'text',
 		                    text: "กรุณาระบุเวลาสิ้นสุดการลา"
@@ -283,7 +283,7 @@ function reply(reply_token,event_text,userID,messageID) {
           client.replyMessage(reply_token,msg)
       }else if ((msg[0].text === 'กรุณาระบุเวลาสิ้นสุดการลา') || (msg[0].text === 'ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
         if(isValidTime(event_text)){
-             ttime = event_text
+             endTime = event_text
              msg = [{
                       type: 'text',
                       text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
@@ -353,18 +353,18 @@ function reply(reply_token,event_text,userID,messageID) {
 		       //          ]
 		       msg [{
 		       			type: 'text',
-		       			text: "'" + fDate + "'"	
+		       			text: "'" + strDate + "'"	
 		       },
 		       {
 		       		type: 'text',
-		       			text: "'" + tDate + "'"	
+		       			text: "'" + endDate + "'"	
 		       },
 		       {
 		       		type: 'text',
-		       			text: "'" + fTime + "'"	
+		       			text: "'" + strTime + "'"	
 		       },{
 		       		type: 'text',
-		       			text: "'" + tTime + "'"	
+		       			text: "'" + endTime + "'"	
 		       }
 		       ]
 		             client.replyMessage(reply_token,msg)
