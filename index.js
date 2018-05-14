@@ -183,7 +183,7 @@ function reply(reply_token,event_text,userID,messageID) {
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
       	data = require('./connectDB');
-        data.LeaveType('1',function(result){
+        data.LeaveTypeName('1',function(result){
         	msg = [{
         				type: 'text',
         				text: result
