@@ -114,6 +114,32 @@ const ApprConfirm = function(TypeGroupAppr,DepartmentID,callback){
 //     })
 // }
 
+
+// LeaveID();
+// function LeaveID() {
+//     var conn = new sql.Connection(config);
+//     var req = new sql.Request(conn);
+//     conn.connect(function (err){
+//         if(err){
+//             console.log(err);
+//             return;
+//         }
+//         LeaveIDtxt = '1'
+//         var query = "SELECT TYPE "
+//             query += "FROM [LEAVE_TYPE] "
+//             query += "where ID = '" + LeaveIDtxt + "'"
+//             //console.log(query)
+//             req.query(query,function(err,recordset){
+//             if(err){
+//                 console.log(err)
+//             }else{
+//                 console.log(recordset[0].TYPE)
+//             }
+//                 conn.close();
+//             })
+//         })     
+// }
+
 const LeaveType = function(LeaveID,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
@@ -124,19 +150,16 @@ const LeaveType = function(LeaveID,callback){
         }
         var query = "SELECT TYPE "
             query += "FROM [LEAVE_TYPE] "
-            if(LaeveID != ''){
-                 query += "where ID = '" + LeaveID + "' "
-            }
-            callback(query)
-            // req.query(query,function(err,recordset){
-            //     if(err){
-            //         callback(err)
-            //         //console.log(err);
-            //     }else{
-            //         callback(recordset[0].TYPE)
-            //     }
-            //     conn.close();
-            // });
+            query += "where ID = '" + LeaveID + "' "
+            req.query(query,function(err,recordset){
+                if(err){
+                    callback(err)
+                    //console.log(err);
+                }else{
+                    callback(recordset[0].TYPE)
+                }
+                conn.close();
+            });
     });
 }
 
