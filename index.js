@@ -328,7 +328,7 @@ function reply(reply_token,event_text,userID,messageID) {
         	data.LeaveType(leaveType,function(result){
         		msg = [{
 		                    type: 'text',
-		                  	text: "ประเภทการลา => " + result + "\n วันเวลา => " + strDate + " " + strTime + " " + endDate + " " + endTime + "\nสาเหตุการลา => " + Note + "\nชื่อผู้ติดต่อระหว่างลา => " + contactName + "\nเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " contactTel
+		                  	text: "ประเภทการลา => " + result + "\n วันเวลา => " + strDate + " " + strTime + " " + endDate + " " + endTime + "\nสาเหตุการลา => " + Note + "\nชื่อผู้ติดต่อระหว่างลา => " + contactName + "\nเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
                 		}
 		                // {
 		                // 	type: 'text',
