@@ -328,28 +328,28 @@ function reply(reply_token,event_text,userID,messageID) {
         	data.LeaveType(leaveType,function(result){
         		msg = [{
 		                    type: 'text',
-		                  	text: "ประเภทการลา => " + result
-                		},
-		                {
-		                	type: 'text',
-		                	text: strDate + " " + strTime + " " + endDate + " " + endTime
-		                },
-		                {
-		                	type: 'text',
-		                	text: "สาเหตุการลา => " + Note
-		                },
-		                {
-		                	type: 'text',
-		                	text: "ชื่อผู้ติดต่อระหว่างลา => " + contactName
-		                },
-		                {
-		                	type: 'text',
-		                	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
-		                },
-		                {
-		                	type: 'text',
-		                	text: "กรุณายืนยันข้อมูล"
-		                }
+		                  	text: "ประเภทการลา => " + result + "\n วันเวลา => " + strDate + " " + strTime + " " + endDate + " " + endTime + "\nสาเหตุการลา => " + Note + "\nชื่อผู้ติดต่อระหว่างลา => " + contactName + "\nเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " contactTel
+                		}
+		                // {
+		                // 	type: 'text',
+		                // 	text: strDate + " " + strTime + " " + endDate + " " + endTime
+		                // },
+		                // {
+		                // 	type: 'text',
+		                // 	text: "สาเหตุการลา => " + Note
+		                // },
+		                // {
+		                // 	type: 'text',
+		                // 	text: "ชื่อผู้ติดต่อระหว่างลา => " + contactName
+		                // },
+		                // {
+		                // 	type: 'text',
+		                // 	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
+		                // },
+		                // {
+		                // 	type: 'text',
+		                // 	text: "กรุณายืนยันข้อมูล"
+		                // }
 		                ]
 		            client.replyMessage(reply_token,msg)
         	})
