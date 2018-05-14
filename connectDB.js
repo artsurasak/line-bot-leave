@@ -140,7 +140,7 @@ const ApprConfirm = function(TypeGroupAppr,DepartmentID,callback){
 //         })     
 // }
 
-const LeaveTypeName = function(LeaveID,callback){
+const LeaveType = function(LeaveID,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
     conn.connect(function (err){
@@ -303,5 +303,5 @@ const userDTL = function(LineUserID,callback){
 
 
 module.exports = {
-    executesql , insertReqLeave , userDTL , dateHoliday , LeaveTypeName
+    executesql , insertReqLeave , userDTL , dateHoliday , LeaveType
 }
