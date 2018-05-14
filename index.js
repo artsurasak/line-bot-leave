@@ -322,14 +322,33 @@ function reply(reply_token,event_text,userID,messageID) {
             contactTel = ''
             data = require('./connectDB');
         	data.LeaveType(leaveType,function(result){
-        		msg = 	[
-        				{
-		                  	type: 'text',
+        		msg = [{
+		                    type: 'text',
 		                  	text: "ประเภทการลา " + result
+                		},
+		                {
+		                	type: 'text',
+		                	text: "วันที่ลา " + fdate + " ถึง " + tDate
 		                },
 		                {
 		                	type: 'text',
-		                	text: "วันเวลาที่ลา " + fdate +  " " + fTime + " ถึง " + tDate + " " + tTime
+		                	text: "เวลาที่ลา " + fTime + " ถึง " + tTime
+		                }, 
+		                {
+		                	type: 'text',
+		                	text: "สาเหตุการลา " + Note
+		                },
+		                {
+		                	type: 'text',
+		                	text: "ชื่อผู้ติดต่อระหว่างลา " + contactName
+		                },
+		                {
+		                	type: 'text',
+		                	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา " + contactTel
+		                },
+		                {
+		                	type: 'text',
+		                	text: "กรุณายืนยันข้อมูล"
 		                }
 		                ]
 		            client.replyMessage(reply_token,msg)
