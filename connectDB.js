@@ -122,7 +122,7 @@ const LeaveType = function(LeaveID,callback){
             console.log(err);
             return;
         }
-        var query = "SELECT * "
+        var query = "SELECT TYPE "
             query += "FROM [LEAVE_TYPE] "
             if(LaeveID != ''){
                  query += "where ID = '" + LeaveID + "' "
@@ -132,7 +132,7 @@ const LeaveType = function(LeaveID,callback){
                     callback(err)
                     //console.log(err);
                 }else{
-                    callback(recordset)
+                    callback(recordset[0].TYPE)
                 }
                 conn.close();
             });
