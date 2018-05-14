@@ -114,6 +114,31 @@ const ApprConfirm = function(TypeGroupAppr,DepartmentID,callback){
 //     })
 // }
 
+const LeaveType = function(LaeveID,callback){
+    var conn = new sql.Connection(config);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var query = "SELECT * "
+            query += "FROM [LEAVE_TYPE] "
+            if(LaeveID != ''){
+                 query += "where ID = '" + LaeveID + "' "
+            }
+            req.query(query,function(err,recordset){
+                if(err){
+                    callback(err)
+                    //console.log(err);
+                }else{
+                    callback(recordset)
+                }
+                conn.close();
+            });
+    });
+}
+
 const dateHoliday = function(fDate,tDate,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
@@ -158,6 +183,7 @@ const executesql = function(LineUserID,callback){
             query += "from REQUEST_LEAVE  req , [USER] usr "; 
             query += "where usr.LINE_ID = '" + LineUserID + "' ";
             query += "and REQ_CONFIRM = 'true' ";
+            query += "and STATUS = 'A' ";
             query += "and req.CREATE_BY = usr.EMP_CODE "
             query += "group by LEAVETYPE_ID ";
             query += ")as t2 ";
@@ -253,5 +279,5 @@ const userDTL = function(LineUserID,callback){
 
 
 module.exports = {
-    executesql , insertReqLeave , userDTL , dateHoliday
+    executesql , insertReqLeave , userDTL , dateHoliday , LeaveType
 }

@@ -24,6 +24,7 @@ app.post('/webhook', (req, res) => {
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID,messageID)
       //isValidTime()
+      //isValidDate('2000-12-01')
       //compareDate()
       //calculateNoLeave()
       //calculateHourLeave()
@@ -48,9 +49,13 @@ function strDateMoreEndDate(StartDate,EndDate){
 }
 
 function isValidDate(s) {
-  var bits = s.split('-');
-  var d = new Date(bits[0], bits[1] - 1, bits[2]);
-  return d && (d.getMonth() + 1) == bits[1];
+	var bits = s.split('-');
+	if (bits[0].length == 4){
+		var validDate = moment(s,"YYYY-MM-DD").isValid();
+		return validDate
+	}else{
+		return false
+	}
 }
 
 function isValidTime(t){
@@ -177,15 +182,25 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log(err);
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
-        msg = [{
-                type: 'text',
-                text: "ใส่ประเภทการลา"
-              }
-               ,
-               {
-               	type: 'text',
-               	text: "1 => ลาป่วย\n2 => ลากิจ\n3=> ลาพักร้อน\n4=> ลาคลอด"
-               }]
+      	data = require('./connectDB');
+        data.LeaveType('1',function(LeaveName1){
+        	data.LeaveType('2',function(LeaveName2){
+        		data.LeaveType('3',function(LeaveName3){
+        			data.LeaveType('4',function(LeaveName4){
+        				 msg = [{
+				                type: 'text',
+				                text: "ใส่ประเภทการลา"
+				              }
+				               ,
+				               {
+				               	type: 'text',
+				               	text: "1 => " + LeaveName1 + "\n2 => " + LeaveName2 + "\n3=> " + LeaveName3 + "\n4=> " + LeaveName4
+				               }]
+        			})
+        		})
+        	})
+        })
+       
               client.replyMessage(reply_token, msg);
       }else if (msg[0].text === 'ใส่ประเภทการลา'){
           leaveType = event_text;
@@ -272,7 +287,7 @@ function reply(reply_token,event_text,userID,messageID) {
              ttime = event_text
              msg = [{
                       type: 'text',
-                      text: "กรุณาระบุสาเหตุการลา"
+                      text: "กรุณาระบุสาเหตุการลา (ถ้ามี)"
                     }]
           }else {
              msg = [{
@@ -281,7 +296,7 @@ function reply(reply_token,event_text,userID,messageID) {
                     }]
           }
           client.replyMessage(reply_token,msg)
-      }else if (msg[0].text === 'กรุณาระบุสาเหตุการลา'){
+      }else if (msg[0].text === 'กรุณาระบุสาเหตุการลา (ถ้ามี)'){
           if (event_text === 'Next'){
             Note = ''
           }else{
@@ -289,10 +304,10 @@ function reply(reply_token,event_text,userID,messageID) {
           }
           msg = [{
                   type: 'text',
-                  text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา"
+                  text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)"
                 }]
           client.replyMessage(reply_token,msg)
-      }else if (msg[0].text === 'กรุณาระบุชื่อผู้ติดต่อระหว่างลา'){
+      }else if (msg[0].text === 'กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)'){
           if (event_text === 'Next'){
             contactName = ''
           }else{
@@ -300,22 +315,48 @@ function reply(reply_token,event_text,userID,messageID) {
           }
           msg = [{
                   type: 'text',
-                  text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา"
+                  text: "กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)"
                 }]
           client.replyMessage(reply_token,msg)
-      }else if (msg[0].text === 'เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา'){
+      }else if (msg[0].text === 'กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)'){
           if (event_text === 'Next'){
             contactTel = ''
           }else{
             contactTel = event_text
           }
-          msg = [{
-                  type: 'text',
-                  text: leaveType + " " + fdate + " " + ftime + " " + tdate + " " + ttime + " " + Note + " " + contactName + " " + contactTel
-                }]
-          client.replyMessage(reply_token,msg)
-      }else if (event_text === 'ยืนยัน'){
-            client.getProfile(userID)
+          	data = require('./connectDB');
+        	data.LeaveType(leaveType,function(LeaveName){
+        		msg = 	[
+        				{
+		                  	type: 'text',
+		                  	text: "ประเภทการลา " + LeaveName
+		                },
+		                {
+		                	type: 'text',
+		                	text: "วันเวลาที่ลา " + fdate +  " " + fTime + " ถึง " + tDate + " " + tTime
+		                },
+		                {
+		                	type: 'text',
+		                	text: "สาเหตุการลา " + Note
+		                },
+		                {
+		                	type: 'text',
+		                	text: "ชื่อผู้ติดต่อระหว่างลา " + contactName
+		                },
+		                {
+		                	type: 'text',
+		                	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา " + contactTel
+		                },
+		                {
+		                	type: 'text',
+		                	text: "กรุณายืนยันข้อมูล"
+		                }
+		                ]
+        	})
+        	client.replyMessage(reply_token,msg)
+      }else if (msg[5].text === 'กรุณายืนยันข้อมูล'){
+      		if(event_text === 'ยืนยัน'){
+      			client.getProfile(userID)
                 .then((profile) => {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
@@ -338,6 +379,13 @@ function reply(reply_token,event_text,userID,messageID) {
                           console.log('error')
                           console.log(err);
                   });
+      		}else{
+      			msg = {
+                  type: 'text',
+                  text: 'ข้อมูลไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง'
+                }
+                client.replyMessage(reply_token,msg)
+      		}
       }else{
         msg = {
                   type: 'text',
