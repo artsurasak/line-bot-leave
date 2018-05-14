@@ -182,11 +182,11 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log(err);
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
-      	data = require('./connectDB');
-        data.LeaveTypeName('1',function(result){
+      	//data = require('./connectDB');
+        //data.LeaveTypeName('1',function(result){
         	msg = [{
         				type: 'text',
-        				text: result
+        				text: ใส่ประเภทการลา
         			}]
        //  	msg = [{
 				   //  type: 'text',
