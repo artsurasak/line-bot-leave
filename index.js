@@ -327,43 +327,10 @@ function reply(reply_token,event_text,userID,messageID) {
            //data = require('./connectDB');
         	//data.LeaveType(leaveType,function(result){
         		msg = [{
-		                    type: 'text',
-		                  	text: "ประเภทการลา => ปวดหัว "
-                		},
-		                {
-		                	type: 'text',
-		                	text: "วันที่เริ่มลา => '" + strDate + "'"
-		                },
-		                {
-		                	type: 'text',
-		                	text: "เวลาที่เริ่มลา => '" + strTime + "'"
-		                },
-		                {
-		                	type: 'text',
-		                	text: "วันที่สิ้นสุดการมลา => '" + endDate + "'"
-		                },
-		                {
-		                	type: 'text',
-		                	text: "เวลาที่สิ้นสุดการลา => '" + endTime + "'"
-		                },
-		                {
-		                	type: 'text',
-		                	text: "สาเหตุการลา => " + Note
-		                },
-		                {
-		                	type: 'text',
-		                	text: "ชื่อผู้ติดต่อระหว่างลา => " + contactName
-		                },
-		                {
-		                	type: 'text',
-		                	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
-		                },
-		                {
-		                	type: 'text',
-		                	text: "กรุณายืนยันข้อมูล"
-		                }
-		                ]
-		            client.replyMessage(reply_token,msg)
+                  type: 'text',
+                  text: leaveType + " " + strDate + " " + strTime + " " + endDate + " " + endTime + " " + Note + " " + contactName + " " + contactTel
+                }]
+          		client.replyMessage(reply_token,msg)
         	//})
       }else if (msg[8].text === 'กรุณายืนยันข้อมูล'){
       		if(event_text === 'ยืนยัน'){
