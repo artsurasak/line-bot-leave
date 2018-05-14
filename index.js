@@ -328,7 +328,7 @@ function reply(reply_token,event_text,userID,messageID) {
         		msg = 	[
         				{
 		                  	type: 'text',
-		                  	text: "ประเภทการลา " + result[0].TYPE
+		                  	text: "ประเภทการลา " + result
 		                },
 		                {
 		                	type: 'text',
