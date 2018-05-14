@@ -183,10 +183,11 @@ function reply(reply_token,event_text,userID,messageID) {
         });
       }else if(event_text === 'สร้างคำร้องการลา'){
       	data = require('./connectDB');
-        data.LeaveType('1',function(LeaveTypeName1){
-        	data.LeaveType('2',function(LeaveTypeName2){
-        		data.LeaveType('3',function(LeaveTypeName3){
-        			data.LeaveType('4',function(LeaveTypeName4){
+        data.LeaveType('1',function(result1){
+        	//client.replyMessage(reply_token, result[0].TYPE);
+        	data.LeaveType('2',function(result2){
+        		data.LeaveType('3',function(result3){
+        			data.LeaveType('4',function(result4){
         				 msg = [{
 				                type: 'text',
 				                text: "ใส่ประเภทการลา"
@@ -194,7 +195,7 @@ function reply(reply_token,event_text,userID,messageID) {
 				               ,
 				               {
 				               	type: 'text',
-				               	text: "1 => " + LeaveTypeName1[0].TYPE + "\n2 => " + LeaveTypeName2[0].TYPE + "\n3=> " + LeaveTypeName3[0].TYPE + "\n4=> " + LeaveTypeName4[0].TYPE
+				               	text: "1 => " + result1[0].TYPE + "\n2 => " + result2[0].TYPE + "\n3=> " + result3[0].TYPE + "\n4=> " + result4[0].TYPE
 				               }]
         			})
         		})
@@ -324,11 +325,11 @@ function reply(reply_token,event_text,userID,messageID) {
             contactTel = event_text
           }
           	data = require('./connectDB');
-        	data.LeaveType(leaveType,function(LeaveName){
+        	data.LeaveType(leaveType,function(result){
         		msg = 	[
         				{
 		                  	type: 'text',
-		                  	text: "ประเภทการลา " + LeaveName
+		                  	text: "ประเภทการลา " + result[0].TYPE
 		                },
 		                {
 		                	type: 'text',
