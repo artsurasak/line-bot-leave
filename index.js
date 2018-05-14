@@ -351,7 +351,7 @@ function reply(reply_token,event_text,userID,messageID) {
 		       //          	text: "กรุณายืนยันข้อมูล"
 		       //          }
 		       //          ]
-		       msg [{
+		       msg = [{
 		       			type: 'text',
 		       			text: "'" + strDate + "'"	
 		       },
@@ -370,6 +370,7 @@ function reply(reply_token,event_text,userID,messageID) {
 		             client.replyMessage(reply_token,msg)
 		            //client.replyMessage(reply_token,msg)
         	//})
+
           }else{
             contactTel = event_text
             data = require('./connectDB');
