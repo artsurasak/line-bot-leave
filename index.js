@@ -330,10 +330,22 @@ function reply(reply_token,event_text,userID,messageID) {
 		                    type: 'text',
 		                  	text: "ประเภทการลา => " + result
                 		},
-		                // {
-		                // 	type: 'text',
-		                // 	text: "วันเวลาที่ลา " + strDate +  " " + strTime + " ถึง " + endDate + " " + endTime
-		                // },
+		                {
+		                	type: 'text',
+		                	text: "วันที่เริ่มลา => " + strDate
+		                },
+		                {
+		                	type: 'text',
+		                	text: "เวลาที่เริ่มลา => " + strTime
+		                },
+		                {
+		                	type: 'text',
+		                	text: "วันที่สิ้นสุดการมลา => " + endDate
+		                },
+		                {
+		                	type: 'text',
+		                	text: "เวลาที่สิ้นสุดการลา => " + endTime
+		                },
 		                {
 		                	type: 'text',
 		                	text: "สาเหตุการลา => " + Note
@@ -353,7 +365,7 @@ function reply(reply_token,event_text,userID,messageID) {
 		                ]
 		            client.replyMessage(reply_token,msg)
         	})
-      }else if (msg[5].text === 'กรุณายืนยันข้อมูล'){
+      }else if (msg[8].text === 'กรุณายืนยันข้อมูล'){
       		if(event_text === 'ยืนยัน'){
       			client.getProfile(userID)
                 .then((profile) => {
