@@ -65,16 +65,16 @@ const LeaveType = function(LeaveID,callback){
             var query = "SELECT TYPE "
             query += "FROM [LEAVE_TYPE] "
             query += "where ID = '" + LeaveID + "' "
-            callback(query)
-            // req.query(query,function(err,recordset){
-            //     if(err){
-            //         callback(err)
-            //         //console.log(err);
-            //     }else{
-            //         callback(recordset[0].TYPE)
-            //     }
-            //     conn.close();
-            // });
+            //callback(query)
+            req.query(query,function(err,recordset){
+                if(err){
+                    callback(err)
+                    //console.log(err);
+                }else{
+                    callback(recordset[0].TYPE)
+                }
+                conn.close();
+            });
     });
 }
 
