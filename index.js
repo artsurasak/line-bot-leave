@@ -185,14 +185,18 @@ function reply(reply_token,event_text,userID,messageID) {
       	data = require('./connectDB');
         data.LeaveType('1',function(LeaveType1){
         	msg = [{
-				    type: 'text',
-				    text: "ใส่ประเภทการลา"
-				   }
-				   ,
-				   {
-				   	type: 'text',
-				    text: "1 => " + LeaveType1
-				   }]
+        				type: 'text',
+        				text: LeaveType1
+        			}]
+       //  	msg = [{
+				   //  type: 'text',
+				   //  text: "ใส่ประเภทการลา"
+				   // }
+				   // ,
+				   // {
+				   // 	type: 'text',
+				   //  text: "1 => " + LeaveType1
+				   // }]
         	//client.replyMessage(reply_token, result[0].TYPE);
         	// data.LeaveType('2',function(LeaveType2){
         	// 	data.LeaveType('3',function(LeaveType3){
