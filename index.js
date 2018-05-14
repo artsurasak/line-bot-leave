@@ -326,8 +326,11 @@ function reply(reply_token,event_text,userID,messageID) {
         				{
 		                  	type: 'text',
 		                  	text: "ประเภทการลา " + result
+		                },
+		                {
+		                	type: 'text',
+		                	text: "วันเวลาที่ลา " + fdate +  " " + fTime + " ถึง " + tDate + " " + tTime
 		                }
-		                
 		                ]
 		            client.replyMessage(reply_token,msg)
         	})
