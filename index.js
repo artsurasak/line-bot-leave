@@ -334,22 +334,6 @@ function reply(reply_token,event_text,userID,messageID) {
 		                	type: 'text',
 		                	text: "กรุณายืนยันข้อมูล"
 		                }
-		                // {
-		                // 	type: 'text',
-		                // 	text: "สาเหตุการลา => " + Note
-		                // },
-		                // {
-		                // 	type: 'text',
-		                // 	text: "ชื่อผู้ติดต่อระหว่างลา => " + contactName
-		                // },
-		                // {
-		                // 	type: 'text',
-		                // 	text: "เบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
-		                // },
-		                // {
-		                // 	type: 'text',
-		                // 	text: "กรุณายืนยันข้อมูล"
-		                // }
 		                ]
 		            client.replyMessage(reply_token,msg)
         	})
