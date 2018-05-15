@@ -304,7 +304,7 @@ function reply(reply_token,event_text,userID,messageID) {
 			                              text: "จำนวนวัลาเกินที่กำนด"
 			                            }
 			                }
-                            //client.replyMessage(reply_token,msg)
+                            client.replyMessage(reply_token,msg)
                           });
                        	})
                     })
@@ -318,9 +318,9 @@ function reply(reply_token,event_text,userID,messageID) {
                       type: 'text',
                       text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
                     }]
-             //client.replyMessage(reply_token,msg)
+             client.replyMessage(reply_token,msg)
           }
-          client.replyMessage(reply_token,msg)
+          //client.replyMessage(reply_token,msg)
       }else if (msg[0].text === 'กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
           if (event_text === 'Next'){
             Note = ''
