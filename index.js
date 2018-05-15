@@ -290,11 +290,39 @@ function reply(reply_token,event_text,userID,messageID) {
                     data.userDTL(lineUserID,function(userDTL){
                     	 msg = {
 			                              type: 'text',
-			                              text: userDTL
+			                              text: userDTL[0].ROLE_ID
 			                      }
 			                client.replyMessage(reply_token,msg)
+                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
+                          var days = noLeave.Days
+                          var hours = noLeave.Hours
+                           msg = {
+			                              type: 'text',
+			                              text: days
+			                      }
+			                client.replyMessage(reply_token,msg)
+                          data.AllowDateAppr(leaveType,userDTL[0].ROLE_ID,userDTL[0].EMP_CODE,days,function(result){
+                          	endTime = event_text
+                          			msg = {
+				                              type: 'text',
+				                              text: result
+				                            }
+                   //        	if (result == true){
+                   //        		 msg = {
+			                //               type: 'text',
+			                //               text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+			                //             }
+			                // }else{
+			                // 	msg = {
+			                //               type: 'text',
+			                //               text: "จำนวนวัลาเกินที่กำนด"
+			                //             }
+			                // }
+                            client.replyMessage(reply_token,msg)
                           });
                        	})
+                    })
+                  })
                   .catch((err) => {
                           console.log('error')
                           console.log(err);
