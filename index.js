@@ -204,9 +204,14 @@ function reply(reply_token,event_text,userID,messageID) {
       }else if (msg[0].text === 'ใส่ประเภทการลา'){
       	if(event_text === 'Back'){
       		msg = [{
-	                type: 'text',
-	                text: "สร้างคำร้องการลา"
-	              }]
+				    type: 'text',
+				    text: "ใส่ประเภทการลา"
+				   }
+				   ,
+				   {
+				    type: 'text',
+				    text: "1 => ลาป่วย\n 2 => ลากิจ\n 3 => ลาพักผ่อน\n 4 => ลาคลอด "
+				   }]
               client.replyMessage(reply_token, msg);
           }else{
           	 leaveType = event_text;
@@ -223,9 +228,14 @@ function reply(reply_token,event_text,userID,messageID) {
       }else if ((msg[0].text === 'กรุณาระบุวันที่เริ่มลา') || (msg[0].text === 'ข้อมูลวันที่เริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')) {
       	if(event_text === 'Back'){
       		msg = [{
-                type: 'text',
-                text: "ใส่ประเภทการลา"
-              }],
+				    type: 'text',
+				    text: "ใส่ประเภทการลา"
+				   }
+				   ,
+				   {
+				    type: 'text',
+				    text: "1 => ลาป่วย\n 2 => ลากิจ\n 3 => ลาพักผ่อน\n 4 => ลาคลอด "
+				   }]
             client.replyMessage(reply_token,msg)
       	}else{
             [event_text].forEach(function(s) {
@@ -381,7 +391,7 @@ function reply(reply_token,event_text,userID,messageID) {
           	client.replyMessage(reply_token,msg)
           }
       }else if (msg[0].text === 'กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
-          if (event_text === 'Next'){
+          if (event_text === 'Back'){
             msg = [{
                 type: 'text',
                 text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
