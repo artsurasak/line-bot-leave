@@ -287,6 +287,11 @@ function reply(reply_token,event_text,userID,messageID) {
                 .then((profile) => {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
+                    msg = {
+			                              type: 'text',
+			                              text: lineUserID
+			                      }
+			                client.replyMessage(reply_token,msg)
                     data.userDTL(lineUserID,function(userDTL){
                         calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
                           var days = noLeave.Days
@@ -302,7 +307,6 @@ function reply(reply_token,event_text,userID,messageID) {
 				                              type: 'text',
 				                              text: result
 				                            }
-				                         
                    //        	if (result == true){
                    //        		 msg = {
 			                //               type: 'text',
