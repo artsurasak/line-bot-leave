@@ -345,7 +345,7 @@ function reply(reply_token,event_text,userID,messageID) {
                     data = require('./connectDB');
                     data.userDTL(lineUserID,function(userDTL){
                         //var noLeave = calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave,noLeaveHour))
-                        calculateNoLeave(fdate,tdate,ftime,ttime,function(noLeave){
+                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
                           var days = noLeave.Days
                           var hours = noLeave.Hours
                             data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,strDate,strTime,endDate,endTime,days,hours,Note,contactName,contactTel,function(result){
