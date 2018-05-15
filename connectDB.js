@@ -226,7 +226,7 @@ const userDTL = function(LineUserID,callback){
         }
         var query = "select DeptID , EMP_CODE , ROLE_ID "
             query += "from [USER] usr "
-            query += "where usr.LINE_ID = 'U0d589cbccf8f08124f85a5e2e86b8ce4'"
+            query += "where usr.LINE_ID = '" + LineUserID + "'"
             //callback(query)
             req.query(query,function(err,recordset){
                 if(err){
