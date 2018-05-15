@@ -320,7 +320,7 @@ function reply(reply_token,event_text,userID,messageID) {
 			                // // }
                    //          client.replyMessage(reply_token,msg)
                    //        });
-                       	})
+                       	//})
                     })
                   })
                   .catch((err) => {
