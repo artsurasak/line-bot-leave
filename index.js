@@ -290,7 +290,7 @@ function reply(reply_token,event_text,userID,messageID) {
                     data.userDTL(lineUserID,function(userDTL){
                     	 msg = {
 			                              type: 'text',
-			                              text: userDTL[0].ROLE_ID + '  ' + userDTL[0].EMP_CODE
+			                              text: userDTL
 			                      }
 			                client.replyMessage(reply_token,msg)
                         calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
