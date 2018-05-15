@@ -181,7 +181,7 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log('error')
         	console.log(err);
         });
-      }else if(event_text === 'สร้างคำร้องการลา'){
+      }else if((event_text === 'สร้างคำร้องการลา') || (msg[0].text === 'ใส่ประเภทการลา')){
       	// data = require('./connectDB');
        //  data.LeaveType('1',function(result1){
        //  	data.LeaveType('2',function(result2){
@@ -202,18 +202,32 @@ function reply(reply_token,event_text,userID,messageID) {
         // 	})
         // })
       }else if (msg[0].text === 'ใส่ประเภทการลา'){
-          leaveType = event_text;
-          msg = [{
+      	if(event_text === 'Back'){
+      		msg = [{
+	                type: 'text',
+	                text: "สร้างคำร้องการลา"
+	              }]
+              client.replyMessage(reply_token, msg);
+          }else{
+          	 leaveType = event_text;
+          	 msg = [{
                 type: 'text',
                 text: "กรุณาระบุวันที่เริ่มลา"
-              },
-              {
+             },
+             {
               	type: 'text',
               	text: "Format YYYY-MM-DD => 2018-05-01"
-              }
-              ]
-              client.replyMessage(reply_token, msg);
+             }]
+             client.replyMessage(reply_token, msg);
+          }
       }else if ((msg[0].text === 'กรุณาระบุวันที่เริ่มลา') || (msg[0].text === 'ข้อมูลวันที่เริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')) {
+      	if(event_text === 'Back'){
+      		msg = [{
+                type: 'text',
+                text: "ใส่ประเภทการลา"
+              }],
+            client.replyMessage(reply_token,msg)
+      	}else{
             [event_text].forEach(function(s) {
               if(isValidDate(s)){
                 strDate = event_text
@@ -234,26 +248,41 @@ function reply(reply_token,event_text,userID,messageID) {
               }
             })
             client.replyMessage(reply_token,msg)
+        }
       }else if ((msg[0].text === 'กรุณาระบุเวลาเริ่มต้นลา') || (msg[0].text === 'ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
-          if(isValidTime(event_text)){
-             strTime = event_text
-             msg = [{
-                      	type: 'text',
-                      	text: "กรุณาระบุวันที่สิ้นสุดการลา"
-                    },
-                    {
-                    	type: 'text',
-                      	text: "Format YYYY-MM-DD => 2018-05-31"
-                    }]
-          }else {
-             msg = [{
-                      type: 'text',
-                      text: "ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
-                    }]
-          }
-          client.replyMessage(reply_token,msg)
+      	if(event_text === 'Back'){
+      		msg = [{
+                type: 'text',
+                text: "กรุณาระบุวันที่เริ่มลา"
+              }],
+      		client.replyMessage(reply_token,msg)
+      	}else{
+      		if(isValidTime(event_text)){
+	             strTime = event_text
+	             msg = [{
+	                      	type: 'text',
+	                      	text: "กรุณาระบุวันที่สิ้นสุดการลา"
+	                    },
+	                    {
+	                    	type: 'text',
+	                      	text: "Format YYYY-MM-DD => 2018-05-31"
+	                    }]
+          	}else {
+	             msg = [{
+	                      type: 'text',
+	                      text: "ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+	                    }]
+          	}
+          	client.replyMessage(reply_token,msg)
+      	}
       }else if ((msg[0].text === 'กรุณาระบุวันที่สิ้นสุดการลา') || (msg[0].text === 'ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง') || (msg[0].text === 'ข้อมูลวันสื้นสุดการลา น้อยกกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง')){
-          //tdate = event_text
+          if(event_text === 'Back'){
+      		msg = [{
+                type: 'text',
+                text: "กรุณาระบุเวลาเริ่มต้นลา"
+              }],
+      		client.replyMessage(reply_token,msg)
+      	}else{
           [event_text].forEach(function(s) {
               if(isValidDate(s)){
                 if(strDateMoreEndDate(strDate,event_text)){
@@ -281,76 +310,108 @@ function reply(reply_token,event_text,userID,messageID) {
               }
             })
           client.replyMessage(reply_token,msg)
+      }
       }else if ((msg[0].text === 'กรุณาระบุเวลาสิ้นสุดการลา') || (msg[0].text === 'ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
-        if(isValidTime(event_text)){
-        	 endTime = event_text
-        	 client.getProfile(userID)
-                .then((profile) => {
-                    var lineUserID = profile.userId
-                    data = require('./connectDB');
-                    data.userDTL(lineUserID,function(resultUserDTL){
-                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
-                          var days = noLeave.Days
-                          var hours = noLeave.Hours
-                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,days,function(resultAllowDate){
-                          	if (resultAllowDate == true){
-                          		msg = {
-				                       	type: 'text',
-				                        text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
-				                       }
-                          	}else{
-                          		msg = {
-				                        type: 'text',
-				                        text: "จำนวนวันลาไม่เพียงพอ"
-				                      }
-                          	}	
-                            client.replyMessage(reply_token,msg)
-                          });
-                       	})
-                    })
-                  })
-                  .catch((err) => {
-                          console.log('error')
-                          console.log(err);
-             });
-          }else {
-             msg = [{
-                      type: 'text',
-                      text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
-                    }]
-             client.replyMessage(reply_token,msg)
-          }
-          //client.replyMessage(reply_token,msg)
+      	if(event_text === 'Back'){
+      		msg = [{
+                type: 'text',
+                text: "กรุณาระบุวันที่สิ้นสุดการลา"
+              }],
+      		client.replyMessage(reply_token,msg)
+      	}else{
+	        if(isValidTime(event_text)){
+	        	 endTime = event_text
+	        	 client.getProfile(userID)
+	                .then((profile) => {
+	                    var lineUserID = profile.userId
+	                    data = require('./connectDB');
+	                    data.userDTL(lineUserID,function(resultUserDTL){
+	                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
+	                          var days = noLeave.Days
+	                          var hours = noLeave.Hours
+	                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,days,function(resultAllowDate){
+	                          	if (resultAllowDate == true){
+	                          		msg = [{
+					                       	type: 'text',
+					                        text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+					                       }]
+	                          	}else{
+	                          		msg = [{
+					                        type: 'text',
+					                        text: "จำนวนวันลาไม่เพียงพอ กรุณาตรวจสอบอีกครั้ง"
+					                      }]
+	                          	}	
+	                            client.replyMessage(reply_token,msg)
+	                          });
+	                       	})
+	                    })
+	                  })
+	                  .catch((err) => {
+	                          console.log('error')
+	                          console.log(err);
+	             });
+	          }else {
+	             msg = [{
+	                      type: 'text',
+	                      text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
+	                    }]
+	             client.replyMessage(reply_token,msg)
+	          }
+	    }
       }else if (msg[0].text === 'กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
-          if (event_text === 'Next'){
+          if (event_text === 'Back'){
+           	msg = [{
+                type: 'text',
+                text: "กรุณาระบุเวลาสิ้นสุดการลา"
+              }],
+      		client.replyMessage(reply_token,msg)
+          }else if(event_text === 'Next'){
             Note = ''
-          }else{
-            Note = event_text
-          }
-          msg = [{
+            msg = [{
                   type: 'text',
                   text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
                 }]
           client.replyMessage(reply_token,msg)
+          }else{
+          	Note = event_text
+          	msg = [{
+                  type: 'text',
+                  text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+                }]
+          	client.replyMessage(reply_token,msg)
+          }
       }else if (msg[0].text === 'กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
           if (event_text === 'Next'){
-            contactName = ''
-          }else{
-            contactName = event_text
-          }
-          msg = [{
+            msg = [{
+                type: 'text',
+                text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+              }],
+      		client.replyMessage(reply_token,msg)
+          }else if(event_text === 'Next'){
+          	ontactName = ''
+          	msg = [{
                   type: 'text',
                   text: "กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
                 }]
           client.replyMessage(reply_token,msg)
-      }else if (msg[0].text === 'กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
-          if (event_text === 'Next'){
-            contactTel = ''
-           
           }else{
-            contactTel = event_text
+            contactName = event_text
+            msg = [{
+                  type: 'text',
+                  text: "กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+                }]
+          	client.replyMessage(reply_token,msg)
           }
-           data = require('./connectDB');
+      }else if (msg[0].text === 'กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
+      	  if(event_text === 'Back'){
+      	  	msg = [{
+                type: 'text',
+                text: "กรุณาระบุชื่อผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+              }],
+      		client.replyMessage(reply_token,msg)
+      	  }else if (event_text === 'Next'){
+            contactTel = ''
+            data = require('./connectDB');
         	data.LeaveType(leaveType,function(result){
         		msg = [{
 		                    type: 'text',
@@ -363,8 +424,31 @@ function reply(reply_token,event_text,userID,messageID) {
 		                ]
 		            client.replyMessage(reply_token,msg)
         	})
+          }else{
+            contactTel = event_text
+             data = require('./connectDB');
+        	data.LeaveType(leaveType,function(result){
+        		msg = [{
+		                    type: 'text',
+		                  	text: "ประเภทการลา => " + result + "\n วันเวลา => " + strDate + " " + strTime + " ถึง " + endDate + " " + endTime + "\nสาเหตุการลา => " + Note + "\nชื่อผู้ติดต่อระหว่างลา => " + contactName + "\nเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา => " + contactTel
+                		},
+		                {
+		                	type: 'text',
+		                	text: "กรุณายืนยันข้อมูล"
+		                }
+		                ]
+		            client.replyMessage(reply_token,msg)
+        	})
+          }
+          
       }else if (msg[1].text === 'กรุณายืนยันข้อมูล'){
-      		if(event_text === 'ยืนยัน'){
+      	if(event_text === 'Back'){
+      		msg = [{
+                type: 'text',
+                text: "กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+              }],
+      		client.replyMessage(reply_token,msg)
+      	}else if(event_text === 'ยืนยัน'){
       			client.getProfile(userID)
                 .then((profile) => {
                     var lineUserID = profile.userId
