@@ -181,7 +181,7 @@ function reply(reply_token,event_text,userID,messageID) {
         	console.log('error')
         	console.log(err);
         });
-      }else if((event_text === 'สร้างคำร้องการลา') || (msg[0].text === 'ใส่ประเภทการลา')){
+      }else if((event_text === 'สร้างคำร้องการลา') || (msg[0].text === 'สร้างคำร้องการลา')){
       	// data = require('./connectDB');
        //  data.LeaveType('1',function(result1){
        //  	data.LeaveType('2',function(result2){
