@@ -189,6 +189,33 @@ const insertReqLeave = function(LeaveType,DepID,EmpID,FDate,FTime,TDate,TTime,No
     });
 }
 
+// userDTL()
+// function userDTL(){
+//     var conn = new sql.Connection(config);
+//     var req = new sql.Request(conn);
+//     conn.connect(function (err){
+//         if(err){
+//             console.log(err);
+//             return;
+//         }
+//         var query = "select DeptID , EMP_CODE , ROLE_ID "
+//             query += "from [USER] usr "
+//             query += "where usr.LINE_ID = 'U0d589cbccf8f08124f85a5e2e86b8ce4'"
+//             //callback(query)
+//             req.query(query,function(err,recordset){
+//                 if(err){
+//                     callback(err)
+//                     //callback(err)
+//                     //console.log(err);
+//                 }else{
+//                     console.log(recordset[0].ROLE_ID)
+//                     //callback(recordset[0].ROLE_ID)
+//                 }
+//                 conn.close();
+//             });
+//         });
+// }
+
 const userDTL = function(LineUserID,callback){
     var conn = new sql.Connection(config);
     var req = new sql.Request(conn);
@@ -199,7 +226,7 @@ const userDTL = function(LineUserID,callback){
         }
         var query = "select DeptID , EMP_CODE , ROLE_ID "
             query += "from [USER] usr "
-            query += "where usr.LINE_ID = '" + LineUserID + "'"
+            query += "where usr.LINE_ID = 'U0d589cbccf8f08124f85a5e2e86b8ce4'"
             //callback(query)
             req.query(query,function(err,recordset){
                 if(err){
@@ -207,6 +234,7 @@ const userDTL = function(LineUserID,callback){
                     //callback(err)
                     //console.log(err);
                 }else{
+                    //console.log(recordset[0].ROLE_ID)
                     callback(recordset)
                 }
                 conn.close();
