@@ -197,7 +197,7 @@ const userDTL = function(LineUserID,callback){
             console.log(err);
             return;
         }
-        var query = "select DeptID , EMP_CODE "
+        var query = "select DeptID , EMP_CODE , ROLE_ID "
             query += "from [USER] usr "
             query += "where usr.LINE_ID = '" + LineUserID + "'"
             req.query(query,function(err,recordset){

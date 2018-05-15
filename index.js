@@ -287,12 +287,12 @@ function reply(reply_token,event_text,userID,messageID) {
                 .then((profile) => {
                     var lineUserID = profile.userId
                     data = require('./connectDB');
-                    msg = {
+                    data.userDTL(lineUserID,function(userDTL){
+                    	 msg = {
 			                              type: 'text',
-			                              text: lineUserID
+			                              text: userDTL[0].ROLE_ID + '  ' + userDTL[0].EMP_CODE
 			                      }
 			                client.replyMessage(reply_token,msg)
-                    data.userDTL(lineUserID,function(userDTL){
                         calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
                           var days = noLeave.Days
                           var hours = noLeave.Hours
