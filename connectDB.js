@@ -210,7 +210,7 @@ const userDTL = function(LineUserID,callback){
             //     callback(recordset)
             // }
             // conn.close();
-        });
+        //});
     });
 }
 
