@@ -213,8 +213,95 @@ const userDTL = function(LineUserID,callback){
     });
 }
 
+const getValidNoDate = function(LeaveTypeID,RoleID,callback){
+    var conn = new sql.Connection(config);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var query = "select NO_LEAVE ";
+            query += "from [ROLE_NO_LEAVE] ";
+            query += "where ROLE_ID = '" + RoleID + "'";
+            query += "and LEAVE_TYPE = '" + LeaveTypeID + "'";
+            req.query(query,function(err,recordset){
+            if(err){
+                callback(err)
+                //callback(err)
+                //console.log(err);
+            }else{
+                callback(recordset[0].NO_LEAVE)
+            }
+            conn.close();
+        });
+    });
+}
 
+const userReqNoLeave = function(empCode,LeaveTypeID,callback){
+    var conn = new sql.Connection(config);
+    var req = new sql.Request(conn);
+    conn.connect(function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var query = "select sum(NO_LEAVE) as noLeaveDate ";
+            query += "from [REQUEST_LEAVE] ";
+            query += "where CREATE_BY = '" + empCode + "'"; 
+            query += "and LEAVETYPE_ID = '" + LeaveTypeID + "'";
+            query += "and STATUS not in ('R','C') "
+            query += "group by LEAVETYPE_ID "
+            req.query(query,function(err,recordset){
+            if(err){
+                callback(err)
+            }else{
+                callback(recordset[0].noLeaveDate)
+            }
+            conn.close();
+        });
+    });
+} 
+
+
+// AllowDateAppr();
+// function AllowDateAppr(){
+//         LeaveTypeID = '1'
+//         RoleID = '3'
+//         empCode = '580009'
+//         noLeave = '15'
+//         getValidNoDate(LeaveTypeID,RoleID,function(validNoDate){
+//             userReqNoLeave(empCode,LeaveTypeID,function(userReqNoLeave){
+//                 console.log(validNoDate)
+//                 console.log(userReqNoLeave)
+//                 resultLeave = parseInt(noLeave) + parseInt(userReqNoLeave)
+//                 console.log(resultLeave)
+//                 if(validNoDate >= resultLeave){
+//                     //callback(true)
+//                     console.log(true)
+//                 }
+//                 else{
+//                     console.log(false)
+//                     //callback(false)
+//                 }
+//             })
+//         })
+// }
+
+const AllowDateAppr = function(LeaveTypeID,RoleID,empCode,noLeave,callback){
+            // LeaveTypeID = '1'
+            // RoleID = '3'
+            // empCode = '580009'
+            // noLeave = '2'
+            getValidNoDate(LeaveTypeID,RoleID,function(validNoDate){
+                userReqNoLeave(empCode,LeaveTypeID,function(userReqNoLeave){
+                    resultLeave = parseInt(noLeave) + parseInt(userReqNoLeave)
+                    if(validNoDate >= resultLeave){callback(true)}
+                    else{callback(false)}
+                })
+            })
+}
 
 module.exports = {
-    executesql , insertReqLeave , userDTL , dateHoliday , LeaveType
+    executesql , insertReqLeave , userDTL , dateHoliday , LeaveType , AllowDateAppr
 }

@@ -283,16 +283,42 @@ function reply(reply_token,event_text,userID,messageID) {
           client.replyMessage(reply_token,msg)
       }else if ((msg[0].text === 'กรุณาระบุเวลาสิ้นสุดการลา') || (msg[0].text === 'ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
         if(isValidTime(event_text)){
-             endTime = event_text
-             msg = [{
-                      type: 'text',
-                      text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
-                    }]
+        	 client.getProfile(userID)
+                .then((profile) => {
+                    var lineUserID = profile.userId
+                    data = require('./connectDB');
+                    data.userDTL(lineUserID,function(userDTL){
+                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
+                          var days = noLeave.Days
+                          var hours = noLeave.Hours
+                          data.AllowDateAppr(leaveType,userDTL[0].ROLE_ID,userDTL[0].EMP_CODE,days,function(result){
+                          	endTime = event_text
+                          	if (result == true){
+                          		 msg = {
+			                              type: 'text',
+			                              text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+			                            }
+			                }else{
+			                	msg = {
+			                              type: 'text',
+			                              text: "จำนวนวัลาเกินที่กำนด"
+			                            }
+			                }
+                            //client.replyMessage(reply_token,msg)
+                          });
+                       	})
+                    })
+                  })
+                  .catch((err) => {
+                          console.log('error')
+                          console.log(err);
+             });
           }else {
              msg = [{
                       type: 'text',
                       text: "ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง"
                     }]
+             //client.replyMessage(reply_token,msg)
           }
           client.replyMessage(reply_token,msg)
       }else if (msg[0].text === 'กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next'){
@@ -345,9 +371,9 @@ function reply(reply_token,event_text,userID,messageID) {
                     data = require('./connectDB');
                     data.userDTL(lineUserID,function(userDTL){
                         //var noLeave = calculateNoLeave(fdate,ftime,tdate,ttime,function(noLeave,noLeaveHour))
-                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
-                          var days = noLeave.Days
-                          var hours = noLeave.Hours
+                        //calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
+                        //  var days = noLeave.Days
+                        //  var hours = noLeave.Hours
                             data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,strDate,strTime,endDate,endTime,days,hours,Note,contactName,contactTel,function(result){
                               msg = {
                                 type: 'text',
@@ -355,7 +381,7 @@ function reply(reply_token,event_text,userID,messageID) {
                               }
                               client.replyMessage(reply_token,msg)
                             });
-                        })
+                        //})
                     })
                   })
                   .catch((err) => {
