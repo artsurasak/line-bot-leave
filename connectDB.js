@@ -296,8 +296,9 @@ const AllowDateAppr = function(LeaveTypeID,RoleID,empCode,noLeave,callback){
             getValidNoDate(LeaveTypeID,RoleID,function(validNoDate){
                 userReqNoLeave(empCode,LeaveTypeID,function(userReqNoLeave){
                     resultLeave = parseInt(noLeave) + parseInt(userReqNoLeave)
-                    if(validNoDate >= resultLeave){callback(true)}
-                    else{callback(false)}
+                    callback(resultLeave)
+                    //if(validNoDate >= resultLeave){callback(true)}
+                    //else{callback(false)}
                 })
             })
 }
