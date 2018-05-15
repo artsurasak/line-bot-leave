@@ -292,12 +292,18 @@ function reply(reply_token,event_text,userID,messageID) {
                         calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
                           var days = noLeave.Days
                           var hours = noLeave.Hours
-                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,days,function(result){
-                          	//endTime = event_text
-                          			msg = {
-				                              type: 'text',
-				                              text: result
-				                            }
+                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,days,function(resultAllowDate){
+                          	if (resultAllowDate == true){
+                          		msg = {
+				                       	type: 'text',
+				                        text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+				                       }
+                          	}else{
+                          		msg = {
+				                        type: 'text',
+				                        text: "จำนวนวันลาไม่เพียงพอ"
+				                      }
+                          	}	
                             client.replyMessage(reply_token,msg)
                           });
                        	})
