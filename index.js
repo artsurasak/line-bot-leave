@@ -337,9 +337,9 @@ function reply(reply_token,event_text,userID,messageID) {
 	                    data = require('./connectDB');
 	                    data.userDTL(lineUserID,function(resultUserDTL){
 	                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
-	                          var days = noLeave.Days
-	                          var hours = noLeave.Hours
-	                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,days,function(resultAllowDate){
+	                          daysLeave = noLeave.Days
+	                          hoursLeave = noLeave.Hours
+	                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,daysLeave,function(resultAllowDate){
 	                          	if (resultAllowDate == true){
 	                          		msg = [{
 					                       	type: 'text',
@@ -468,7 +468,7 @@ function reply(reply_token,event_text,userID,messageID) {
                         //calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
                         //  var days = noLeave.Days
                         //  var hours = noLeave.Hours
-                            data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,strDate,strTime,endDate,endTime,days,hours,Note,contactName,contactTel,function(result){
+                            data.insertReqLeave(leaveType,userDTL[0].DeptID,userDTL[0].EMP_CODE,strDate,strTime,endDate,endTime,daysLeave,hoursLeave,Note,contactName,contactTel,function(result){
                               msg = {
                                 type: 'text',
                                 text: result
