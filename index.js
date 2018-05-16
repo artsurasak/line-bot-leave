@@ -398,7 +398,7 @@ function reply(reply_token,event_text,userID,messageID) {
               }],
       		client.replyMessage(reply_token,msg)
           }else if(event_text === 'Next'){
-          	ontactName = ''
+          	contactName = ''
           	msg = [{
                   type: 'text',
                   text: "กรุณาระบุเบอร์โทรศัพท์ผู้ติดต่อระหว่างลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
