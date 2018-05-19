@@ -9,27 +9,6 @@ var config = {
         user: 'smartmedia_sp',
         password: 'P@ssw0rd'
 }
-// executesql();
-// function executesql() {
-//     var conn = new sql.Connection(config);
-//     var req = new sql.Request(conn);
-//     conn.connect(function (err){
-//         if(err){
-//             console.log(err);
-//             return;
-//         }
-//         req.query("SELECT * FROM [smartmedia_leave].[smartmedia_sp].[DEPARTMENT] ",function(err,recordset){
-//         //req.query("SELECT * FROM [surasak_SampleDB].[dbo].[People] ",function(err,recordset){
-//             if(err){
-//                 console.log(err);
-//             }else{
-//                 //callback(recordset)
-//                 console.log(recordset[0].DEPARTMENT_NAME);
-//             }
-//             conn.close();
-//         });
-//     });
-// }
 
 const ApprConfirm = function(TypeGroupAppr,DepartmentID,callback){
     var conn = new sql.Connection(config);
@@ -107,8 +86,10 @@ const executesql = function(LineUserID,callback){
             console.log(err);
             return;
         }
-        var query = "select t1.NO_LEAVE , t1.TYPE , iif(t2.NoLeave is null,0,t2.NoLeave) as NoLeave , (t1.NO_LEAVE- iif(t2.NoLeave is null,0,t2.NoLeave) ) as remain ";
-            query += "from ( select  noLeave.NO_LEAVE , leave.TYPE , leave.ID ";
+        var query = "select t1.noLeaveValid / 8 as ValidDate , t1.TYPE , "
+            query += "CONVERT(varchar(10), iif(t2.NoLeave is null,0,(t2.NoLeave/8))) + ' วัน ' + CONVERT(varchar(10), iif(t2.NoLeave is null,0,(t2.NoLeave % 8)))  + ' ชั่วโมง ' as NoLeave,  " 
+            query += "CONVERT(varchar(10), iif(t2.NoLeave is null,t1.noLeaveValid,(t1.noLeaveValid - t2.NoLeave)) / 8) + ' วัน ' + CONVERT(varchar(10), iif(t2.NoLeave is null,0,((t1.noLeaveValid- t2.NoLeave) %8)))  + ' ชั่วโมง ' as remain ";
+            query += "from ( select  (noLeave.NO_LEAVE * 8) as noLeaveValid , leave.TYPE , leave.ID ";
             query += "from [USER] usr , [ROLE_NO_LEAVE] noLeave ";
             query += "right join [LEAVE_TYPE] leave ";
             query += "on noLeave.LEAVE_TYPE = leave.ID ";
@@ -116,7 +97,7 @@ const executesql = function(LineUserID,callback){
             query += "and usr.LINE_ID = '" + LineUserID + "' ";
             query += ")as t1 ";
             query += "left join ";
-            query += "(select LEAVETYPE_ID , SUM(NO_LEAVE) as NoLeave ";
+            query += "(select LEAVETYPE_ID , ((SUM(NO_LEAVE) * 8) + sum(NO_LEAVE_HOUR)) as NoLeave ";
             query += "from REQUEST_LEAVE  req , [USER] usr "; 
             query += "where usr.LINE_ID = '" + LineUserID + "' ";
             query += "and REQ_CONFIRM = 'true' ";

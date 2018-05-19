@@ -138,20 +138,20 @@ function reply(reply_token,event_text,userID,messageID) {
                   replyToken: reply_token,
                   messages: [{
                                 type: 'text',
-                                text: "วัน" + result[0].TYPE + " คงเหลือ " + result[0].remain + " วัน"
+                                text: "วัน" + result[0].TYPE + " คงเหลือ " + result[0].remain
                               }
                               ,
                               {
                                 type: 'text',
-                                text: "วัน" + result[1].TYPE + " คงเหลือ " + result[1].remain + " วัน"
+                                text: "วัน" + result[1].TYPE + " คงเหลือ " + result[1].remain
                               },
                               {
                                 type: 'text',
-                                text: "วัน" + result[2].TYPE + " คงเหลือ " + result[2].remain + " วัน"
+                                text: "วัน" + result[2].TYPE + " คงเหลือ " + result[2].remain
                               },
                               {
                                 type: 'text',
-                                text: "วัน" + result[3].TYPE + " คงเหลือ " + result[3].remain + " วัน"
+                                text: "วัน" + result[3].TYPE + " คงเหลือ " + result[3].remain
                               }]
                   })
               request.post({
