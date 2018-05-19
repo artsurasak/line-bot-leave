@@ -266,7 +266,8 @@ const userReqNoLeave = function(empCode,LeaveTypeID,callback){
             if(err){
                 callback(err)
             }else{
-                callback(recordset[0].noLeaveDate)
+                 if (recordset == ''){callback(0)}
+                    else{ callback(recordset[0].noLeaveDate)}
             }
             conn.close();
         });
