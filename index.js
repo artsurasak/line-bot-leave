@@ -61,14 +61,14 @@ function isValidTime(t){
 function chkStrWork(strLeaveTime){
 	var strWork = moment("09:00",'HH:mm')
 	var strTime = moment(strLeaveTime,'HH:mm')
-	if(strTime > strWork){return true}
+	if(strTime >= strWork){return true}
 	else{return false}
 }
 
 function chkEndWork(endLeaveTime){
 	var endWork = moment("18:00",'HH:mm')
 	var endTime = moment(endLeaveTime,'HH:mm')
-	if(endTime < endWork){return true}
+	if(endTime <= endWork){return true}
 	else{return false}
 }
 
