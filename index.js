@@ -95,8 +95,6 @@ function noWeekend(fDate,diffDay){
 }
  
 function calculateNoLeave(fDate,tDate,fTime,tTime,callback){
-	//fDate = '2018-04-12';
-	//tDate = '2018-04-16';
   	var callbackString = {};
   	var resultDateWeekend
   	var noDateWeekend
@@ -119,19 +117,16 @@ function calculateNoLeave(fDate,tDate,fTime,tTime,callback){
         var startHour = moment(fTime,'HH:mm')
         var EndHour = moment(tTime,'HH:mm')
         var hoursDiff = EndHour.diff(startHour,'hours',true)
-        if((lunchtime < tTime) && (lunchtime > fTime)){
+        if((lunchtime < EndHour) && (lunchtime > startHour)){
         	hoursDiff  = hoursDiff - 1
         }
-        if(hoursDiff == 8){
+        if(hoursDiff === 8){
           hoursDiff = '0' 
           daysDiff = daysDiff + 1
         }
-        //console.log(daysDiff)
-        //console.log(hoursDiff)
         callbackString.Days = daysDiff
         callbackString.Hours = hoursDiff
         callback(callbackString)
-        //return [daysDiff,hoursDiff]
     })
  }
 

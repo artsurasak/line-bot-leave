@@ -260,7 +260,7 @@ const userReqNoLeave = function(empCode,LeaveTypeID,callback){
             query += "from [REQUEST_LEAVE] ";
             query += "where CREATE_BY = '" + empCode + "'"; 
             query += "and LEAVETYPE_ID = '" + LeaveTypeID + "'";
-            query += "and STATUS not in ('R','C') "
+            query += "and STATUS in ('I','A') "
             query += "group by LEAVETYPE_ID "
             req.query(query,function(err,recordset){
             if(err){
@@ -274,36 +274,7 @@ const userReqNoLeave = function(empCode,LeaveTypeID,callback){
     });
 } 
 
-
-// AllowDateAppr();
-// function AllowDateAppr(){
-//         LeaveTypeID = '1'
-//         RoleID = '3'
-//         empCode = '580009'
-//         noLeave = '15'
-//         getValidNoDate(LeaveTypeID,RoleID,function(validNoDate){
-//             userReqNoLeave(empCode,LeaveTypeID,function(userReqNoLeave){
-//                 console.log(validNoDate)
-//                 console.log(userReqNoLeave)
-//                 resultLeave = parseInt(noLeave) + parseInt(userReqNoLeave)
-//                 console.log(resultLeave)
-//                 if(validNoDate >= resultLeave){
-//                     //callback(true)
-//                     console.log(true)
-//                 }
-//                 else{
-//                     console.log(false)
-//                     //callback(false)
-//                 }
-//             })
-//         })
-// }
-
 const AllowDateAppr = function(LeaveTypeID,RoleID,empCode,noLeave,hourLeave,callback){
-            // LeaveTypeID = '1'
-            // RoleID = '3'
-            // empCode = '580009'
-            // noLeave = '2'
             getValidNoDate(LeaveTypeID,RoleID,function(validNoDate){
                 userReqNoLeave(empCode,LeaveTypeID,function(userReqNoLeave){
                     resultLeave = ((parseInt(noLeave) * 8) + parseInt(hourLeave)) + parseInt(userReqNoLeave)
