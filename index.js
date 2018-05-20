@@ -23,11 +23,6 @@ app.post('/webhook', (req, res) => {
       let messageID = req.body.events[0].message.id
       let userID = req.body.events[0].source.userId
       reply(reply_token,event_text,userID,messageID)
-      //isValidTime()
-      //isValidDate('2000-12-01')
-      //compareDate()
-      //calculateNoLeave()
-      //calculateHourLeave()
       res.sendStatus(200)
 })
 app.get("/", function(req, res) {
@@ -63,6 +58,20 @@ function isValidTime(t){
   return re.test(t);
 }
 
+function chkStrWork(strLeaveTime){
+	var strWork = moment("09:00",'HH:mm')
+	var strTime = moment(strLeaveTime,'HH:mm')
+	if(strTime > strWork){return true}
+	else{return false}
+}
+
+function chkEndWork(endLeaveTime){
+	var endWork = moment("18:00",'HH:mm')
+	var endTime = moment(endLeaveTime,'HH:mm')
+	if(endTime < endWork){return true}
+	else{return false}
+}
+
 function addDays(date, days) {
   var result = new Date(date);
   result.setDate(result.getDate() + days);
@@ -88,13 +97,14 @@ function noWeekend(fDate,diffDay){
 function calculateNoLeave(fDate,tDate,fTime,tTime,callback){
 	//fDate = '2018-04-12';
 	//tDate = '2018-04-16';
-  var callbackString = {};
-  var resultDateWeekend
-  var noDateWeekend
+  	var callbackString = {};
+  	var resultDateWeekend
+  	var noDateWeekend
 	var startDate = moment(fDate,'YYYY-MM-DD')
 	var EndDate = moment(tDate,'YYYY-MM-DD')
+	var lunchtime = moment("12:00",'HH:mm')
 	var daysDiff = EndDate.diff(startDate,'days')
-  data = require('./connectDB');
+  	data = require('./connectDB');
     data.dateHoliday(fDate,tDate,function(Holiday){
         resultDateWeekend = noWeekend(fDate,daysDiff)
         //console.log(resultDateWeekend);
@@ -109,7 +119,10 @@ function calculateNoLeave(fDate,tDate,fTime,tTime,callback){
         var startHour = moment(fTime,'HH:mm')
         var EndHour = moment(tTime,'HH:mm')
         var hoursDiff = EndHour.diff(startHour,'hours',true)
-        if((fTime = '09:00') && (tTime == '18:00')){
+        if((lunchtime < tTime) && (lunchtime > fTime)){
+        	hoursDiff  = hoursDiff - 1
+        }
+        if(hoursDiff == 8){
           hoursDiff = '0' 
           daysDiff = daysDiff + 1
         }
@@ -194,7 +207,7 @@ function reply(reply_token,event_text,userID,messageID) {
 				               ,
 				               {
 				               	type: 'text',
-				               	text: "1 => ลาป่วย\n 2 => ลากิจ\n 3 => ลาพักผ่อน\n 4 => ลาคลอด "
+				               	text: "1 => ลาป่วย\n2 => ลากิจ\n3 => ลาพักผ่อน\n4 => ลาคลอด "
 				               }]
 				        client.replyMessage(reply_token, msg);
         // 			})
@@ -259,7 +272,7 @@ function reply(reply_token,event_text,userID,messageID) {
             })
             client.replyMessage(reply_token,msg)
         }
-      }else if ((msg[0].text === 'กรุณาระบุเวลาเริ่มต้นลา') || (msg[0].text === 'ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
+      }else if ((msg[0].text === 'กรุณาระบุเวลาเริ่มต้นลา') || (msg[0].text === 'ข้อมูลเวลาเริ่มลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง') || (msg[0].text === 'เวลาเริ่มลาน้อยกว่าเวลาเริ่มงาน')){
       	if(event_text === 'Back'){
       		msg = [{
                 type: 'text',
@@ -268,15 +281,22 @@ function reply(reply_token,event_text,userID,messageID) {
       		client.replyMessage(reply_token,msg)
       	}else{
       		if(isValidTime(event_text)){
-	             strTime = event_text
-	             msg = [{
-	                      	type: 'text',
-	                      	text: "กรุณาระบุวันที่สิ้นสุดการลา"
-	                    },
-	                    {
-	                    	type: 'text',
-	                      	text: "Format YYYY-MM-DD => 2018-05-31"
-	                    }]
+      			if(chkStrWork(event_text)){
+ 					 strTime = event_text
+		             msg = [{
+		                      	type: 'text',
+		                      	text: "กรุณาระบุวันที่สิ้นสุดการลา"
+		                    },
+		                    {
+		                    	type: 'text',
+		                      	text: "Format YYYY-MM-DD => 2018-05-31"
+		                    }]
+      			}else{
+      				 msg = [{
+		                      type: 'text',
+		                      text: "เวลาเริ่มลาน้อยกว่าเวลาเริ่มงาน"
+		                    }]
+      			}
           	}else {
 	             msg = [{
 	                      type: 'text',
@@ -285,7 +305,7 @@ function reply(reply_token,event_text,userID,messageID) {
           	}
           	client.replyMessage(reply_token,msg)
       	}
-      }else if ((msg[0].text === 'กรุณาระบุวันที่สิ้นสุดการลา') || (msg[0].text === 'ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง') || (msg[0].text === 'ข้อมูลวันสื้นสุดการลา น้อยกกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง')){
+  	  }else if ((msg[0].text === 'กรุณาระบุวันที่สิ้นสุดการลา') || (msg[0].text === 'ข้อมูลวันที่สิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง') || (msg[0].text === 'ข้อมูลวันสื้นสุดการลา น้อยกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง')){
           if(event_text === 'Back'){
       		msg = [{
                 type: 'text',
@@ -298,7 +318,7 @@ function reply(reply_token,event_text,userID,messageID) {
                 if(strDateMoreEndDate(strDate,event_text)){
           				msg = [{
 		                    type: 'text',
-		                    text: "ข้อมูลวันสื้นสุดการลา น้อยกกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง"
+		                    text: "ข้อมูลวันสื้นสุดการลา น้อยกว่าวันเริ่มต้นการลา กรุณาระบุใหม่อีกครั้ง"
                 		}]
 		          }else{
 						endDate = event_text
@@ -321,7 +341,7 @@ function reply(reply_token,event_text,userID,messageID) {
             })
           client.replyMessage(reply_token,msg)
       }
-      }else if ((msg[0].text === 'กรุณาระบุเวลาสิ้นสุดการลา') || (msg[0].text === 'ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง')){
+      }else if ((msg[0].text === 'กรุณาระบุเวลาสิ้นสุดการลา') || (msg[0].text === 'ข้อมูลเวลาสิ้นสุดการลาไม่ถูกต้อง กรุณาระบุใหม่อีกครั้ง') || (msg[0].text === 'เวลาสิ้นสุดการลามากกว่าเวลาเลิกงาน')){
       	if(event_text === 'Back'){
       		msg = [{
                 type: 'text',
@@ -330,36 +350,44 @@ function reply(reply_token,event_text,userID,messageID) {
       		client.replyMessage(reply_token,msg)
       	}else{
 	        if(isValidTime(event_text)){
-	        	 endTime = event_text
-	        	 client.getProfile(userID)
-	                .then((profile) => {
-	                    var lineUserID = profile.userId
-	                    data = require('./connectDB');
-	                    data.userDTL(lineUserID,function(resultUserDTL){
-	                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
-	                          daysLeave = noLeave.Days
-	                          hoursLeave = noLeave.Hours
-	                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,daysLeave,function(resultAllowDate){
-	                          	if (resultAllowDate == true){
-	                          		msg = [{
-					                       	type: 'text',
-					                        text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
-					                       }]
-	                          	}else{
-	                          		msg = [{
-					                        type: 'text',
-					                        text: "จำนวนวันลาไม่เพียงพอ กรุณาตรวจสอบอีกครั้ง"
-					                      }]
-	                          	}	
-	                            client.replyMessage(reply_token,msg)
-	                          });
-	                       	})
-	                    })
-	                  })
-	                  .catch((err) => {
-	                          console.log('error')
-	                          console.log(err);
-	             });
+	        	if(chkEndWork(event_text)){
+	        		endTime = event_text
+		        	 client.getProfile(userID)
+		                .then((profile) => {
+		                    var lineUserID = profile.userId
+		                    data = require('./connectDB');
+		                    data.userDTL(lineUserID,function(resultUserDTL){
+		                        calculateNoLeave(strDate,endDate,strTime,endTime,function(noLeave){
+		                          daysLeave = noLeave.Days
+		                          hoursLeave = noLeave.Hours
+		                          data.AllowDateAppr(leaveType,resultUserDTL[0].ROLE_ID,resultUserDTL[0].EMP_CODE,daysLeave,hoursLeave,function(resultAllowDate){
+		                          	if (resultAllowDate == true){
+		                          		msg = [{
+						                       	type: 'text',
+						                        text: "กรุณาระบุสาเหตุการลา (ถ้ามี)\n ถ้าไม่มีเลือก Next"
+						                       }]
+		                          	}else{
+		                          		msg = [{
+						                        type: 'text',
+						                        text: "จำนวนวันลาไม่เพียงพอ กรุณาตรวจสอบอีกครั้ง"
+						                      }]
+		                          	}	
+		                            client.replyMessage(reply_token,msg)
+		                          });
+		                       	})
+		                    })
+		                  })
+		                  .catch((err) => {
+		                          console.log('error')
+		                          console.log(err);
+		             });
+	        	}else{
+	        		msg = [{
+	                      type: 'text',
+	                      text: "เวลาสิ้นสุดการลามากกว่าเวลาเลิกงาน"
+	                    }]
+	             client.replyMessage(reply_token,msg)
+	        	}
 	          }else {
 	             msg = [{
 	                      type: 'text',

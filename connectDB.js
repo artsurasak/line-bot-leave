@@ -231,7 +231,7 @@ const getValidNoDate = function(LeaveTypeID,RoleID,callback){
             console.log(err);
             return;
         }
-        var query = "select NO_LEAVE ";
+        var query = "select (NO_LEAVE * 8) as NO_LEAVE ";
             query += "from [ROLE_NO_LEAVE] ";
             query += "where ROLE_ID = '" + RoleID + "'";
             query += "and LEAVE_TYPE = '" + LeaveTypeID + "'";
@@ -256,7 +256,7 @@ const userReqNoLeave = function(empCode,LeaveTypeID,callback){
             console.log(err);
             return;
         }
-        var query = "select sum(NO_LEAVE) as noLeaveDate ";
+        var query = "select sum(NO_LEAVE) * 8 + sum(NO_LEAVE_HOUR) as noLeaveDate ";
             query += "from [REQUEST_LEAVE] ";
             query += "where CREATE_BY = '" + empCode + "'"; 
             query += "and LEAVETYPE_ID = '" + LeaveTypeID + "'";
@@ -299,14 +299,14 @@ const userReqNoLeave = function(empCode,LeaveTypeID,callback){
 //         })
 // }
 
-const AllowDateAppr = function(LeaveTypeID,RoleID,empCode,noLeave,callback){
+const AllowDateAppr = function(LeaveTypeID,RoleID,empCode,noLeave,hourLeave,callback){
             // LeaveTypeID = '1'
             // RoleID = '3'
             // empCode = '580009'
             // noLeave = '2'
             getValidNoDate(LeaveTypeID,RoleID,function(validNoDate){
                 userReqNoLeave(empCode,LeaveTypeID,function(userReqNoLeave){
-                    resultLeave = parseInt(noLeave) + parseInt(userReqNoLeave)
+                    resultLeave = ((parseInt(noLeave) * 8) + parseInt(hourLeave)) + parseInt(userReqNoLeave)
                     //callback(resultLeave)
                     if(validNoDate >= resultLeave){callback(true)}
                     else{callback(false)}
